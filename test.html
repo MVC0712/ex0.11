@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <!-- <link rel="stylesheet" href="./css/index.css"> -->
+  </head>
+
+  <body>
+    <header>test page</header>
+    <div class="main__wrapper">
+      <button id="test__button">TEST</button>
+    </div>
+  </body>
+  <script src="./lib/jquery.min.js"></script>
+  <script>
+    $(function () {
+      console.log("hello");
+      $.ajax({
+        url: "./py/recieve.py",
+        type: "post",
+        data: "送信メッセージ",
+      })
+        .done(function (data) {
+          console.log(data);
+        })
+        .fail(function () {
+          console.log("failed");
+        });
+    });
+  </script>
+</html>
