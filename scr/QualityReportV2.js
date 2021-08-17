@@ -1,7 +1,7 @@
 let ajaxReturnData;
 let originalValue;
-let deleteDialog = document.getElementById("delete_ng__dialog");
-let deleteRackDialog = document.getElementById("delete_rack__dialog");
+// let deleteDialog = document.getElementById("delete_ng__dialog");
+// let deleteRackDialog = document.getElementById("delete_rack__dialog");
 let press_id;
 
 const myAjax = {

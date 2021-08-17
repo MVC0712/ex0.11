@@ -1,7 +1,7 @@
 let editMode = false;
 
 // 削除確認ダイアログ
-let deleteDialog = document.getElementById("delete__dialog");
+// let deleteDialog = document.getElementById("delete__dialog");
 
 $(function() {
     $("#test__button").remove();
