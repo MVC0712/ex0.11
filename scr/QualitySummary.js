@@ -56,6 +56,7 @@ function makeSummaryTable() {
         });
         $(newTr).appendTo("#summary__table tbody");
     });
+    console.log("Die search");
     mau();
     ulitycall();
 }
@@ -86,17 +87,25 @@ function makeTableWithTerm() {
         });
         $(newTr).appendTo("#summary__table tbody");
     });
+    console.log("Term search");
     mau();
     ulitycall();
 }
 
 function checkInput() {
-    let flag = true;
-    $("input.date__input").each(function() {
-        if ($(this).val() == "") {
-            flag = false;
-        }
-    });
+    let flag = false;
+    // $("input.date__input").each(function() {
+    //     if ($(this).val() == "") {
+    //         flag = false;
+    //     }
+    // });
+
+    var fr = document.getElementById('start_term').value;
+    var to = document.getElementById('end_term').value;
+    if (fr != "" && to != "") {
+        flag = true;
+    }
+    console.log(flag);
     return flag;
 }
 
