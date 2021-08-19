@@ -29,7 +29,6 @@
         "code_321", "code_322", "code_323", "code_324", "code_351"];
       $export_sql = "
 SELECT 
-	t_press.id,
 	DATE_FORMAT(t_press.press_date_at, '%m-%d'),
 	m_dies.die_number,
 	m_pressing_type.pressing_type,
