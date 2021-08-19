@@ -306,7 +306,7 @@ $(document).on("keyup", "#name__input", function() {
 function makeNameList(inputValue) {
     let fileName = "./php/DailyReport/SelStaff.php";
     let sendData = {
-        emploee_number: "%" + inputValue + "%",
+        name_s: "%" + inputValue + "%",
     };
     myAjax.myAjax(fileName, sendData);
     $("#name__select option").remove();
@@ -320,7 +320,7 @@ function makeNameList(inputValue) {
 
 // Name Select
 $(document).on("focus", "#name__select", function() {
-    makeNameList("");
+    makeNameList($("#name__input").val());
 });
 
 $(document).on("change", "#name__select", function() {

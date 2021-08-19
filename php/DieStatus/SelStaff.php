@@ -20,10 +20,10 @@
         m_staff.id,
         m_staff.staff_name
       FROM m_staff
-      WHERE m_staff.staff_name LIKE :name_s
+      WHERE m_staff.staff_name LIKE :name
     ");
 
-    $prepare->bindValue(':name_s', $_POST["name_s"], PDO::PARAM_STR); 
+    $prepare->bindValue(':name', $_POST["name"], PDO::PARAM_STR); 
     $prepare->execute();
     $result = $prepare->fetchAll(PDO::FETCH_ASSOC);
 

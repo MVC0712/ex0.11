@@ -1,5 +1,5 @@
 <?php
-  /* 21/03/26作成 */
+  /* 21/05/16作成 */
   $userid = "webuser";
   $passwd = "";
   // print_r($_POST);
@@ -17,13 +17,16 @@
 
     $prepare = $dbh->prepare("
       SELECT 
-        m_staff.id,
-        m_staff.staff_name
-      FROM m_staff
-      WHERE m_staff.staff_name LIKE :name_s
+        m_dies.id
+        , m_dies.die_number
+      FROM 
+        m_dies
+      WHERE m_dies.die_number LIKE :die_number
+      ORDER BY m_dies.die_number 
+
     ");
 
-    $prepare->bindValue(':name_s', $_POST["name_s"], PDO::PARAM_STR); 
+    $prepare->bindValue(':die_number', $_POST["die_number"], PDO::PARAM_STR); 
     $prepare->execute();
     $result = $prepare->fetchAll(PDO::FETCH_ASSOC);
 

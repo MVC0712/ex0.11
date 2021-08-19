@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Die status</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/DieStatus.css" />
+</head>
+
+<body>
+    <header>Die status</header>
+    <div class="main__wrapper">
+        <div class="left__wrapper">
+            <div class="input__wrapper">
+
+                <!-- Date -->
+                <div class="input-block__outer">
+                    <div class="input__title">Date</div>
+                    <input id="date__input" class="need-clear no-input save-data" type="date" />
+                </div>
+                <!-- Die Number -->
+                <div class="input-block__outer">
+                    <div class="input__title">Die</div>
+                    <input id="die__input" class="need-clear" type="text" />
+                    <select id="die__select" class="no-input save-data need-clear">
+              <option value="0">No select</option>
+            </select>
+                    <div id="number-of-die__display" class="input__title">0</div>
+                </div>
+                <!-- Did washed -->
+                <div class="input-block__outer">
+                    <div class="input__title">Washed</div>
+                    <input id="is-washed__input" class="need-clear" type="text" />
+
+                </div>
+                <!-- Press type -->
+                <div class="input-block__outer">
+                    <div class="input__title">Press Time</div>
+                    <input id="pressing-type__input" class="need-clear" type="text" />
+
+                </div>
+                <!-- Press machine number -->
+                <div class="input-block__outer">
+                    <div class="input__title">Measure</div>
+                    <!-- <input id="machine-number__input" class="need-clear" type="text" /> -->
+                    <select id="is-washed__select" class="no-input save-data need-clear">
+                      <option value="0">-</option>
+                      <option value="1">OK</option>
+                      <option value="2">NG</option>
+                    </select>
+                </div>
+
+                <!-- Name -->
+                <div class="input-block__outer">
+                    <div class="input__title">Name</div>
+                    <input id="name__input" class="need-clear" type="text" />
+                    <select id="name__select" class="save-data need-clear no-input">
+              <option value="0">-</option>
+            </select>
+                </div>
+
+                <!-- File Select -->
+                <div class="input-block__outer">
+                    <div class="input__title">File</div>
+                    <form id="file-upload__form">
+                        <input type="file" name="file_01" id="file-upload__input" />
+                        <label id="file_name" for="file-upload__input">no file</label>
+                    </form>
+
+                    <input id="press-direction_file" class="need-clear" type="file" />
+
+                    </select>
+                    <button id="preview__button" disabled>Preview</button>
+                </div>
+                <!-- end -->
+            </div>
+            <div class="table__wrapper">
+
+
+
+            </div>
+        </div>
+        <div class="right__wrapper">
+            <table id="die__table">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">Die status</td>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>Die</td>
+                        <td>Press time</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="button__wrapper">
+
+
+    </div>
+    <!-- <div class="summary__wrapper">
+
+    </div> -->
+
+    <script src="./lib/jquery.min.js"></script>
+    <script src="./scr/DieStatus.js"></script>
+</body>
+
+</html>
