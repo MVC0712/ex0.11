@@ -537,6 +537,7 @@ function checkDuplicateLackNumber() {
 }
 
 function keyCodeCheck(k) {
+    var str = String(k);
     if (!(
             str.match(/[0-9]/) ||
             (37 <= k && k <= 40) ||
@@ -1006,6 +1007,31 @@ function getInputData() {
     // 配列のキーが無いと困るので
 
     return inputData;
+}
+
+
+function ajaxFileUpload() {
+    var formdata = new FormData($("#file-upload__form").get(0));
+    var fileName;
+
+    $.ajax({
+            url: "./php/DailyReport/FileUpload.php",
+            type: "POST",
+            data: formdata,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "html",
+            async: false,
+        })
+        .done(function(data, textStatus, jqXHR) {
+            // なぜか受渡しないと、上手く値が入らない。
+            fileName = data;
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            alert("fail");
+        });
+    return fileName;
 }
 
 function getTableData(tableTrObj) {
