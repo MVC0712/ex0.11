@@ -1,0 +1,67 @@
+body {
+  width: calc(900px - 2px);
+}
+thead > tr > th {
+  border-bottom: 0;
+  height: 20px;
+}
+thead th,
+tbody th {
+  background-color: #0000ff;
+  border: solid 1px white;
+  color: white;
+  text-align: center;
+  font-size: 9pt;
+  font-weight: normal;
+}
+td {
+  padding: 0;
+}
+
+table input {
+  padding: 0;
+  /* width: 60px; */
+  border: none;
+  width: 100%;
+}
+
+/* basic setting */
+.input__title {
+  width: initial;
+  padding: 0 3px 0 3px;
+}
+/* =============page layout=============== */
+.upper__wrapper {
+  padding: 0;
+  height: 250px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.bottom__wrapper {
+  padding: 0;
+  height: calc(598px - 30px - 250px);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.input__wrapper {
+  width: 500px;
+  height: 100%;
+}
+.history__wrapper {
+  width: calc(898px - 500px);
+  height: 100%;
+}
+.left__wrapper {
+  width: 300px;
+  height: 100%;
+}
+.middle__wrapper {
+  width: 300px;
+  height: 100%;
+}
+.right__wrapper {
+  width: calc(898px - 300px - 300px);
+  height: 100%;
+}
