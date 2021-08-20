@@ -11,8 +11,10 @@ tbody th {
   border: solid 1px white;
   color: white;
   text-align: center;
-  font-size: 9pt;
+  font-size: 10pt;
   font-weight: normal;
+}
+thead td {
 }
 td {
   padding: 0;
@@ -26,6 +28,11 @@ table input {
 }
 
 /* basic setting */
+.input-block__outer {
+  height: 35px;
+  width: initial;
+  margin: 0 5px 0 5px;
+}
 .input__title {
   width: initial;
   padding: 0 3px 0 3px;
@@ -48,10 +55,16 @@ table input {
 .input__wrapper {
   width: 500px;
   height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
-.history__wrapper {
+.complete-list__wrapper {
   width: calc(898px - 500px);
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .left__wrapper {
   width: 300px;
@@ -64,4 +77,13 @@ table input {
 .right__wrapper {
   width: calc(898px - 300px - 300px);
   height: 100%;
+}
+.top__box {
+  height: 50px;
+}
+/* ============= Table Settings =============== */
+/* complete-list__table */
+#complete-list__table {
+  background-color: #0000ff;
+  font-size: 10pt;
 }
