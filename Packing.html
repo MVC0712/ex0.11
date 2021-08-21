@@ -1,79 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Packing</title>
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/Packing.css" />
-    
-  <body>
-    <header>Packing</header>
-    <div class="upper__wrapper">
-      <div class="input__wrapper">
-        <!-- Order number -->
-        <div class="input-block__outer">
-          <div class="input__title">OrdrNo</div>
-          <input id="directive__input" class="need-clear" type="text" />
-          <select id="directive_input__select" class="save-data need-clear"></select>
-        </div>
-        <!-- Press Date -->
-        <div class="input-block__outer">
-            <div class="input__title">PressDate</div>
-            <input id="press-date__input" class="need-clear no-input save-data" type="date" />
-        </div>
-        <!-- Packing Date -->
-        <div class="input-block__outer">
-            <div class="input__title">PackingDate</div>
-            <input id="packing-date__input" class="need-clear no-input save-data" type="date" />
-        </div>
-        <!-- press work time -->
-        <div class="input-block__outer">
-            <div class="input__title">PackingTm</div>
-            <input id="press-start__input" class="save-data need-clear no-input" type="text" /> -
-            <input id="press-finish__input" class="save-data need-clear no-input" type="text" />
-        </div>
-        <!-- Worker -->
-        <div class="input-block__outer">
-            <div class="input__title">PackingWorker</div>
-            <select id="worker__select" class="save-data need-clear"></select>
-        </div>
-        <!-- Packing Worker Table -->
-        <table>
-          <thead>
-            <tr>
-              <td>id</td>
-              <td>Name</td>
-              <td>Emploee Number</td>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
 
-      <div class="complete-list__wrapper">
-        <table id="complete-list__table">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>RackNum</th>
-              <th>BoxNum</th>
-              <th>Qty</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div>
-    <div class="bottom__wrapper">
-      <div class="left__wrapper">
-        <div class="top__box"></div>
-      </div>
-      <div class="middle__wrapper">
-        <div class="top__box"></div>
-      </div>
-      <div class="right__wrapper">
-        <div class="top__box"></div>
-      </div>
-    </div>
-  </body>
+    <body>
+        <header>Packing</header>
+        <div class="upper__wrapper">
+            <div class="input__wrapper">
+                <!-- Order number -->
+                <div class="input-block__outer">
+                    <div class="input__title">OrdrNo</div>
+                    <input id="directive__input" class="need-clear" type="text" />
+                    <select id="directive_input__select" class="save-data need-clear"></select>
+                </div>
+                <!-- Press Date -->
+                <div class="input-block__outer">
+                    <div class="input__title">PressDate</div>
+                    <input id="press-date__input" class="need-clear no-input save-data" type="date" />
+                </div>
+                <!-- Packing Date -->
+                <div class="input-block__outer">
+                    <div class="input__title">PackingDate</div>
+                    <input id="packing-date__input" class="need-clear no-input save-data" type="date" />
+                </div>
+                <!-- press work time -->
+                <div class="input-block__outer">
+                    <div class="input__title">PackingTm</div>
+                    <input id="press-start__input" class="save-data need-clear no-input" type="text" /> -
+                    <input id="press-finish__input" class="save-data need-clear no-input" type="text" />
+                </div>
+                <!-- Worker -->
+                <div class="input-block__outer">
+                    <div class="input__title">PackingWorker</div>
+                    <select id="worker__select" class="save-data need-clear"></select>
+                </div>
+                <!-- Packing Worker Table -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Name</th>
+                            <th>Emploee Number</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="complete-list__wrapper">
+                <table id="complete-list__table">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>RackNum</th>
+                            <th>BoxNum</th>
+                            <th>Qty</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="bottom__wrapper">
+            <div class="left__wrapper">
+                <div class="top__box"></div>
+                <div class="bottom-table__wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>RackNum</th>
+                                <th>Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="middle__wrapper">
+                <div class="top__box"></div>
+            </div>
+            <div class="right__wrapper">
+                <div class="top__box"></div>
+            </div>
+        </div>
+    </body>
+
 </html>

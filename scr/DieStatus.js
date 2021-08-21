@@ -29,6 +29,23 @@ $(document).on("change", "#date__input", function() {
     $(this).removeClass("no-input").addClass("complete-input");
 });
 // Die Name
+$(document).on("focus", "#die__select", function() {
+    var die_s = document.getElementById('die__input').value;
+    let fileName = "./php/DieStatus/SelDieNumber.php";
+    let sendData = {
+        die_number: die_s + "%",
+    };
+    myAjax.myAjax(fileName, sendData);
+    $("#number-of-die__display").html(ajaxReturnData.length);
+    $("#die__select option").remove();
+    $("#die__select").append($("<option>").val(0).html("NO select"));
+    ajaxReturnData.forEach(function(value) {
+        $("#die__select").append(
+            $("<option>").val(value["id"]).html(value["die_number"])
+        );
+    });
+});
+
 $(document).on("keyup", "#die__input", function() {
     let fileName = "./php/DieStatus/SelDieNumber.php";
     let sendData = {
