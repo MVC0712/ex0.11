@@ -17,12 +17,13 @@
                 <div class="input-block__outer">
                   <div class="input__title">OrdrNo</div>
                   <input id="directive__input" class="need-clear" type="text" />
-                  <select id="directive_input__select" class="save-data need-clear"></select>
+                  <select id="directive_input__select" class="save-data no-input need-clear"></select>
                 </div>
                 <!-- Press Date -->
                 <div class="input-block__outer">
                   <div class="input__title">PressDate</div>
-                  <input id="press-date__input" class="need-clear no-input save-data" type="date" />
+                  <!-- <input id="press-date__input" class="need-clear no-input save-data" type="date" /> -->
+                  <select id="press-date__select" class="save-data no-input need-clear"></select>
                 </div>
               </div>
               <div class="dot__line"></div>
@@ -59,6 +60,7 @@
                     <div class="input__title">Complete</div>
                     <input id="packing-date__input" class="need-clear no-input save-data" type="date" />
                 </div>
+                <button id="test__button">TEST</button>
             </div>
 
             <div class="complete-list__wrapper">
@@ -193,6 +195,8 @@
 
             </div>
         </div>
+    <script src="./lib/jquery.min.js"></script>
+    <script src="./scr/Packing.js"></script>
     </body>
 
 </html>

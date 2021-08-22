@@ -282,13 +282,18 @@ table input {
 }
 /* ================  Input Select Button Elements ================= */
 #press-date__input {
-  width: 110px;
+  width: 120px;
 }
 #packing-date__input {
-  width: 110px;
+  width: 120px;
 }
 #add_worker__button {
   height: 22px;
   border: 1px;
   width: 40px;
+}
+#directive__input {
+  /* border-width: 1pt 0 1pt 1pt;
+  height: 19pt; */
+  border-right: 0;
 }
