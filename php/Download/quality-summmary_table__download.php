@@ -18,10 +18,22 @@
       $file_path = "../../download/" . $_POST["file_name"] . ".csv";
       // print_r($file_path);
       $export_csv_title = [
-        "quality_code", "description_vn", "note_vn", "description_jp", "note_jp"
+        "押出日", "押出時間[h]", "金型番号", "品番", "単重[kg/m]", "製品長さ[m]", 
+        "製品重量[kg]", "押出種別", "計画ビレット数", "実績ビレット数", 
+        "投入ビレット長[mm]", "ビレットサイズ", "切断数", "不良数", "良品数", 
+        "寸法チェック完了日", "エッチング完了日", "時効完了日", "梱包完了日", 
+        "成形不良", "ダイスマーク", "内面フクレ", "磕碰伤不良", "粗さ不良", 
+        "真円度不良", "寸法不良", "曲がり不良", "ねじれ不良", "硬度不足", 
+        "エッチング不良", "裂纹不良", "粘铝不良", "押出振動による不良", 
+        "内径ダイスマーク", "表面坑", "外面フクレ異常", "型材表面黒線", 
+        "エッチング巻込不良", "浸蚀边部裂纹不良", "拉伤不良", "粘毛毡不良",
+        "停机痕不良", "卷裂不良", "其他不良"
       ];
       $export_csv_title_sub = [
-        "press_date_at", "die_number", "pressing_type", "plan_billet_quantities", "actual_billet_quantities",
+        "press_date_at", "pressing_time", "die_number", "production_number", "specific_weight", 
+        "production_length", "production_weight",
+        "pressing_type", "plan_billet_quantities", "actual_billet_quantities",
+        "billet_length", "billet_size",
         "work_quantity", "total_ng", "total_ok", "dimension_check_date", "etching_check_date",
         "aging_check_date", "packing_check_date", "code_301", "code_302", "code_303", "code_304",
         "code_305", "code_306", "code_307", "code_308", "code_309", "code_310", "code_311", "code_312",
@@ -29,18 +41,25 @@
         "code_321", "code_322", "code_323", "code_324", "code_351"];
       $export_sql = "
 SELECT 
-	DATE_FORMAT(t_press.press_date_at, '%m-%d'),
+	DATE_FORMAT(t_press.press_date_at, '%Y-%m-%d') AS press_date,
+	ROUND(TIMESTAMPDIFF(MINUTE, t_press.press_start_at, t_press.press_finish_at) / 60, 2) AS pressing_time,
 	m_dies.die_number,
+	m_production_numbers.production_number,
+	m_production_numbers.specific_weight,
+	m_production_numbers.production_length,
+	ROUND(m_production_numbers.specific_weight * 	m_production_numbers.production_length, 3) AS work_weight, 	
 	m_pressing_type.pressing_type,
 	t_press.plan_billet_quantities,
 	t_press.actual_billet_quantities,
+	t_press.billet_length,
+	t_press.billet_size,
 	t20.work_quantity,
 	t10.total_ng,
 	t20.work_quantity - t10.total_ng AS total_ok,
-	DATE_FORMAT(t_press.dimension_check_date, '%m-%d'),
-	DATE_FORMAT(t_press.etching_check_date, '%m-%d'),
-	DATE_FORMAT(t_press.aging_check_date, '%m-%d'),
-	DATE_FORMAT(t_press.packing_check_date, '%m-%d'),
+	t_press.dimension_check_date,
+	t_press.etching_check_date,
+	t_press.aging_check_date,
+	t_press.packing_check_date,
 	t10.code_301,
 	t10.code_302,
 	t10.code_303,
@@ -69,6 +88,7 @@ SELECT
 FROM t_press
 LEFT JOIN m_pressing_type ON t_press.pressing_type_id = m_pressing_type.id
 LEFT JOIN m_dies ON t_press.dies_id = m_dies.id
+LEFT JOIN m_production_numbers ON m_dies.production_number_id = m_production_numbers.id
 LEFT JOIN 
 	(
 		SELECT 
@@ -116,9 +136,9 @@ ORDER BY 	t_press.press_date_at DESC, t_press.press_start_at
         ";
 
       // Header out put
-      // foreach ($export_csv_title as $key => $val) {
-      //     $export_header[] = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
-      // }
+      foreach ($export_csv_title as $key => $val) {
+          $export_header[] = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
+      }
       foreach ($export_csv_title_sub as $key => $val) {
           $export_header_sub[] = mb_convert_encoding($val, 'UTF-8', 'UTF-8'); //
       }
@@ -128,7 +148,7 @@ ORDER BY 	t_press.press_date_at DESC, t_press.press_start_at
       if (touch($file_path)) {
           $file = new SplFileObject($file_path, "w");
           // write csv header
-          // $file->fputcsv($export_header);
+          $file->fputcsv($export_header);
           $file->fputcsv($export_header_sub);
           // query database
           $stmt = $dbh->query($export_sql);
