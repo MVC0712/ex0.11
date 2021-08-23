@@ -48,7 +48,6 @@ function ajaxInsInputData(inputData) {
     .done(function (data) {
       ajaxSelCategory1();
       ajaxSelSummary();
-
     })
     .fail(function () {
       alert("DB connect error");
@@ -506,8 +505,9 @@ function addSummaryTable(data) {
     html += element["aging_type"] + "</td><td>";
     // html += element["cross_section_area"] + "</td><td>";
     html += crossSectionArea + "</td><td>";
-    html += element["circumscribed_circle"] + "</td><td>";
-    html += specificWeight + " kg/m" + "</td></tr>";
+    html += element["packing_quantity"] + "</td><td>";
+    html += specificWeight + " kg/m" + "</td><td>";
+    html += element["production_length"] + " m" + "</td></tr>";
   });
   $("#summary__table tbody").empty();
   $("#summary__table tbody").append(html);
@@ -579,7 +579,6 @@ function ajaxDelSummary(targetId) {
     .fail(function () {
       alert("DB connect error");
     });
-
 }
 
 function ajaxSelSelSummary(targetId) {

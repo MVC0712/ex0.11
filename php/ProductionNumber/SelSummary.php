@@ -30,6 +30,8 @@ SELECT
   m_production_numbers.cross_section_area,
   m_production_numbers.packing_quantity,
   m_production_numbers.id,
+  m_production_numbers.production_length,
+  m_production_numbers.packing_quantity,
   'dummy'
 FROM m_production_numbers
 LEFT JOIN m_billet_material ON m_production_numbers.billet_material_id = m_billet_material.id
