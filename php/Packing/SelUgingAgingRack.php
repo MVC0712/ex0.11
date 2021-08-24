@@ -1,5 +1,5 @@
 <?php
-  /* 21/08/22作成 */
+  /* 21/08/24作成 */
   $userid = "webuser";
   $passwd = "";
 //   print_r($_POST);
@@ -16,17 +16,19 @@
       );
 
       $sql = "
-      select 
-            m_dies.id,
-            m_dies.die_number
-      from t_press
-      left join m_dies on t_press.dies_id = m_dies.id
-      order by m_dies.die_number
+        SELECT 
+        	t_using_aging_rack.id,
+          t_using_aging_rack.rack_number,
+          t_using_aging_rack.order_number,
+          t_using_aging_rack.work_quantity
+        FROM t_using_aging_rack
+        WHERE t_using_aging_rack.t_press_id = :t_press_id
+        ORDER BY t_using_aging_rack.order_number
       ";
 
       $prepare = $dbh->prepare($sql);
 
-      // $prepare->bindValue(':press_date', $_POST["press_date"], PDO::PARAM_STR);
+      $prepare->bindValue(':t_press_id', (INT)$_POST["t_press_id"], PDO::PARAM_INT);
       $prepare->execute();
       $result = $prepare->fetchAll(PDO::FETCH_ASSOC);
 
