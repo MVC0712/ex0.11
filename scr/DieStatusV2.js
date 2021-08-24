@@ -234,3 +234,26 @@ $(document).on("change", "#process", function() {
 $(document).on("change", "#status_process", function() {
     console.log($('input[name="check_uncheck"]:checked').val());
 });
+
+function action() {
+    var table, tr, action_s, pr_tm, sta_val, txt_pr_tm, txt_sta_val, i, diff;
+    var check_val = $('input[name="check_uncheck"]:checked').val();
+    table = document.getElementById("summary__table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        pr_tm = tr[i].getElementsByTagName("td")[2];
+        sta_val = tr[i].getElementsByTagName("td")[3];
+        action_s = tr[i].getElementsByTagName("td")[4];
+        if (pr_tm) {
+            txt_pr_tm = Number(pr_tm.innerText.replace(",", ""));
+            txt_sta_val = sta_val.innerText.replace(",", "");
+            table.rows[i].insertCell(4);
+            table.rows[i].cells[4].innerHTML = diff;
+            if (diff > 0) {
+                table.rows[i].cells[4].style.backgroundColor = "#ffbfc6";
+            } else {
+                table.rows[i].cells[4].style.backgroundColor = "#d1fff9";
+            }
+        }
+    }
+}
