@@ -62,6 +62,16 @@
             </select>
                 </div>
 
+                <div class="input-block__outer">
+                    <div class="input__title">Process</div>
+                    <!-- <input id="machine-number__input" class="need-clear" type="text" /> -->
+                    <select id="is-washed__select" class="no-input save-data need-clear">
+                      <option value="0">Measure</option>
+                      <option value="1">Washing</option>
+                      <option value="2">Fixing</option>
+                    </select>
+                </div>
+
                 <!-- File Select -->
                 <div class="input-block__outer">
                     <div class="input__title">File</div>
@@ -75,6 +85,7 @@
                     </select>
                     <button id="preview__button" disabled>Preview</button>
                 </div>
+
                 <!-- end -->
             </div>
             <div class="table__wrapper">
@@ -101,15 +112,26 @@
             </table>
 
         </div>
+
     </div>
 
     <div class="button__wrapper">
 
 
     </div>
-    <!-- <div class="summary__wrapper">
-
-    </div> -->
+    <div class="right__wrapper column__wrapper">
+        <table id="insert__table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Die</th>
+                    <th>Press</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
     <script src="./lib/jquery.min.js"></script>
     <script src="./scr/DieStatus.js"></script>

@@ -103,6 +103,7 @@ $(document).on("change", "#name__select", function() {
     } else {
         $(this).removeClass("complete-input").addClass("no-input");
     }
+    makeSummaryTable();
 });
 
 $(document).on("click", "#rack__table tbody tr", function() {
@@ -129,3 +130,47 @@ $(document).on("click", "#rack__table tbody tr", function() {
        $("#add-rack__button").prop("disabled", true).text("Save");
      }*/
 });
+
+
+function makeSummaryTable() {
+    var fileName = "./php/DieStatus/SelSummary.php";
+    var sendData = {
+        dummy: "dummy",
+    };
+    // 今日の日付の代入
+    $("#date__input").val(returnToday());
+    // summary tebale の読み出し
+    myAjax.myAjax(fileName, sendData);
+    fillTableBody(ajaxReturnData, $("#die__table tbody"));
+}
+
+function returnToday() {
+    // 本日の日付をyy-mm-dd形式で返す
+    var month;
+    var dt = new Date();
+    month = dt.getMonth() + 1;
+    if (month < 9) month = "0" + month;
+
+    return dt.getFullYear() + "-" + month + "-" + dt.getDate();
+}
+
+function fillTableBody(data, tbodyDom) {
+    let checkLimit = new Object();
+    let chekFlag = false;
+    $(tbodyDom).empty();
+    data.forEach(function(trVal) {
+        let newTr = $("<tr>");
+        Object.keys(trVal).forEach(function(tdVal, index) {
+            if (index == 3 || index == 5) {
+                trVal[tdVal] = trVal[tdVal];
+            }
+            if (chekFlag) {
+                $("<td>").html(trVal[tdVal]).addClass("nitriding").appendTo(newTr);
+            } else {
+                $("<td>").html(trVal[tdVal]).appendTo(newTr);
+            }
+        });
+        chekFlag = false;
+        $(newTr).appendTo(tbodyDom);
+    });
+}
