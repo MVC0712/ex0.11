@@ -131,13 +131,14 @@
             <thead class="table-content">
               <tr>
                 <th></th>
-                <th colspan="3">Remain Rack</th>
+                <th colspan="4">Aging Rack</th>
               </tr>
               <tr>
                 <th>id</th>
                 <th>RackNum</th>
                 <th>Ordr</th>
                 <th>Qty</th>
+                <th>Pckd</th>
               </tr>
             </thead>
             <tbody class="table-content"></tbody>
@@ -147,6 +148,7 @@
                 <td></td>
                 <td>Total</td>
                 <td>0</td>
+                <td></td>
               </tr>
             </tbody>
           </table>
@@ -156,9 +158,9 @@
         <div class="top__box">
           <div class="input-block__outer">
             <div class="input__title">NG</div>
-            <input id="ng-qty__input" class="need-clear" type="text" />
+            <input id="ng-qty__input" class="need-clear no-input" type="text" />
             <select id="ng-code__select" class="save-data need-clear"></select>
-            <button>Add</button>
+            <button id="ng-qty__button" disabled>Add</button>
           </div>
         </div>
         <div class="bottom-table__wrapper">

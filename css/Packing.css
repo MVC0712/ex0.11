@@ -233,7 +233,7 @@ table input {
 }
 /* Remain Rack Table */
 #remain-rack__table {
-  width: 182px;
+  width: 232px;
 }
 #remain-rack__table tr th:nth-child(1),
 #remain-rack__table tr td:nth-child(1) {
@@ -260,7 +260,13 @@ table input {
 #remain-rack__table tr td:nth-child(4) {
   text-align: right;
 }
-
+#remain-rack__table tr th:nth-child(5),
+#remain-rack__table tr td:nth-child(5) {
+  width: 45px;
+}
+#remain-rack__table tr td:nth-child(5) {
+  text-align: right;
+}
 /* NG Table */
 #ng__table {
   width: 230px;
@@ -273,13 +279,22 @@ table input {
 #ng__table tr td:nth-child(2) {
   width: 40px;
 }
+#ng__table tr td:nth-child(2) {
+  text-align: right;
+}
 #ng__table tr th:nth-child(3),
 #ng__table tr td:nth-child(3) {
   width: 120px;
 }
+#ng__table tr td:nth-child(3) {
+  text-align: left;
+}
 #ng__table tr th:nth-child(4),
 #ng__table tr td:nth-child(4) {
   width: 40px;
+}
+#ng__table tr td:nth-child(4) {
+  text-align: right;
 }
 
 /* Box Table */
@@ -314,4 +329,10 @@ table input {
   /* border-width: 1pt 0 1pt 1pt;
   height: 19pt; */
   border-right: 0;
+}
+#ng-qty__input {
+  border-right: 0;
+}
+#ng-code__select {
+  width: 150px;
 }
