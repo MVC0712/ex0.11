@@ -4,6 +4,7 @@ body {
 
 tbody td {
   font-size: 10pt;
+  padding: 1px;
 }
 
 thead > tr > th {
@@ -34,6 +35,10 @@ table input {
   /* width: 60px; */
   border: none;
   width: 100%;
+}
+
+table input.selected-input {
+  background-color: #d6d283;
 }
 
 /* basic setting */
