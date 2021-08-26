@@ -2,13 +2,16 @@
   /* 21/06/24作成 */
   $userid = "webuser";
   $passwd = "";
-  $nitriding_date = "";
-  // $_POSTの末尾には窒化日が入っている　array_popすると、配列を変換しているとエラーが出る
+  $die_status_id = "";
+  $do_sth_at = "";
+  $note = "";
 
-  // print_r($nitriding_date);
-  $nitriding_date = $_POST['nitriding_date'];
+  $die_status_id = $_POST['die_status_id'];
+  $do_sth_at = $_POST['do_sth_at'];
+  $note = $_POST['note'];
   array_pop($_POST);
-
+  array_pop($_POST);
+  array_pop($_POST);
   $today = date("Y-m-d");
 
   try {
@@ -27,11 +30,13 @@
       foreach ($_POST as $val) {
           // print_r($val);
           // echo "<br>";
-          $sql_paramater[] = "({$val}, '$nitriding_date', '$today')";
+        //   $sql_paramater[] = "({$val}, '$die_status_id', '$do_sth_at', '$note', '$today')";
+          $sql_paramater[] = "({$val}, '$die_status_id', '$do_sth_at', '$note', '$today')";
       }
-      //   print_r($sql_paramater);
-      $sql = "INSERT INTO t_nitriding ";
-      $sql = $sql."(dies_id, nitriding_date_at, created_at) VALUES ";
+        // print_r($sql_paramater);
+        // echo "<br>";
+      $sql = "INSERT INTO t_dies_status ";
+      $sql = $sql."(dies_id, die_status_id, do_sth_at, note, created_at) VALUES ";
       $sql = $sql.join(",", $sql_paramater);
       // echo "<br>";
       // print_r($sql);

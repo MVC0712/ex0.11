@@ -20,6 +20,8 @@
                         <th>Die Number</th>
                         <th>Prs_tm</th>
                         <th>Status</th>
+                        <th>Status_id</th>
+                        <th>Last note</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -36,7 +38,7 @@
                         <tr>
                             <th>id</th>
                             <th>Die</th>
-                            <th>Process</th>
+                            <!-- <th>Process</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -46,16 +48,16 @@
             <div class="input__wrapper">
                 <div class="right__wrapper_down">
                     <div class="title">Date</div>
-                    <input id="status_date_at" type="Date" />
+                    <input id="do_sth_at" type="Date" />
                     <div class="input-block__outer">
                         <div class="title">Process</div>
                         <select id="process" class="no-input save-data need-clear">
-											<option value="0">Select Process</option>
-											<option value="1">Measuring</option>
-                      <option value="2">Washing</option>
-                      <option value="3">Fixing</option>
-											<option value="4">On rack</option>
-                    </select>
+                            <option value="0">Select Process</option>
+                            <option value="1">Measuring</option>
+                            <option value="2">Washing</option>
+                            <option value="3">Fixing</option>
+                            <option value="4">On rack</option>
+                        </select>
                     </div>
                 </div>
                 <br>
@@ -63,9 +65,9 @@
                 </div>
                 <div>
                     <div class="title">Note</div>
-                    <input id="status" class="right__wrapper_text_input">
+                    <textarea id="note" class="right__wrapper_text_input">
 
-                    </input>
+                    </textarea>
                 </div>
             </div>
             <div class="button__wrapper">

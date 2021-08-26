@@ -1,5 +1,6 @@
 押出日,押出時間[h],金型番号,品番,単重[kg/m],製品長さ[m],製品重量[kg],ディスカード厚,ディスカード重量,押出種別,計画ビレット数,実績ビレット数,投入ビレット長[mm],ビレットサイズ,切断数,不良数,良品数,寸法チェック完了日,エッチング完了日,時効完了日,梱包完了日,成形不良,ダイスマーク,内面フクレ,磕碰伤不良,粗さ不良,真円度不良,寸法不良,曲がり不良,ねじれ不良,硬度不足,エッチング不良,裂纹不良,粘铝不良,押出振動による不良,内径ダイスマーク,表面坑,外面フクレ異常,型材表面黒線,エッチング巻込不良,浸蚀边部裂纹不良,拉伤不良,粘毛毡不良,停机痕不良,卷裂不良,其他不良
 press_date_at,pressing_time,die_number,production_number,specific_weight,production_length,production_weight,discard_thickness,discard_weight,pressing_type,plan_billet_quantities,actual_billet_quantities,billet_length,billet_size,work_quantity,total_ng,total_ok,dimension_check_date,etching_check_date,aging_check_date,packing_check_date,code_301,code_302,code_303,code_304,code_305,code_306,code_307,code_308,code_309,code_310,code_311,code_312,code_313,code_314,code_315,code_316,code_317,code_318,code_319,code_320,code_321,code_322,code_323,code_324,code_351
+2021-08-24,1.08,MYB16H-V01D,MYB16LAA7163-20K,2.98,2,5.96,35,4.17,◎,5,5,1200,9,99,,,,,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 2021-08-23,0.33,CUJ12A-V01D,CUJ12A-AD252-20K,1.07,2,2.14,25,2.98,〇,1,1,600,9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 2021-08-23,0.75,VJ30M1-V01D,VJ3000-20-1,1.79,2,3.58,25,2.98,〇,1,1,600,9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 2021-08-23,0.33,CUJ20A-V01D,CUJ20A-AD254-20K,2.22,2,4.44,25,2.98,〇,1,1,600,9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

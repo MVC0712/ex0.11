@@ -34,7 +34,7 @@
       $sql = $sql."(dies_id, nitriding_date_at, created_at) VALUES ";
       $sql = $sql.join(",", $sql_paramater);
       // echo "<br>";
-      // print_r($sql);
+    //   print_r($sql);
       // echo "<br>";
 
       $prepare = $dbh->prepare($sql);
