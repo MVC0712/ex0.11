@@ -52,10 +52,11 @@ function makeSummaryTable() {
         dummy: "dummy",
     };
     // 今日の日付の代入
-    $("#status_date_at").val(returnToday());
+    $("#do_sth_at").val(returnToday());
     // summary tebale の読み出し
     myAjax.myAjax(fileName, sendData);
     fillTableBody(ajaxReturnData, $("#summary__table tbody"));
+    formatDate();
 }
 
 function returnToday() {
@@ -74,9 +75,9 @@ function fillTableBody(data, tbodyDom) {
     data.forEach(function(trVal) {
         let newTr = $("<tr>");
         Object.keys(trVal).forEach(function(tdVal, index) {
-            if (index == 3 || index == 5) {
-                trVal[tdVal] = trVal[tdVal] + " km";
-            }
+            // if (index == 3 || index == 5) {
+            //     trVal[tdVal] = trVal[tdVal] + " km";
+            // }
             if (checkFlag) {
                 $("<td>").html(trVal[tdVal]).addClass("nitriding").appendTo(newTr);
             } else {
@@ -156,35 +157,6 @@ $(document).on("click", "#add__table tbody tr", function() {
     go_check();
 });
 
-$(document).on("click", "#go__button", function() {
-    var fileName = "./php/DieStatus/InsNitriding.php";
-    var sendObj = new Object();
-    $("#add__table tbody tr td:nth-child(1)").each(function(
-        index,
-        element
-    ) {
-        sendObj[index] = $(this).html();
-    });
-    sendObj["nitriding_date"] = $("#status_date_at").val();
-    myAjax.myAjax(fileName, sendObj);
-    $("#add__table tbody").empty();
-    $("#status_date_at").val(returnToday());
-    makeSummaryTable();
-});
-
-function ajaxTest(array) {
-    $.ajax({
-            type: "POST",
-            url: "./php/DieStatus/InsNitriding.php",
-            dataType: "json",
-            async: false,
-            data: JSON.stringify(array),
-        })
-        .done(function(data) {
-            console.log(data);
-        })
-        .fail(function() {});
-}
 
 function go_check() {
     if (($("#add__table tbody tr").length == 0) && ($("#process").val() == 0)) {
@@ -235,25 +207,74 @@ $(document).on("change", "#status_process", function() {
     console.log($('input[name="check_uncheck"]:checked').val());
 });
 
-function action() {
+$(document).on("click", "#go__button", function() {
+    var fileName = "./php/DieStatus/InsStatus.php";
+    var sendObj = new Object();
+
+    $("#add__table tbody tr td:nth-child(1)").each(function(
+        index,
+        element
+    ) {
+        sendObj[index] = $(this).html();
+    });
+    sendObj["die_status_id"] = $('input[name="check_uncheck"]:checked').val();
+    sendObj["do_sth_at"] = $("#do_sth_at").val();
+    sendObj["note"] = $("#note").val();
+    myAjax.myAjax(fileName, sendObj);
+    console.log(($("#do_sth_at").val()));
+    console.log(sendObj);
+    // 書き込み後の処理
+    $("#add__table tbody").empty();
+    $("#do_sth_at").val(returnToday());
+    document.getElementById("status_process").innerHTML = ``;
+    $("#go__button").prop("disabled", true);
+    $("#process").removeClass("complete-input").addClass("no-input");
+    $("#process").val("0");
+    $("#note").val("");
+    makeSummaryTable();
+
+});
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+function formatDate() {
     var table, tr, action_s, pr_tm, sta_val, txt_pr_tm, txt_sta_val, i, diff;
-    var check_val = $('input[name="check_uncheck"]:checked').val();
     table = document.getElementById("summary__table");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
         pr_tm = tr[i].getElementsByTagName("td")[2];
-        sta_val = tr[i].getElementsByTagName("td")[3];
-        action_s = tr[i].getElementsByTagName("td")[4];
+        sta_val = tr[i].getElementsByTagName("td")[4];
+        action_s = tr[i].getElementsByTagName("td")[6];
         if (pr_tm) {
             txt_pr_tm = Number(pr_tm.innerText.replace(",", ""));
-            txt_sta_val = sta_val.innerText.replace(",", "");
-            table.rows[i].insertCell(4);
-            table.rows[i].cells[4].innerHTML = diff;
-            if (diff > 0) {
-                table.rows[i].cells[4].style.backgroundColor = "#ffbfc6";
-            } else {
-                table.rows[i].cells[4].style.backgroundColor = "#d1fff9";
+            txt_sta_val = Number(sta_val.innerText.replace(",", ""));
+            table.rows[i].insertCell(6);
+            if (txt_sta_val == 1) {
+                table.rows[i].cells[6].innerHTML = "Wait result";
+
+
+            } else if ((txt_pr_tm >= 2)) {
+                table.rows[i].cells[6].innerHTML = "Need wash";
+
+            } else if ((txt_sta_val == 4) || (txt_sta_val == 5) ||
+                (txt_sta_val == 6) || (txt_sta_val == 7) ||
+                (txt_sta_val == 8) || (txt_sta_val == 9)) {
+                table.rows[i].cells[6].innerHTML = "Fixing";
+
+
             }
         }
-    }
-}
+    } // table.rows[i].cells[6].style.backgroundColor = "yellow";
+};

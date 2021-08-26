@@ -13,7 +13,7 @@
 .left__wrapper {
     display: flex;
     flex-direction: column;
-    width: 320px;
+    width: 420px;
     justify-content: space-around;
     align-items: center;
 }
@@ -64,13 +64,14 @@
 }
 
 .right__wrapper_text_input {
-    width: calc(798px - 520px - 70px);
+    width: 156px;
     height: 50px;
-    display: flex;
+    display: table;
     flex-direction: column;
     justify-content: space-around;
-    align-items: center;
+    align-items: left;
     position: relative;
+    text-align: left;
 }
 
 .right__wrapper2 {
@@ -94,7 +95,7 @@
 /* ++++++++++++++++++++++++++++++++++++++++++++ */
 
 #summary__table {
-    width: 317px;
+    width: 400px;
 }
 
 #summary__table tbody {
@@ -126,7 +127,7 @@
 }
 
 
-/* date */
+/* Prs time */
 
 #summary__table th:nth-child(3),
 #summary__table td:nth-child(3) {
@@ -138,7 +139,7 @@
 }
 
 
-/* length */
+/* Status */
 
 #summary__table th:nth-child(4),
 #summary__table td:nth-child(4) {
@@ -146,33 +147,34 @@
 }
 
 #summary__table td:nth-child(4) {
-    text-align: right;
+    text-align: left;
 }
 
 
-/* total lenght */
+/* die_status_id */
 
 #summary__table th:nth-child(5),
 #summary__table td:nth-child(5) {
     width: 60px;
+    display: none;
 }
 
 #summary__table td:nth-child(5) {
-    text-align: right;
+    text-align: center;
 }
 
 #summary__table th:nth-child(6),
 #summary__table td:nth-child(6) {
-    width: 60px;
+    width: 80px;
 }
 
 #summary__table td:nth-child(6) {
-    text-align: right;
+    text-align: left;
 }
 
 #summary__table th:nth-child(7),
 #summary__table td:nth-child(7) {
-    width: 40px;
+    width: 70px;
 }
 
 #summary__table td:nth-child(7) {
@@ -292,7 +294,7 @@ img {
     color: white;
 }
 
-#status_date_at {
+#do_sth_at {
     width: 160px;
     height: 20px;
     background-origin: solid 1px #0000ff;
