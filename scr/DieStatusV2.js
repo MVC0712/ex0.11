@@ -56,7 +56,7 @@ function makeSummaryTable() {
     // summary tebale の読み出し
     myAjax.myAjax(fileName, sendData);
     fillTableBody(ajaxReturnData, $("#summary__table tbody"));
-    formatDate();
+    make_action();
 }
 
 function returnToday() {
@@ -249,7 +249,7 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
-function formatDate() {
+function make_action() {
     var table, tr, action_s, pr_tm, sta_val, txt_pr_tm, txt_sta_val, i, diff;
     table = document.getElementById("summary__table");
     tr = table.getElementsByTagName("tr");
@@ -261,19 +261,24 @@ function formatDate() {
             txt_pr_tm = Number(pr_tm.innerText.replace(",", ""));
             txt_sta_val = Number(sta_val.innerText.replace(",", ""));
             table.rows[i].insertCell(6);
-            if (txt_sta_val == 1) {
-                table.rows[i].cells[6].innerHTML = "Wait result";
-
-
-            } else if ((txt_pr_tm >= 2)) {
+            if (txt_pr_tm >= 2) {
                 table.rows[i].cells[6].innerHTML = "Need wash";
+                table.rows[i].cells[6].style.backgroundColor = "#ffe0bf";
+
+
+            } else if (txt_sta_val == 1) {
+                table.rows[i].cells[6].innerHTML = "Wait result";
+                table.rows[i].cells[6].style.backgroundColor = "#fbffbf";
 
             } else if ((txt_sta_val == 4) || (txt_sta_val == 5) ||
                 (txt_sta_val == 6) || (txt_sta_val == 7) ||
                 (txt_sta_val == 8) || (txt_sta_val == 9)) {
-                table.rows[i].cells[6].innerHTML = "Fixing";
+                table.rows[i].cells[6].innerHTML = "Washing";
+                table.rows[i].cells[6].style.backgroundColor = "#bfc1ff"
 
-
+            } else if ((txt_sta_val == 10) || (txt_sta_val == 2)) {
+                table.rows[i].cells[6].innerHTML = "Ready press";
+                table.rows[i].cells[6].style.backgroundColor = "#b3ffe4";
             }
         }
     } // table.rows[i].cells[6].style.backgroundColor = "yellow";
