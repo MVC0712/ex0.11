@@ -79,14 +79,21 @@ $(document).on("change", "#directive_input__select", function () {
   } else {
     $("#press-date__select").removeClass("complete-input").addClass("no-input");
   }
+  // set aging rack table
+  setAgingRack();
 });
 
 $(document).on("change", "#press-date__select", function () {
+  setAgingRack();
+});
+
+function setAgingRack() {
   let fileName = "./php/Packing/SelUgingAgingRack.php";
   let sendData = {
-    t_press_id: $(this).val(),
+    t_press_id: $("#press-date__select").val(),
   };
   myAjax.myAjax(fileName, sendData);
+  $("#remain-rack__table tbody:nth-child(2)").empty();
   ajaxReturnData.forEach(function (trVal) {
     var newTr = $("<tr>");
     Object.keys(trVal).forEach(function (tdVal) {
@@ -94,11 +101,12 @@ $(document).on("change", "#press-date__select", function () {
     });
     $(newTr).appendTo("#remain-rack__table tbody:nth-child(2)");
   });
-});
+}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ======== Under LEFT AgingRack                      ======================
+// ======== Under Table Common                        ======================
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 $(document).on("click", "table tr", function (e) {
   let id_name;
   id_name = $(this).parent().parent().attr("id");
@@ -106,17 +114,25 @@ $(document).on("click", "table tr", function (e) {
   if (!$(this).hasClass("selected-record")) {
     // tr に class を付与し、選択状態の background colorを付ける
     $(this).parent().find("tr").removeClass("selected-record");
+    $(this).parent().find("input").removeClass("selected-input");
     $(this).addClass("selected-record");
+    $(this).find("input").addClass("selected-input");
     // tr に id を付与する
     $("#" + id_name).removeAttr("id");
     $(this).attr("id", id_name);
-    // Make Ng table
-    makeNgTable();
   } else {
     // 選択レコードを再度クリックした時
     // 削除問い合わせダイアログ
     // deleteDialog.showModal();
   }
+});
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ======== Under LEFT AgingRack                      ======================
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+$(document).on("click", "#remain-rack__table tr", function (e) {
+  // Make Ng table
+  makeNgTable();
 });
 
 function makeNgTable() {
@@ -129,8 +145,12 @@ function makeNgTable() {
   $("#ng__table tbody:nth-child(2)").empty();
   ajaxReturnData.forEach(function (trVal) {
     var newTr = $("<tr>");
-    Object.keys(trVal).forEach(function (tdVal) {
-      $("<td>").html(trVal[tdVal]).appendTo(newTr);
+    Object.keys(trVal).forEach(function (tdVal, index) {
+      if (index == 3) {
+        $("<td>").append($("<input>").val(trVal[tdVal])).appendTo(newTr);
+      } else {
+        $("<td>").html(trVal[tdVal]).appendTo(newTr);
+      }
     });
     $(newTr).appendTo("#ng__table tbody:nth-child(2)");
   });
@@ -188,6 +208,14 @@ $(document).on("click", "#ng-qty__button", function () {
   myAjax.myAjax(fileName, sendData);
   // ReMake Ng table
   makeNgTable();
+});
+
+$(document).on("change", "#ng__table input", function () {
+  let fileName = "./php/QualityReport/UpdateNgQty.php";
+  let sendData = {
+    id: "test",
+  };
+  console.log("hello");
 });
 
 // ++++++++++++++++++++++   TEST  BUTTON ++++++++++++++++++++++++++
