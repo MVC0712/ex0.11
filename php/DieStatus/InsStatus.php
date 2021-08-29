@@ -8,7 +8,9 @@
 
   $die_status_id = $_POST['die_status_id'];
   $do_sth_at = $_POST['do_sth_at'];
+  $do_sth_at_time = $_POST['do_sth_at_time'];
   $note = $_POST['note'];
+  array_pop($_POST);
   array_pop($_POST);
   array_pop($_POST);
   array_pop($_POST);
@@ -31,7 +33,7 @@
           // print_r($val);
           // echo "<br>";
         //   $sql_paramater[] = "({$val}, '$die_status_id', '$do_sth_at', '$note', '$today')";
-          $sql_paramater[] = "({$val}, '$die_status_id', '$do_sth_at', '$note', '$today')";
+          $sql_paramater[] = "({$val}, '$die_status_id', '$do_sth_at $do_sth_at_time', '$note', '$today')";
       }
         // print_r($sql_paramater);
         // echo "<br>";

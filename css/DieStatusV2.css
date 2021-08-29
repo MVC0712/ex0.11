@@ -13,13 +13,13 @@
 .left__wrapper {
     display: flex;
     flex-direction: column;
-    width: 420px;
+    width: 520px;
     justify-content: space-around;
     align-items: center;
 }
 
 .center__wrapper {
-    width: 70px;
+    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +35,7 @@
 
 .right__wrapper_up {
     width: calc(798px - 520px - 70px);
-    height: 250px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -46,7 +46,7 @@
 
 .right__wrapper_down {
     width: calc(798px - 520px - 70px);
-    height: 68px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -95,7 +95,7 @@
 /* ++++++++++++++++++++++++++++++++++++++++++++ */
 
 #summary__table {
-    width: 400px;
+    width: 510px;
 }
 
 #summary__table tbody {
@@ -143,7 +143,7 @@
 
 #summary__table th:nth-child(4),
 #summary__table td:nth-child(4) {
-    width: 80px;
+    width: 67px;
 }
 
 #summary__table td:nth-child(4) {
@@ -165,7 +165,7 @@
 
 #summary__table th:nth-child(6),
 #summary__table td:nth-child(6) {
-    width: 80px;
+    width: 110px;
 }
 
 #summary__table td:nth-child(6) {
@@ -178,12 +178,12 @@
 }
 
 #summary__table td:nth-child(7) {
-    text-align: right;
+    text-align: left;
 }
 
 #summary__table th:nth-child(8),
 #summary__table td:nth-child(8) {
-    width: 35px;
+    width: 65px;
 }
 
 #summary__table td:nth-child(8) {
@@ -192,7 +192,11 @@
 
 #summary__table th:nth-child(9),
 #summary__table td:nth-child(9) {
-    display: none;
+    width: 67px;
+}
+
+#summary__table td:nth-child(9) {
+    text-align: right;
 }
 
 
@@ -240,7 +244,7 @@ img {
 }
 
 #add__table tbody {
-    height: 220px;
+    height: 180px;
 }
 
 #add__table th:nth-child(1),
@@ -295,6 +299,13 @@ img {
 }
 
 #do_sth_at {
+    width: 160px;
+    height: 20px;
+    background-origin: solid 1px #0000ff;
+    padding: 0;
+}
+
+#do_sth_at_time {
     width: 160px;
     height: 20px;
     background-origin: solid 1px #0000ff;

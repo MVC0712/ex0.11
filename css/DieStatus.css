@@ -48,30 +48,14 @@ table input {
 }
 
 .left__wrapper {
-    width: 600px;
-    height: 100%;
+    width: 450px;
+    height: 565px;
     flex-direction: column;
 }
 
-.left__wrapper>.input__wrapper {
-    height: 280px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.left__wrapper>.table__wrapper {
-    height: calc(400px - 280px);
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
 .right__wrapper {
-    width: calc(898px - 600px - 1px);
-    height: 567px;
+    width: calc(898px - 450px - 1px);
+    height: 565px;
     border-left: 1px dotted #0000ff;
     display: flex;
     align-items: center;
@@ -163,13 +147,13 @@ select {
 }
 
 #die__table {
-    width: 280px;
+    width: 350px;
     height: 100%;
 }
 
 #die__table tbody {
-    width: 280px;
-    height: 530px;
+    width: 430px;
+    height: 545px;
 }
 
 #die__table th {
@@ -190,30 +174,39 @@ select {
 #die__table tr th:nth-child(2),
 #die__table tr td:nth-child(2) {
     width: 100px;
-    text-align: center;
-}
-
-
-/* Press time */
-
-#die__table tr th:nth-child(3),
-#die__table tr td:nth-child(3) {
-    width: 60px;
-}
-
-#die__table tr td:nth-child(3) {
-    text-align: center;
+    text-align: left;
 }
 
 
 /* Status */
 
+#die__table tr th:nth-child(3),
+#die__table tr td:nth-child(3) {
+    width: 70px;
+}
+
+#die__table tr td:nth-child(3) {
+    text-align: left;
+}
+
+
+/* Note */
+
 #die__table tr th:nth-child(4),
 #die__table tr td:nth-child(4) {
-    width: 100px;
+    width: 150px;
 }
 
 #die__table tr td:nth-child(4) {
+    text-align: left;
+}
+
+#die__table tr th:nth-child(5),
+#die__table tr td:nth-child(5) {
+    width: 85px;
+}
+
+#die__table tr td:nth-child(5) {
     text-align: center;
 }
 

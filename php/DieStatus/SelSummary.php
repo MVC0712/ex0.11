@@ -15,34 +15,6 @@
       )
       );
 
-      /*SELECT 
-    t_press.dies_id,
-    m_dies.die_number,
-    SUM(CASE
-        WHEN
-            (t_press.press_date_at > (SELECT 
-                    MAX(IFNULL(t_dies_status.do_sth_at, '2000-01-01')) AS do_sth_date
-                FROM
-                    m_dies
-                        LEFT JOIN
-                    t_dies_status ON t_dies_status.dies_id = m_dies.id
-                WHERE
-                    m_dies.id = t_press.dies_id
-                        AND t_dies_status.die_status_id = 4
-                GROUP BY m_dies.id))
-                AND (t_press.is_washed_die = 2)
-        THEN
-            1
-        ELSE 0
-    END) AS is_washed_die
-FROM
-    t_press
-        LEFT JOIN
-    m_dies ON t_press.dies_id = m_dies.id
-GROUP BY dies_id
-ORDER BY is_washed_die DESC , die_number ASC*/
-
-
       $sql = "
       SELECT 
       t_press.dies_id,
@@ -64,9 +36,12 @@ ORDER BY is_washed_die DESC , die_number ASC*/
               1
           ELSE 0
       END) AS is_washed_die,
-      die_status,
-      die_status_id,
-      note
+      t10.die_status,
+      t10.die_status_id,
+      t10.note,
+      DATE_FORMAT(t10.do_sth_at,'%m-%d %H:%i') AS do_sth_at
+
+      
   FROM
       t_press
           LEFT JOIN
@@ -74,19 +49,26 @@ ORDER BY is_washed_die DESC , die_number ASC*/
           LEFT JOIN
       (SELECT 
           t_dies_status.dies_id,
-              m_dies.die_number,
-              die_status,
+              m_die_status.die_status,
               t_dies_status.die_status_id,
-              t_dies_status.note,
-              t_dies_status.do_sth_at
+              t_dies_status.do_sth_at,
+              t_dies_status.note
       FROM
           t_dies_status
       LEFT JOIN m_die_status ON t_dies_status.die_status_id = m_die_status.id
-      LEFT JOIN m_dies ON t_dies_status.dies_id = m_dies.id
-      GROUP BY dies_id) prs ON m_dies.id = prs.dies_id
+      LEFT JOIN (SELECT 
+          t_dies_status.dies_id,
+              t_dies_status.die_status_id,
+              MAX(t_dies_status.do_sth_at) AS do_sth_at
+      FROM
+          t_dies_status
+      GROUP BY t_dies_status.dies_id) AS t10 ON t_dies_status.dies_id = t10.dies_id
+          AND t_dies_status.do_sth_at = t10.do_sth_at
+      WHERE
+          t10.dies_id IS NOT NULL) AS t10 ON t10.dies_id = t_press.dies_id
   GROUP BY dies_id
-  ORDER BY is_washed_die DESC , die_number ASC
-      ";
+  ORDER BY die_status DESC , die_number ASC;
+        ";
 
       $prepare = $dbh->prepare($sql);
 

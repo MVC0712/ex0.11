@@ -25,3 +25,4 @@ quality_code,description_vn,note_vn,description_jp,note_jp
 323,"Lỗi điểm dừng","Sản phẩm cuối của lot nguyên liệu trước khi dừng được đánh dấu 323 và để dưới cùng của giá để hàng",停机痕不良,端材利用机种带有停机痕部位的素材要标记323并且下架保留
 324,"Lỗi đóng gói","Vật liệu cuối cùng được đánh dấu bằng“△”sau khi bị cắt và đóng gói riêng",卷裂不良,端材利用机种切断后标记“△”　捆包进行单独保留　用于加工双杆部品
 351,"Lỗi khác","Mục này để ghi những lỗi không mong muốn_ cụ thể phải được ghi chú rõ ràng",其他不良,本工序内　上记项目以外的不良。（备注中须明确记录不良现象）
+0,"Không có lỗi SP",,,
