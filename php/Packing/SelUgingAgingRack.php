@@ -20,7 +20,13 @@
         	t_using_aging_rack.id,
           t_using_aging_rack.rack_number,
           t_using_aging_rack.order_number,
-          t_using_aging_rack.work_quantity
+          t_using_aging_rack.work_quantity,
+          (
+            SELECT
+              IFNULL(SUM(t_packing_box.work_quantity), 0) AS packed_work
+            FROM t_packing_box
+            WHERE t_packing_box.using_aging_rack_id = t_using_aging_rack.id
+          ) AS packed_work_qty
         FROM t_using_aging_rack
         WHERE t_using_aging_rack.t_press_id = :t_press_id
         ORDER BY t_using_aging_rack.order_number

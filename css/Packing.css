@@ -49,6 +49,10 @@ table input.selected-input {
   margin: 0 5px 0 5px;
 }
 
+.bottom__wrapper .input-block__outer {
+  height: 30px;
+}
+
 .input__title {
   width: initial;
   padding: 0 3px 0 3px;
@@ -118,9 +122,14 @@ table input.selected-input {
 }
 
 .top__box {
-  height: 50px;
+  height: 70px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-evenly;
 }
+
 .complete-list__wrapper .top__box {
   display: flex;
   justify-content: center;
@@ -128,9 +137,9 @@ table input.selected-input {
 }
 .bottom-table__wrapper {
   width: 100%;
-  height: calc(317px - 50px);
+  height: calc(317px - 70px);
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
 }
 
@@ -229,6 +238,7 @@ table input.selected-input {
 }
 .table-footer {
   overflow-y: initial;
+  height: initial;
 }
 .table-footer td {
   border-color: white;
@@ -318,6 +328,9 @@ table input.selected-input {
 #box__table tr td:nth-child(3) {
   width: 40px;
 }
+#box__table tr td:nth-child(3) {
+  text-align: right;
+}
 /* ================  Input Select Button Elements ================= */
 #press-date__input {
   width: 120px;
@@ -340,4 +353,11 @@ table input.selected-input {
 }
 #ng-code__select {
   width: 150px;
+}
+#box-number__select {
+  width: 105px;
+}
+#box-new-number__input {
+  width: 80px;
+  border-left: 0;
 }

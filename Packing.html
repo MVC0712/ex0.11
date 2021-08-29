@@ -114,8 +114,8 @@
           <thead class="table-content">
             <tr>
               <th>id</th>
-              <th>RackNum</th>
               <th>BoxNum</th>
+              <th>RackNum</th>
               <th>Qty</th>
             </tr>
           </thead>
@@ -147,7 +147,7 @@
                 <td>1</td>
                 <td></td>
                 <td>Total</td>
-                <td>0</td>
+                <td id="aging-rack-total-qty__html">0</td>
                 <td></td>
               </tr>
             </tbody>
@@ -183,13 +183,13 @@
                 <td></td>
                 <td></td>
                 <td>NG</td>
-                <td>0</td>
+                <td id="ng-table-total-ng__html">0</td>
               </tr>
               <tr>
                 <td></td>
                 <td></td>
                 <td>OK</td>
-                <td>0</td>
+                <td id="ng-table-total-ok__html">0</td>
               </tr>
             </tbody>
           </table>
@@ -198,9 +198,21 @@
       <div class="right__wrapper">
         <div class="top__box">
           <div class="input-block__outer">
-            <div class="input__title">Box Num</div>
-            <input id="box-number__input" class="need-clear" type="text" />
-            <button>Add</button>
+            <div class="input__title">BoxNo.</div>
+            <select id="box-number__select" class="need-clear no-input">
+              <option value="0"></option>
+            </select>
+            <button id="packing-box-add__button">Add</button>
+            <!-- <button id="packing-box-add__button" disabled>Add</button> -->
+          </div>
+          <div class="input-block__outer">
+            <div class="input__title">Qty</div>
+            <input
+              id="packing-work-qty__input"
+              class="need-clear no-input"
+              type="text"
+            />
+            <button id="packing-work-add__button" disabled>Add</button>
           </div>
         </div>
         <div class="bottom-table__wrapper">
@@ -221,13 +233,18 @@
               <tr>
                 <td></td>
                 <td>SUM</td>
-                <td>0</td>
+                <td id="box-table-total-qty__html">0</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    <dialog class="dialog__wrapper" id="ng_table-delete__dialog">
+      Do you Delete?
+      <button id="ng_table-dialog-cancel__button">Cancel</button>
+      <button id="ng_table-dialog-delete__button">Delete</button>
+    </dialog>
     <script src="./lib/jquery.min.js"></script>
     <script src="./scr/Packing.js"></script>
   </body>
