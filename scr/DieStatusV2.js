@@ -219,6 +219,7 @@ $(document).on("click", "#go__button", function() {
     });
     sendObj["die_status_id"] = $('input[name="check_uncheck"]:checked').val();
     sendObj["do_sth_at"] = $("#do_sth_at").val();
+    sendObj["do_sth_at_time"] = $("#do_sth_at_time").val();
     sendObj["note"] = $("#note").val();
     myAjax.myAjax(fileName, sendObj);
     console.log(($("#do_sth_at").val()));
@@ -249,6 +250,16 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
+const getTwoDigits = (value) => value < 10 ? `0${value}` : value;
+const formatTime = (date) => {
+    const hours = getTwoDigits(date.getHours());
+    const mins = getTwoDigits(date.getMinutes());
+
+    return `${hours}:${mins}`;
+}
+const date = new Date();
+document.getElementById('do_sth_at_time').value = formatTime(date);
+
 function make_action() {
     var table, tr, action_s, pr_tm, sta_val, txt_pr_tm, txt_sta_val, i, diff;
     table = document.getElementById("summary__table");
@@ -256,30 +267,44 @@ function make_action() {
     for (i = 0; i < tr.length; i++) {
         pr_tm = tr[i].getElementsByTagName("td")[2];
         sta_val = tr[i].getElementsByTagName("td")[4];
-        action_s = tr[i].getElementsByTagName("td")[6];
+        action_s = tr[i].getElementsByTagName("td")[7];
         if (pr_tm) {
             txt_pr_tm = Number(pr_tm.innerText.replace(",", ""));
             txt_sta_val = Number(sta_val.innerText.replace(",", ""));
-            table.rows[i].insertCell(6);
+            table.rows[i].insertCell(7);
             if (txt_pr_tm >= 2) {
-                table.rows[i].cells[6].innerHTML = "Need wash";
-                table.rows[i].cells[6].style.backgroundColor = "#ffe0bf";
-
+                table.rows[i].cells[7].innerHTML = "Need wash";
+                table.rows[i].cells[7].style.backgroundColor = "#ffc870";
 
             } else if (txt_sta_val == 1) {
-                table.rows[i].cells[6].innerHTML = "Wait result";
-                table.rows[i].cells[6].style.backgroundColor = "#fbffbf";
+                table.rows[i].cells[7].innerHTML = "Wait result";
+                table.rows[i].cells[7].style.backgroundColor = "#fbffbf";
 
-            } else if ((txt_sta_val == 4) || (txt_sta_val == 5) ||
-                (txt_sta_val == 6) || (txt_sta_val == 7) ||
-                (txt_sta_val == 8) || (txt_sta_val == 9)) {
-                table.rows[i].cells[6].innerHTML = "Washing";
-                table.rows[i].cells[6].style.backgroundColor = "#bfc1ff"
+            } else if ((txt_sta_val == 2) && (txt_pr_tm <= 1)) {
+                table.rows[i].cells[7].innerHTML = "Ready press";
+                table.rows[i].cells[7].style.backgroundColor = "#b3ffe4";
+
+            } else if (txt_sta_val == 3) {
+                table.rows[i].cells[7].innerHTML = "Need wash";
+                table.rows[i].cells[7].style.backgroundColor = "#ffc870";
+
+            } else if ((txt_sta_val == 4)) {
+                table.rows[i].cells[7].innerHTML = "Washing";
+                table.rows[i].cells[7].style.backgroundColor = "#bfc1ff"
+
+            } else if ((txt_sta_val == 5) || (txt_sta_val == 6)) {
+                table.rows[i].cells[7].innerHTML = "Cleaning";
+                table.rows[i].cells[7].style.backgroundColor = "#bfc1ff"
+
+            } else if ((txt_sta_val == 7) || (txt_sta_val == 8) ||
+                (txt_sta_val == 9)) {
+                table.rows[i].cells[7].innerHTML = "Fixing";
+                table.rows[i].cells[7].style.backgroundColor = "#bfc1ff"
 
             } else if ((txt_sta_val == 10) || (txt_sta_val == 2)) {
-                table.rows[i].cells[6].innerHTML = "Ready press";
-                table.rows[i].cells[6].style.backgroundColor = "#b3ffe4";
+                table.rows[i].cells[7].innerHTML = "Ready press";
+                table.rows[i].cells[7].style.backgroundColor = "#b3ffe4";
             }
         }
-    } // table.rows[i].cells[6].style.backgroundColor = "yellow";
+    }
 };

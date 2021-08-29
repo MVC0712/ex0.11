@@ -14,98 +14,17 @@
     <header>Die status</header>
     <div class="main__wrapper">
         <div class="left__wrapper">
-            <div class="input__wrapper">
 
-                <!-- Date -->
-                <div class="input-block__outer">
-                    <div class="input__title">Date</div>
-                    <input id="date__input" class="need-clear no-input save-data" type="date" />
-                </div>
-                <!-- Die Number -->
-                <div class="input-block__outer">
-                    <div class="input__title">Die</div>
-                    <input id="die__input" class="need-clear" type="text" />
-                    <select id="die__select" class="no-input save-data need-clear">
-              <option value="0">No select</option>
-            </select>
-                    <div id="number-of-die__display" class="input__title">0</div>
-                </div>
-                <!-- Did washed -->
-                <div class="input-block__outer">
-                    <div class="input__title">Washed</div>
-                    <input id="is-washed__input" class="need-clear" type="text" />
-
-                </div>
-                <!-- Press type -->
-                <div class="input-block__outer">
-                    <div class="input__title">Press Time</div>
-                    <input id="pressing-type__input" class="need-clear" type="text" />
-
-                </div>
-                <!-- Press machine number -->
-                <div class="input-block__outer">
-                    <div class="input__title">Measure</div>
-                    <!-- <input id="machine-number__input" class="need-clear" type="text" /> -->
-                    <select id="is-washed__select" class="no-input save-data need-clear">
-                      <option value="0">-</option>
-                      <option value="1">OK</option>
-                      <option value="2">NG</option>
-                    </select>
-                </div>
-
-                <!-- Name -->
-                <div class="input-block__outer">
-                    <div class="input__title">Name</div>
-                    <input id="name__input" class="need-clear" type="text" />
-                    <select id="name__select" class="save-data need-clear no-input">
-              <option value="0">-</option>
-            </select>
-                </div>
-
-                <div class="input-block__outer">
-                    <div class="input__title">Process</div>
-                    <!-- <input id="machine-number__input" class="need-clear" type="text" /> -->
-                    <select id="is-washed__select" class="no-input save-data need-clear">
-                      <option value="0">Measure</option>
-                      <option value="1">Washing</option>
-                      <option value="2">Fixing</option>
-                    </select>
-                </div>
-
-                <!-- File Select -->
-                <div class="input-block__outer">
-                    <div class="input__title">File</div>
-                    <form id="file-upload__form">
-                        <input type="file" name="file_01" id="file-upload__input" />
-                        <label id="file_name" for="file-upload__input">no file</label>
-                    </form>
-
-                    <input id="press-direction_file" class="need-clear" type="file" />
-
-                    </select>
-                    <button id="preview__button" disabled>Preview</button>
-                </div>
-
-                <!-- end -->
-            </div>
-            <div class="table__wrapper">
-
-
-
-            </div>
         </div>
         <div class="right__wrapper">
             <table id="die__table">
                 <thead>
                     <tr>
-                        <td></td>
-                        <td colspan="3">Die status</td>
-                    </tr>
-                    <tr>
                         <td>id</td>
-                        <td>Die</td>
-                        <td>Press time</td>
+                        <td>Die number</td>
                         <td>Status</td>
+                        <td>Note</td>
+                        <td>Date time</td>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -115,23 +34,6 @@
 
     </div>
 
-    <div class="button__wrapper">
-
-
-    </div>
-    <div class="right__wrapper column__wrapper">
-        <table id="insert__table">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Die</th>
-                    <th>Press</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
 
     <script src="./lib/jquery.min.js"></script>
     <script src="./scr/DieStatus.js"></script>
