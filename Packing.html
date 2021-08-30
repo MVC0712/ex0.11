@@ -78,12 +78,13 @@
         <div class="input-block__outer">
           <div class="input__title">Complete</div>
           <input
-            id="packing-date__input"
+            id="packing-check-date__input"
             class="need-clear no-input save-data"
             type="date"
           />
+          <button id="clrear-date__button">Clear</button>
         </div>
-        <button id="test__button">TEST</button>
+        <!-- <button id="test__button">TEST</button> -->
       </div>
 
       <div class="complete-list__wrapper">
@@ -137,7 +138,7 @@
                 <th>id</th>
                 <th>RackNum</th>
                 <th>Ordr</th>
-                <th>Qty</th>
+                <th>OKQty</th>
                 <th>Pckd</th>
               </tr>
             </thead>
@@ -244,6 +245,11 @@
       Do you Delete?
       <button id="ng_table-dialog-cancel__button">Cancel</button>
       <button id="ng_table-dialog-delete__button">Delete</button>
+    </dialog>
+    <dialog class="dialog__wrapper" id="box_table-delete__dialog">
+      Do you Delete?
+      <button id="box_table-dialog-cancel__button">Cancel</button>
+      <button id="box_table-dialog-delete__button">Delete</button>
     </dialog>
     <script src="./lib/jquery.min.js"></script>
     <script src="./scr/Packing.js"></script>

@@ -1,9 +1,10 @@
 let ajaxReturnData;
 let ng__table_edit_mode;
+let boxTableSelectedId;
 let originalValue;
 
 let ngTableDeleteDialog = document.getElementById("ng_table-delete__dialog");
-// let deleteRackDialog = document.getElementById("delete_rack__dialog");
+let boxTableDeleteDialog = document.getElementById("box_table-delete__dialog");
 let press_id;
 
 const myAjax = {
@@ -57,10 +58,12 @@ $(document).on("click", "#directive__input", function () {
     "width=830, height=500,toolbar=yes,menubar=yes,scrollbars=no"
   );
 });
-// press directive select
+// press date select
 $(document).on("change", "#directive_input__select", function () {
-  let fileName = "./php/Packing/SelOrderSheetList.php";
-  let sendData = {
+  let fileName;
+  let sendData = new Object();
+  fileName = "./php/Packing/SelOrderSheetList.php";
+  sendData = {
     m_ordersheet_id: $("#directive_input__select").val(),
   };
   // background color changing
@@ -85,11 +88,27 @@ $(document).on("change", "#directive_input__select", function () {
   }
   // set aging rack table
   setAgingRack();
+  // set packing complete date
+  setPackingDate();
 });
 
 $(document).on("change", "#press-date__select", function () {
   setAgingRack();
+  // set packing complete date
+  setPackingDate();
 });
+
+function setPackingDate() {
+  fileName = "./php/Packing/SelPackingCompleteDate.php";
+  sendData = {
+    t_press_id: $("#press-date__select").val(),
+  };
+  myAjax.myAjax(fileName, sendData);
+  $("#packing-check-date__input")
+    .val(ajaxReturnData[0]["packing_check_date"])
+    .removeClass("no-input")
+    .addClass("complete-input");
+}
 
 function setAgingRack() {
   let fileName = "./php/Packing/SelUgingAgingRack.php";
@@ -112,6 +131,114 @@ function setAgingRack() {
   $("#ng-table-total-ng__html").html("0");
   $("#ng-table-total-ok__html").html("0");
   $("#box-table-total-qty__html").html("0");
+}
+
+// packing date
+$(document).on("change", "#packing-date__input", function () {
+  // background color changing
+  if ($(this).val() != "") {
+    $(this).removeClass("no-input").addClass("complete-input");
+  } else {
+    $(this).removeClass("complete-input").addClass("no-input");
+  }
+});
+// packing start time
+$(document).on("keyup", "#press-start__input", function () {
+  if (checkTimeValue($(this).val()) || cancelKeyupEvent) {
+    $(this).removeClass("no-input").addClass("complete-input");
+    cancelKeyupEvent = false;
+  } else {
+    $(this).removeClass("complete-input").addClass("no-input");
+  }
+});
+
+$(document).on("keydown", "#press-start__input", function (e) {
+  if (e.keyCode == 13 && $("#press-start__input").hasClass("complete-input")) {
+    $(this).val(addColon($(this).val()));
+    cancelKeyupEvent = true;
+    $("#press-finish__input").focus();
+    return false;
+  }
+});
+
+// packing finish time
+$(document).on("keyup", "#press-finish__input", function () {
+  if (checkTimeValue($(this).val()) || cancelKeyupEvent) {
+    $(this).removeClass("no-input").addClass("complete-input");
+    cancelKeyupEvent = false;
+  } else {
+    $(this).removeClass("complete-input").addClass("no-input");
+  }
+});
+
+$(document).on("keydown", "#press-finish__input", function (e) {
+  if (e.keyCode == 13 && $("#press-finish__input").hasClass("complete-input")) {
+    $(this).val(addColon($(this).val()));
+    cancelKeyupEvent = true;
+    $("#worker__select").focus();
+    return false;
+  }
+});
+
+function addColon(inputValue) {
+  // 3桁、または4桁の時刻値にコロンを挿入する
+  let returnVal;
+  switch (inputValue.length) {
+    case 3:
+      returnVal = inputValue.substr(0, 1) + ":" + inputValue.substr(1, 2);
+      break;
+    case 4:
+      returnVal = inputValue.substr(0, 2) + ":" + inputValue.substr(2, 2);
+      break;
+  }
+  return returnVal;
+}
+
+function checkTimeValue(inputValue) {
+  // 0:00 ~ 23:59 までに入っているか否か、判断する
+  let flag = false;
+  if (inputValue.substr(0, 1) == "1" && inputValue.length == 4) {
+    // 1で始まる4桁時刻
+    if (
+      0 <= Number(inputValue.substr(1, 1)) &&
+      Number(inputValue.substr(1, 1)) <= 9 &&
+      0 <= Number(inputValue.substr(2, 2)) &&
+      Number(inputValue.substr(2, 2) <= 59)
+    ) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+  } else if (inputValue.substr(0, 1) == "2" && inputValue.length == 4) {
+    // 2で始まる4桁時刻
+    if (
+      0 <= Number(inputValue.substr(1, 1)) &&
+      Number(inputValue.substr(1, 1)) <= 3 &&
+      0 <= Number(inputValue.substr(2, 2)) &&
+      Number(inputValue.substr(2, 2) <= 59)
+    ) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+  } else if (
+    0 <= Number(inputValue.substr(0, 1)) &&
+    Number(inputValue.substr(0, 1)) <= 9 &&
+    inputValue.length == 3
+  ) {
+    // 3~9で始まる3桁時刻
+    if (
+      0 <= Number(inputValue.substr(1, 2)) &&
+      Number(inputValue.substr(1, 2) <= 59)
+    ) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+  } else {
+    flag = false;
+  }
+  return flag;
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -165,7 +292,7 @@ $(document).on("click", ".bottom__wrapper", function () {
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ======== Under LEFT AgingRack                      ======================
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-$(document).on("click", "#remain-rack__table tr", function (e) {
+$(document).on("click", "#remain-rack__table tr", function () {
   // Make Ng table
   makeNgTable();
   // display total qty
@@ -219,7 +346,6 @@ function agingRackTotalQty() {
 $(document).on("click", "#ng__table tr", function (e) {
   // if the record is alredy selected
   if (ng__table_edit_mode) {
-    console.log("hello");
     ngTableDeleteDialog.showModal();
   }
   ng__table_edit_mode = true;
@@ -327,6 +453,29 @@ function ngTableTotalNgQty() {
 // ======================================================
 // ======== Under Right (Box Table) ======================
 // ======================================================
+$(document).on("click", "#box__table tr", function () {
+  // if the record is alredy selected show delete dialog
+  if (boxTableSelectedId == $(this).find("td").eq(0).html()) {
+    boxTableDeleteDialog.showModal();
+  }
+  boxTableSelectedId = $(this).find("td").eq(0).html();
+});
+
+$(document).on("click", "#box_table-dialog-cancel__button", function () {
+  boxTableDeleteDialog.close();
+});
+
+$(document).on("click", "#box_table-dialog-delete__button", function () {
+  let fileName;
+  let sendData = new Object();
+  fileName = "./php/Packing/DelBoxData.php";
+  sendData = {
+    id: $("#box__table_selected__tr td:nth-child(1)").html(),
+  };
+  myAjax.myAjax(fileName, sendData);
+  makeBoxTable();
+  boxTableDeleteDialog.close();
+});
 
 $(document).on("keyup", "#box-number__input", function () {
   $(this).val($(this).val().toUpperCase()); // 小文字を大文字に
@@ -417,6 +566,11 @@ $(document).on("click", "#packing-work-add__button", function () {
   myAjax.myAjax(fileName, sendData);
   // remake box table
   makeBoxTable();
+  // reset input frame
+  $("#box-number__select").val("0");
+  $("#packing-work-qty__input").val("");
+  // remake aging table
+  setAgingRack();
 });
 
 function makeBoxTable() {
@@ -454,4 +608,9 @@ function totalBoxWorkQty() {
 // ++++++++++++++++++++++   TEST  BUTTON ++++++++++++++++++++++++++
 // ++++++++++++++++++++++   TEST  BUTTON ++++++++++++++++++++++++++
 // ++++++++++++++++++++++   TEST  BUTTON ++++++++++++++++++++++++++
-$(document).on("click", "#test__button", function () {});
+$(document).on("click", "#test__button", function () {
+  $("#packing-date__input").val("2020-01-01");
+  $("#packing-date__input").val("hogehoge");
+  console.log($("#packing-date__input"));
+  console.log($("#packing-date__input").val());
+});

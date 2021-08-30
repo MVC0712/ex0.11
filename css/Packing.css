@@ -177,13 +177,6 @@ table input.selected-input {
 .radio__input:checked + .radio__span {
   color: #0000ff;
 }
-/* ============= Button Settings =============== */
-.bottom__wrapper button {
-  margin: 0;
-  height: 22px;
-  border: 1px;
-  width: 40px;
-}
 
 /* ============= Table Settings =============== */
 
@@ -332,6 +325,18 @@ table input.selected-input {
   text-align: right;
 }
 /* ================  Input Select Button Elements ================= */
+.bottom__wrapper button {
+  margin: 0;
+  height: 22px;
+  border: 1px;
+  width: 40px;
+}
+#clrear-date__button {
+  margin: 0;
+  height: 22px;
+  border: 1px;
+  width: 40px;
+}
 #press-date__input {
   width: 120px;
 }
@@ -360,4 +365,7 @@ table input.selected-input {
 #box-new-number__input {
   width: 80px;
   border-left: 0;
+}
+#packing-check-date__input {
+  width: 120px;
 }
