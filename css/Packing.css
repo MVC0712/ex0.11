@@ -180,9 +180,64 @@ table input.selected-input {
 
 /* ============= Table Settings =============== */
 
+/* packing work history table */
+#packing-history__table td,
+#packing-history__table th {
+  font-size: 10pt;
+}
+#packing-history__table {
+  width: 245px;
+}
+#packing-history__table tbody {
+  height: 100px;
+}
+#packing-history__table tr th:nth-child(1),
+#packing-history__table tr td:nth-child(1) {
+  display: none;
+}
+/* date */
+#packing-history__table tr th:nth-child(2),
+#packing-history__table tr td:nth-child(2) {
+  width: 50px;
+}
+#packing-history__table tr td:nth-child(2) {
+  text-align: center;
+}
+/* start time */
+#packing-history__table tr th:nth-child(3),
+#packing-history__table tr td:nth-child(3) {
+  width: 50px;
+}
+#packing-history__table tr td:nth-child(3) {
+  text-align: center;
+}
+/* end time */
+#packing-history__table tr th:nth-child(4),
+#packing-history__table tr td:nth-child(4) {
+  width: 50px;
+}
+#packing-history__table tr td:nth-child(4) {
+  text-align: center;
+}
+/* workers number */
+#packing-history__table tr th:nth-child(5),
+#packing-history__table tr td:nth-child(5) {
+  width: 30px;
+}
+#packing-history__table tr td:nth-child(5) {
+  text-align: right;
+}
+/* box number */
+#packing-history__table tr th:nth-child(6),
+#packing-history__table tr td:nth-child(6) {
+  width: 30px;
+}
+#packing-history__table tr td:nth-child(6) {
+  text-align: right;
+}
 /* workers__table */
 #workers__table {
-  width: 280px;
+  width: 160px;
 }
 #workers__table tbody {
   height: 100px;
@@ -193,7 +248,7 @@ table input.selected-input {
 }
 #workers__table tr th:nth-child(2),
 #workers__table tr td:nth-child(2) {
-  width: 150px;
+  width: 140px;
 }
 #workers__table tr th:nth-child(3),
 #workers__table tr td:nth-child(3) {
@@ -337,6 +392,12 @@ table input.selected-input {
   border: 1px;
   width: 40px;
 }
+#packing-add__button {
+  margin: 0;
+  height: 22px;
+  border: 1px;
+  width: 40px;
+}
 #press-date__input {
   width: 120px;
 }
@@ -368,4 +429,13 @@ table input.selected-input {
 }
 #packing-check-date__input {
   width: 120px;
+}
+#worker__select {
+  width: 110px;
+}
+#packing-start__input {
+  width: 30px;
+}
+#packing-end__input {
+  width: 30px;
 }

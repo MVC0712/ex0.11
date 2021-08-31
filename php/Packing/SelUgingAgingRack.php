@@ -20,13 +20,13 @@
         	t_using_aging_rack.id,
           t_using_aging_rack.rack_number,
           t_using_aging_rack.order_number,
-          t_using_aging_rack.work_quantity - 
+          t_using_aging_rack.work_quantity - IFNULL(
           (
             SELECT 
               SUM(t_press_quality.ng_quantities)
             FROM t_press_quality
             WHERE t_press_quality.using_aging_rack_id = t_using_aging_rack.id 
-          ) AS ok_qty,
+          ), 0) AS ok_qty,
           (
             SELECT
               IFNULL(SUM(t_packing_box.work_quantity), 0) AS packed_work

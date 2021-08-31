@@ -43,7 +43,47 @@ $(function () {
   });
   // BoxNumberOption list
   setBoxNumberOption();
+  // staff list option list
+  setStaffList();
+  // packing work history table
+  setPackingHistoryTable();
 });
+
+function setPackingHistoryTable() {
+  let fileName;
+  let sendData = new Object();
+  fileName = "./php/Packing/SelPackingHistory.php";
+  sendData = {
+    limit: 20,
+  };
+  myAjax.myAjax(fileName, sendData);
+  $("#packing-history__table tbody").empty();
+  ajaxReturnData.forEach(function (trVal) {
+    var newTr = $("<tr>");
+    Object.keys(trVal).forEach(function (tdVal) {
+      $("<td>").html(trVal[tdVal]).appendTo(newTr);
+    });
+    $(newTr).appendTo("#packing-history__table tbody");
+  });
+}
+
+function setStaffList() {
+  let fileName;
+  let sendData = new Object();
+  fileName = "./php/Packing/SelStaffList.php";
+  sendData = {
+    limit: 20,
+  };
+  myAjax.myAjax(fileName, sendData);
+  // return false;
+  $("#worker__select").empty().append($("<option>").val("0").html("no"));
+  ajaxReturnData.forEach(function (value) {
+    $("<option>")
+      .val(value["id"])
+      .html(value["staff_name"])
+      .appendTo("#worker__select");
+  });
+}
 
 // *****************************************************
 // *****************************************************
@@ -143,7 +183,7 @@ $(document).on("change", "#packing-date__input", function () {
   }
 });
 // packing start time
-$(document).on("keyup", "#press-start__input", function () {
+$(document).on("keyup", "#packing-start__input", function () {
   if (checkTimeValue($(this).val()) || cancelKeyupEvent) {
     $(this).removeClass("no-input").addClass("complete-input");
     cancelKeyupEvent = false;
@@ -152,18 +192,22 @@ $(document).on("keyup", "#press-start__input", function () {
   }
 });
 
-$(document).on("keydown", "#press-start__input", function (e) {
-  if (e.keyCode == 13 && $("#press-start__input").hasClass("complete-input")) {
+$(document).on("keydown", "#packing-start__input", function (e) {
+  if (
+    e.keyCode == 13 &&
+    $("#packing-start__input").hasClass("complete-input")
+  ) {
     $(this).val(addColon($(this).val()));
     cancelKeyupEvent = true;
-    $("#press-finish__input").focus();
+    $("#packing-end__input").focus();
     return false;
   }
 });
 
 // packing finish time
-$(document).on("keyup", "#press-finish__input", function () {
-  if (checkTimeValue($(this).val()) || cancelKeyupEvent) {
+$(document).on("keyup", "#packing-end__input", function () {
+  // if (checkTimeValue($(this).val()) || cancelKeyupEvent) {
+  if (checkTimeValue($(this).val())) {
     $(this).removeClass("no-input").addClass("complete-input");
     cancelKeyupEvent = false;
   } else {
@@ -171,11 +215,11 @@ $(document).on("keyup", "#press-finish__input", function () {
   }
 });
 
-$(document).on("keydown", "#press-finish__input", function (e) {
-  if (e.keyCode == 13 && $("#press-finish__input").hasClass("complete-input")) {
+$(document).on("keydown", "#packing-end__input", function (e) {
+  if (e.keyCode == 13 && $("#packing-end__input").hasClass("complete-input")) {
     $(this).val(addColon($(this).val()));
     cancelKeyupEvent = true;
-    $("#worker__select").focus();
+    $("#packing-add__button").focus();
     return false;
   }
 });
@@ -238,8 +282,45 @@ function checkTimeValue(inputValue) {
   } else {
     flag = false;
   }
+  if (inputValue == "") flag = false;
   return flag;
 }
+
+// triger :Packing date and time
+$(document).on("change", ".upper__wrapper .input__wrapper", function () {
+  checkPackingDateTimeInput();
+});
+
+$(document).on("keyup", ".upper__wrapper .input__wrapper", function () {
+  checkPackingDateTimeInput();
+});
+
+function checkPackingDateTimeInput() {
+  let packingDate, packingStartTime, packingEndTime;
+  packingDate = $("#packing-date__input").hasClass("complete-input");
+  packingStartTime = $("#packing-start__input").hasClass("complete-input");
+  packingEndTime = $("#packing-end__input").hasClass("complete-input");
+  if (packingDate && packingStartTime && packingEndTime) {
+    $("#packing-add__button").prop("disabled", false);
+  } else {
+    $("#packing-add__button").prop("disabled", true);
+  }
+}
+
+$(document).on("keyup", "#packing-add__button", function () {
+  let fileName;
+  let sendData = new Object();
+  fileName = "./php/Packing/InsPacking.php";
+  sendData = {
+    packing_date: $("#packing-date__input").val(),
+    packing_start: $("#packing-start__input").val(),
+    packing_end: $("#packing-end__input").val(),
+    created_at: getToday(),
+  };
+  myAjax.myAjax(fileName, sendData);
+  // packing work history table
+  setPackingHistoryTable();
+});
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ======== Under Table Common                        ======================
@@ -363,6 +444,8 @@ $(document).on("click", "#ng_table-dialog-delete__button", function (e) {
   };
   myAjax.myAjax(fileName, sendData);
   makeNgTable();
+  // redisplay agingrack table
+  setAgingRack();
   ngTableDeleteDialog.close();
 });
 
@@ -427,6 +510,8 @@ $(document).on("click", "#ng-qty__button", function () {
   okQty = Number($("#remain-rack__table_selected__tr td:nth-child(4)"));
   okQty = okQty - Number(ngTableTotalNgQty());
   $("#ng-table-total-ok__html").html(okQty);
+  // redisplay agingrack table
+  setAgingRack();
 });
 
 $(document).on("change", "#ng__table input", function () {
@@ -437,8 +522,11 @@ $(document).on("change", "#ng__table input", function () {
   };
   // return false;
   myAjax.myAjax(fileName, sendData);
+  // clear input data
   $("#ng__table tbody").find("tr").removeClass("selected-record");
   $("#ng__table input").removeClass("selected-input");
+  // redisplay agingrack table
+  setAgingRack();
 });
 
 function ngTableTotalNgQty() {
