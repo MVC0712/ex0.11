@@ -34,20 +34,8 @@ function makeSummaryTable() {
         dummy: "dummy",
     };
     // 今日の日付の代入
-    $("#date__input").val(returnToday());
-    // summary tebale の読み出し
     myAjax.myAjax(fileName, sendData);
     fillTableBody(ajaxReturnData, $("#die__table tbody"));
-}
-
-function returnToday() {
-    // 本日の日付をyy-mm-dd形式で返す
-    var month;
-    var dt = new Date();
-    month = dt.getMonth() + 1;
-    if (month < 9) month = "0" + month;
-
-    return dt.getFullYear() + "-" + month + "-" + dt.getDate();
 }
 
 function fillTableBody(data, tbodyDom) {
@@ -65,3 +53,15 @@ function fillTableBody(data, tbodyDom) {
         $(newTr).appendTo(tbodyDom);
     });
 }
+
+$(document).on("click", "#die__table tbody tr", function() {
+    if (!$(this).hasClass("selected-record")) {
+        $(this).parent().find("tr").removeClass("selected-record");
+        $(this).addClass("selected-record");
+        $("#die__table__selected").removeAttr("id");
+        $(this).attr("id", "die__table__selected");
+    } else {
+        $("#add__table tbody").append($(this).removeClass("selected-record"));
+        $("#go__button").prop("disabled", false);
+    }
+});

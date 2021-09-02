@@ -1,5 +1,3 @@
-// 削除確認ダイアログ
-let deleteDialog = document.getElementById("delete__dialog");
 var ajaxReturnData;
 
 const myAjax = {
@@ -22,12 +20,8 @@ const myAjax = {
 
 $(function() {
     makeSummaryTable();
-    // 入力項目の非活性化
-    // $("#directive__input").prop("disabled", true);
-    // ボタンの非活性化
     $("#save__button").prop("disabled", true);
     $("#update__button").prop("disabled", true);
-    // test ボタンの表示
     $("#test__button").remove();
     $("#delete-record__button").remove();
 
@@ -51,16 +45,12 @@ function makeSummaryTable() {
     var sendData = {
         dummy: "dummy",
     };
-    // 今日の日付の代入
-    $("#do_sth_at").val(returnToday());
-    // summary tebale の読み出し
     myAjax.myAjax(fileName, sendData);
     fillTableBody(ajaxReturnData, $("#summary__table tbody"));
     make_action();
 }
 
 function returnToday() {
-    // 本日の日付をyy-mm-dd形式で返す
     var month;
     var dt = new Date();
     month = dt.getMonth() + 1;
@@ -75,9 +65,6 @@ function fillTableBody(data, tbodyDom) {
     data.forEach(function(trVal) {
         let newTr = $("<tr>");
         Object.keys(trVal).forEach(function(tdVal, index) {
-            // if (index == 3 || index == 5) {
-            //     trVal[tdVal] = trVal[tdVal] + " km";
-            // }
             if (checkFlag) {
                 $("<td>").html(trVal[tdVal]).addClass("nitriding").appendTo(newTr);
             } else {
@@ -106,7 +93,6 @@ function fillTableBodyHisotry(data, tbodyDom) {
     });
 }
 
-// summary table tr click
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // -------------------------   summary table tr click   -------------
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -114,10 +100,8 @@ $(document).on("click", "#summary__table tbody tr", function() {
     var fileName = "./php/DieStatus/SelSelSummary3.php";
     var sendData = new Object();
     if (!$(this).hasClass("selected-record")) {
-        // tr に class を付与し、選択状態の background colorを付ける
         $(this).parent().find("tr").removeClass("selected-record");
         $(this).addClass("selected-record");
-        // tr に id を付与する
         $("#summary__table__selected").removeAttr("id");
         $(this).attr("id", "summary__table__selected");
         sendData = {
@@ -139,18 +123,14 @@ $(document).on("click", "#add__table tbody tr", function() {
     var tableId = $(this).parent().parent().attr("id");
 
     if (!$(this).hasClass("selected-record")) {
-        // tr に class を付与し、選択状態の background colorを付ける
         $(this).parent().find("tr").removeClass("selected-record");
         $(this).addClass("selected-record");
-        // tr に id を付与する
         $("#add__table__selected").removeAttr("id");
         $(this).attr("id", "add__table__selected");
-        // 選択金型の窒化履歴読み出し ajax の読み出し
         sendData = {
             id: $("#add__table__selected").find("td").eq(0).html(),
         };
     } else {
-        // 選択レコードを再度クリックした時
         $("#summary__table tbody").prepend($(this).removeClass("selected-record"));
         $("#go__button").prop("disabled", true);
     }
@@ -180,14 +160,12 @@ $(document).on("change", "#process", function() {
             <input type="radio" checked name="check_uncheck" class="radio-button" value="1" />Measuring <br /> 
             <input type="radio" name="check_uncheck" class="radio-button" value="2" / > OK <br />
             <input type="radio" name="check_uncheck" class="radio-button" value="3" / > NG <br /> `;
-
     } else if ($("#process").val() == 2) {
         $("#process").removeClass("no-input").addClass("complete-input");
         document.getElementById("status_process").innerHTML = `
             <input type="radio" checked name="check_uncheck" class='radio-button' value="4" />Immersion <br />
             <input type="radio" name="check_uncheck" class='radio-button' value="5" />Shot <br />
             <input type="radio" name="check_uncheck" class='radio-button' value="6" />Clean <br />`;
-
     } else if ($("#process").val() == 3) {
         $("#process").removeClass("no-input").addClass("complete-input");
         document.getElementById("status_process").innerHTML = `
@@ -203,14 +181,9 @@ $(document).on("change", "#process", function() {
     console.log($('input[name="check_uncheck"]:checked').val());
 });
 
-$(document).on("change", "#status_process", function() {
-    console.log($('input[name="check_uncheck"]:checked').val());
-});
-
 $(document).on("click", "#go__button", function() {
     var fileName = "./php/DieStatus/InsStatus.php";
     var sendObj = new Object();
-
     $("#add__table tbody tr td:nth-child(1)").each(function(
         index,
         element
@@ -222,11 +195,8 @@ $(document).on("click", "#go__button", function() {
     sendObj["do_sth_at_time"] = $("#do_sth_at_time").val();
     sendObj["note"] = $("#note").val();
     myAjax.myAjax(fileName, sendObj);
-    console.log(($("#do_sth_at").val()));
-    console.log(sendObj);
-    // 書き込み後の処理
+
     $("#add__table tbody").empty();
-    $("#do_sth_at").val(returnToday());
     document.getElementById("status_process").innerHTML = ``;
     $("#go__button").prop("disabled", true);
     $("#process").removeClass("complete-input").addClass("no-input");
@@ -235,30 +205,6 @@ $(document).on("click", "#go__button", function() {
     makeSummaryTable();
 
 });
-
-function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
-const getTwoDigits = (value) => value < 10 ? `0${value}` : value;
-const formatTime = (date) => {
-    const hours = getTwoDigits(date.getHours());
-    const mins = getTwoDigits(date.getMinutes());
-
-    return `${hours}:${mins}`;
-}
-const date = new Date();
-document.getElementById('do_sth_at_time').value = formatTime(date);
 
 function make_action() {
     var table, tr, action_s, pr_tm, sta_val, txt_pr_tm, txt_sta_val, i, diff;
@@ -308,3 +254,24 @@ function make_action() {
         }
     }
 };
+
+const getTwoDigits = (value) => value < 10 ? `0${value}` : value;
+
+const formatDate = (date) => {
+    const day = getTwoDigits(date.getDate());
+    const month = getTwoDigits(date.getMonth() + 1);
+    const year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+}
+
+const formatTime = (date) => {
+    const hours = getTwoDigits(date.getHours());
+    const mins = getTwoDigits(date.getMinutes());
+
+    return `${hours}:${mins}`;
+}
+
+const date = new Date();
+document.getElementById('do_sth_at').value = formatDate(date);
+document.getElementById('do_sth_at_time').value = formatTime(date);

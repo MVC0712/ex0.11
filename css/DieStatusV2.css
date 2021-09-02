@@ -95,7 +95,7 @@
 /* ++++++++++++++++++++++++++++++++++++++++++++ */
 
 #summary__table {
-    width: 510px;
+    width: 515px;
 }
 
 #summary__table tbody {
@@ -165,7 +165,7 @@
 
 #summary__table th:nth-child(6),
 #summary__table td:nth-child(6) {
-    width: 110px;
+    width: 132px;
 }
 
 #summary__table td:nth-child(6) {
@@ -183,20 +183,20 @@
 
 #summary__table th:nth-child(8),
 #summary__table td:nth-child(8) {
-    width: 65px;
+    width: 70px;
 }
 
 #summary__table td:nth-child(8) {
-    text-align: right;
+    text-align: left;
 }
 
 #summary__table th:nth-child(9),
 #summary__table td:nth-child(9) {
-    width: 67px;
+    width: 75px;
 }
 
 #summary__table td:nth-child(9) {
-    text-align: right;
+    text-align: left;
 }
 
 

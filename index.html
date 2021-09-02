@@ -24,12 +24,12 @@
             <button id="die_number">Edit<br />Die</button>
             <button id="ordersheet">OrderSheet</button>
             <button id="quality_report">Quality<br />Report</button>
-            <button disabled id="test">New Daily<br />Input</button>
+            <button id="packing">Packing<br />Test</button>
             <button id="csv_download">CSV download</button>
             <button id="nitriding">Nitriding</button>
             <button id="aging">Aging</button>
             <button id="diestasus">Die Status</button>
-            <button disabled>Blank</button>
+            <button id="diehistory">Die History</button>
             <button disabled>Blank</button>
             <button id="qa_summary">QA Summary</button>
             <button id="summary">Press Summary</button>
@@ -66,8 +66,8 @@
             window.open("QualityReportV2.html");
         });
 
-        $(document).on("click", "#test", function() {
-            window.open("DailyReportV9.html");
+        $(document).on("click", "#packing", function() {
+            window.open("Packing.html");
         });
 
         $(document).on("click", "#csv_download", function() {
@@ -83,6 +83,10 @@
         });
         $(document).on("click", "#diestasus", function() {
             window.open("DieStatusV2.html");
+        });
+
+        $(document).on("click", "#diehistory", function() {
+            window.open("DieStatus.html");
         });
 
         $(document).on("click", "#qa_summary", function() {
