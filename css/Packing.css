@@ -41,6 +41,10 @@ table input.selected-input {
   background-color: #d6d283;
 }
 
+tbody tr.selected-record {
+  background-color: #dbdbff;
+}
+
 /* basic setting */
 
 .input-block__outer {
@@ -187,7 +191,7 @@ table input.selected-input {
   font-size: 10pt;
 }
 #packing-history__table {
-  width: 245px;
+  width: 385px;
 }
 #packing-history__table tbody {
   height: 100px;
@@ -220,15 +224,15 @@ table input.selected-input {
 #packing-history__table tr td:nth-child(4) {
   text-align: center;
 }
-/* workers number */
+/* Production Number */
 #packing-history__table tr th:nth-child(5),
 #packing-history__table tr td:nth-child(5) {
-  width: 30px;
+  width: 140px;
 }
 #packing-history__table tr td:nth-child(5) {
-  text-align: right;
+  text-align: left;
 }
-/* box number */
+/* workers number */
 #packing-history__table tr th:nth-child(6),
 #packing-history__table tr td:nth-child(6) {
   width: 30px;
@@ -236,6 +240,16 @@ table input.selected-input {
 #packing-history__table tr td:nth-child(6) {
   text-align: right;
 }
+/* box number */
+#packing-history__table tr th:nth-child(7),
+#packing-history__table tr td:nth-child(7) {
+  width: 30px;
+}
+#packing-history__table tr td:nth-child(7) {
+  text-align: right;
+}
+
+/* ++++++++++++++++++  wokers__table +++++++++++++++++++ */
 /* workers__table */
 #workers__table {
   width: 160px;
@@ -435,22 +449,22 @@ table input.selected-input {
   width: 110px;
 }
 #packing-start__input {
-  width: 30px;
+  width: 35px;
 }
 #packing-end__input {
-  width: 30px;
+  width: 35px;
 }
 #directive__input {
   width: 25px;
 }
 #DN__display {
-  width: 95px;
+  width: 105px;
   font-size: 10pt;
   border: 1px solid #0000ff;
   height: 20px;
 }
 #PN__display {
-  width: 145px;
+  width: 135px;
   font-size: 10pt;
   border: solid #0000ff;
   border-width: 1px 1px 1px 0;

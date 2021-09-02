@@ -23,7 +23,8 @@ tbody th {
   font-weight: normal;
 }
 
-thead td {
+tbody tr.selected-record {
+  background-color: #dbdbff;
 }
 
 td {
@@ -39,7 +40,7 @@ table input {
 }
 
 table input.selected-input {
-  background-color: #d6d283;
+  background-color: #dbdbff;
 }
 /* basic setting */
 .input-block__outer {
@@ -76,6 +77,16 @@ button {
   height: 22px;
   border: 1px;
   width: 40px;
+}
+/* ============ dialog ============= */
+dialog button {
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  font: 12pt;
+}
+dialog button.delete__button {
+  color: yellow;
 }
 /* ----------- input --------------- */
 #box-number__input {
