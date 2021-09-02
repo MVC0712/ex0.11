@@ -380,7 +380,7 @@ $(document).on("click", "#remain-rack__table tr", function () {
   $("#ng-table-total-ng__html").html(ngTableTotalNgQty());
   // display total OK qty
   okQty = Number($("#remain-rack__table_selected__tr td:nth-child(4)").html());
-  okQty = okQty - Number(ngTableTotalNgQty());
+  // okQty = okQty - Number(ngTableTotalNgQty());
   $("#ng-table-total-ok__html").html(okQty);
   // packing work qty
   $("#packing-work-qty__input")
