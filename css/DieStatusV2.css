@@ -286,6 +286,16 @@ img {
     display: none;
 }
 
+#add__table th:nth-child(8),
+#add__table td:nth-child(8) {
+    display: none;
+}
+
+#add__table th:nth-child(9),
+#add__table td:nth-child(9) {
+    display: none;
+}
+
 .input__wrapper {
     /* width: 100%; */
 }
@@ -324,4 +334,25 @@ input[type="radio" i] {
     width: auto;
     text-align: left;
     display: table;
+}
+
+#go__button {
+    height: 20px;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+#myfile {
+    width: 100%;
+    appearance: none;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: pre;
+    text-align: start !important;
+    padding: initial;
+    border: initial;
+    overflow: hidden !important;
 }

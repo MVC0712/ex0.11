@@ -495,3 +495,8 @@ button {
 #summary__table tr td:nth-child(21) {
     text-align: center;
 }
+
+object {
+    width: 100%;
+    height: 100%;
+}
