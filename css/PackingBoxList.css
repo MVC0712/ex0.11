@@ -94,7 +94,7 @@ dialog button.delete__button {
 }
 /* ----------- table desgin ---------------- */
 #summary__table {
-  width: 348px;
+  width: 368px;
 }
 #summary__table tbody {
   height: 220px;
@@ -108,7 +108,7 @@ dialog button.delete__button {
 }
 #summary__table tr th:nth-child(2),
 #summary__table tr td:nth-child(2) {
-  width: 100px;
+  width: 120px;
 }
 #summary__table tr td:nth-child(2) {
   text-align: left;

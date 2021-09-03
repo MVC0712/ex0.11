@@ -52,8 +52,6 @@ $(function () {
   setBoxNumberOption();
   // staff list option list
   setStaffList();
-  // packing work history table
-  setPackingHistoryTable();
 });
 
 function setPackingHistoryTable() {
@@ -61,6 +59,7 @@ function setPackingHistoryTable() {
   let sendData = new Object();
   fileName = "./php/Packing/SelPackingHistory.php";
   sendData = {
+    m_ordersheet_id: $("#directive_input__select").val(),
     limit: 20,
   };
   myAjax.myAjax(fileName, sendData);
@@ -139,6 +138,8 @@ $(document).on("change", "#directive_input__select", function () {
   setPackingDate();
   // set dienumber and production number
   setDieNumberAndPN();
+  // packing work history table
+  setPackingHistoryTable();
 });
 
 function setDieNumberAndPN() {
@@ -340,7 +341,7 @@ function checkPackingDateTimeInput() {
   }
 }
 
-$(document).on("keyup", "#packing-add__button", function () {
+$(document).on("click", "#packing-add__button", function () {
   let fileName;
   let sendData = new Object();
   if (cancelKeyupEvent) {
@@ -353,6 +354,7 @@ $(document).on("keyup", "#packing-add__button", function () {
     packing_date: $("#packing-date__input").val(),
     packing_start: $("#packing-start__input").val(),
     packing_end: $("#packing-end__input").val(),
+    m_ordersheet_id: $("#directive_input__select").val(),
     created_at: getToday(),
   };
   myAjax.myAjax(fileName, sendData);

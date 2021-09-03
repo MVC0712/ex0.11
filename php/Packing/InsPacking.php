@@ -19,11 +19,13 @@
 
       $prepare = $dbh->prepare(
           "INSERT INTO t_packing (
+            m_ordersheet_id,
             packing_date,
             packing_start,
             packing_end,
             created_at
               ) VALUES (
+            :m_ordersheet_id,
             :packing_date,
             :packing_start,
             :packing_end,
@@ -31,6 +33,7 @@
               )"
       );
 
+      $prepare->bindValue(':m_ordersheet_id', $_POST['m_ordersheet_id'], PDO::PARAM_STR);
       $prepare->bindValue(':packing_date', $_POST['packing_date'], PDO::PARAM_STR);
       $prepare->bindValue(':packing_start', $_POST['packing_start'], PDO::PARAM_STR);
       $prepare->bindValue(':packing_end', $_POST['packing_end'], PDO::PARAM_STR);
