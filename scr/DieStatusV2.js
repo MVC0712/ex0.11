@@ -194,7 +194,11 @@ $(document).on("click", "#go__button", function() {
     sendObj["do_sth_at"] = $("#do_sth_at").val();
     sendObj["do_sth_at_time"] = $("#do_sth_at_time").val();
     sendObj["note"] = $("#note").val();
-    sendObj["file_url"] = $('#myfile')[0].files[0].name;
+    if (document.getElementById("myfile").files.length == 0) {
+        sendObj["file_url"] = 'No_image.jpg';
+    } else {
+        sendObj["file_url"] = $('#myfile')[0].files[0].name;
+    }
     myAjax.myAjax(fileName, sendObj);
 
     $("#add__table tbody").empty();
@@ -203,24 +207,41 @@ $(document).on("click", "#go__button", function() {
     $("#process").removeClass("complete-input").addClass("no-input");
     $("#process").val("0");
     $("#note").val("");
+    $("#myfile").val("");
     makeSummaryTable();
 
+    if (document.getElementById("myfile").files.length != 0) {
+        var file_data = $('#myfile').prop('files')[0];
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        $.ajax({
+            url: "./php/DieStatus/FileUpload.php",
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+        });
+    }
 });
 
-$('#go__button').on('click', function() {
-    var file_data = $('#myfile').prop('files')[0];
-    var form_data = new FormData();
-    form_data.append('file', file_data);
-    $.ajax({
-        url: "./php/DieStatus/FileUpload.php",
-        dataType: 'text',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: form_data,
-        type: 'post',
-    });
-});
+// $('#go__button').on('click', function() {
+//     if ($('#myfile')[0].files[0].name != "") {
+//         var file_data = $('#myfile').prop('files')[0];
+//         var form_data = new FormData();
+//         form_data.append('file', file_data);
+//         $.ajax({
+//             url: "./php/DieStatus/FileUpload.php",
+//             dataType: 'text',
+//             cache: false,
+//             contentType: false,
+//             processData: false,
+//             data: form_data,
+//             type: 'post',
+//         });
+//     }
+// });
 
 function make_action() {
     var table, tr, action_s, pr_tm, sta_val, txt_pr_tm, txt_sta_val, i, diff;

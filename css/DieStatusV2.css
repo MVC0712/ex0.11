@@ -286,6 +286,16 @@ img {
     display: none;
 }
 
+#add__table th:nth-child(8),
+#add__table td:nth-child(8) {
+    display: none;
+}
+
+#add__table th:nth-child(9),
+#add__table td:nth-child(9) {
+    display: none;
+}
+
 .input__wrapper {
     /* width: 100%; */
 }
