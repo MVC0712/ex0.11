@@ -325,3 +325,24 @@ input[type="radio" i] {
     text-align: left;
     display: table;
 }
+
+#go__button {
+    height: 20px;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+#myfile {
+    width: 100%;
+    appearance: none;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: pre;
+    text-align: start !important;
+    padding: initial;
+    border: initial;
+    overflow: hidden !important;
+}
