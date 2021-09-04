@@ -195,22 +195,12 @@ $(document).on("click", "#go__button", function() {
     sendObj["do_sth_at_time"] = $("#do_sth_at_time").val();
     sendObj["note"] = $("#note").val();
     if (document.getElementById("myfile").files.length == 0) {
+        console.log("khong co file");
         sendObj["file_url"] = 'No_image.jpg';
     } else {
+        console.log("co file");
         sendObj["file_url"] = $('#myfile')[0].files[0].name;
-    }
-    myAjax.myAjax(fileName, sendObj);
 
-    $("#add__table tbody").empty();
-    document.getElementById("status_process").innerHTML = ``;
-    $("#go__button").prop("disabled", true);
-    $("#process").removeClass("complete-input").addClass("no-input");
-    $("#process").val("0");
-    $("#note").val("");
-    $("#myfile").val("");
-    makeSummaryTable();
-
-    if (document.getElementById("myfile").files.length != 0) {
         var file_data = $('#myfile').prop('files')[0];
         var form_data = new FormData();
         form_data.append('file', file_data);
@@ -224,24 +214,17 @@ $(document).on("click", "#go__button", function() {
             type: 'post',
         });
     }
-});
+    myAjax.myAjax(fileName, sendObj);
 
-// $('#go__button').on('click', function() {
-//     if ($('#myfile')[0].files[0].name != "") {
-//         var file_data = $('#myfile').prop('files')[0];
-//         var form_data = new FormData();
-//         form_data.append('file', file_data);
-//         $.ajax({
-//             url: "./php/DieStatus/FileUpload.php",
-//             dataType: 'text',
-//             cache: false,
-//             contentType: false,
-//             processData: false,
-//             data: form_data,
-//             type: 'post',
-//         });
-//     }
-// });
+    $("#add__table tbody").empty();
+    document.getElementById("status_process").innerHTML = ``;
+    $("#go__button").prop("disabled", true);
+    $("#process").removeClass("complete-input").addClass("no-input");
+    $("#process").val("0");
+    $("#note").val("");
+    $("#myfile").val("");
+    makeSummaryTable();
+});
 
 function make_action() {
     var table, tr, action_s, pr_tm, sta_val, txt_pr_tm, txt_sta_val, i, diff;
@@ -312,11 +295,3 @@ const formatTime = (date) => {
 const date = new Date();
 document.getElementById('do_sth_at').value = formatDate(date);
 document.getElementById('do_sth_at_time').value = formatTime(date);
-
-// $(document).on("click", "#myfile", function() {
-//     $('input[type="file"]').change(function(e) {
-//         var fileName = e.target.files[0].name;
-//         console.log('The file "' + fileName + '" has been selected.');
-//         console.log($('#myfile')[0].files[0].name);
-//     });
-// });

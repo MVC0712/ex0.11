@@ -1,6 +1,3 @@
-// 2021/08/19 start to edit
-// let deleteDialog = document.getElementById("delete__dialog");
-
 let cancelKeyupEvent = false;
 let cancelKeydownEvent = false;
 let editMode = false;
@@ -27,13 +24,11 @@ $(function() {
     makeSummaryTable();
 });
 
-
 function makeSummaryTable() {
     var fileName = "./php/DieStatus/DieHistory.php";
     var sendData = {
         dummy: "dummy",
     };
-    // 今日の日付の代入
     myAjax.myAjax(fileName, sendData);
     fillTableBody(ajaxReturnData, $("#die__table tbody"));
 }
@@ -103,30 +98,3 @@ $(document).on("click", "#die__table tbody tr", function() {
         document.getElementById("file_area").innerHTML = ``;
     }
 });
-
-// $(function() {
-//     var filename = $(window.opener.document).find("label").html();
-//     var fileType = filename.substr(filename.lastIndexOf(".") + 1, 3);
-//     console.log(filename);
-//     console.log(filename.lastIndexOf("."));
-//     console.log(filename.substr(filename.lastIndexOf(".") + 1, 3));
-
-//     switch (fileType) {
-//         case "pdf":
-//         case "PDF":
-//             $("<object>")
-//                 .attr(
-//                     "data",
-//                     "../upload/DieHistory/" + filename + "#toolbar=0&navpanes=0")
-//                 .attr("type", "application/pdf")
-//                 .appendTo("#file_area");
-//             break;
-//         case "jpg":
-//         case "JPG":
-//             $("<object>")
-//                 .attr("data", "../upload/DieHistory/" + filename)
-//                 .attr("type", "image/jpeg")
-//                 .appendTo("#file_area");
-//             break;
-//     }
-// });

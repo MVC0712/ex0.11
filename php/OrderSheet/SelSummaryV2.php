@@ -51,6 +51,7 @@
           GROUP BY t_using_aging_rack.t_press_id
         ) t10 ON t10.t_press_id = t_press.id
       GROUP BY m_ordersheet.id
+      ORDER BY issue_date_at DESC
       LIMIT 30
 
     ");
