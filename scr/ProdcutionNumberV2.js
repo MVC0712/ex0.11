@@ -37,12 +37,14 @@ $(document).on("click", "#save__button", function () {
   let inputData = new Object();
   inputData = getInputData();
   ajaxInsInputData(inputData);
+  ajaxSelSummary();
+  clearInputData();
 });
 
 function ajaxInsInputData(inputData) {
   $.ajax({
     type: "POST",
-    url: "./php/ProductionNumber/InsInputData.php",
+    url: "./php/ProductionNumber/InsInputData2.php",
     dataType: "json",
     async: false,
     data: inputData,
@@ -367,7 +369,6 @@ $(document).on("click", "#update__button", function () {
   let inputData = new Object();
 
   inputData = getInputData();
-  console.log(inputData);
   ajaxUpdateSummary(inputData);
 });
 
@@ -403,7 +404,7 @@ function getInputData() {
 function ajaxUpdateSummary(inputData) {
   $.ajax({
     type: "POST",
-    url: "./php/ProductionNumber/UpdateSummary.php",
+    url: "./php/ProductionNumber/UpdateSummary2.php",
     dataType: "json",
     async: false,
     data: inputData,
@@ -509,7 +510,9 @@ function addSummaryTable(data) {
     html += crossSectionArea + "</td><td>";
     html += specificWeight + " kg/m" + "</td><td>";
     html += element["production_length"] + "m" + "</td><td>";
-    html += element["packing_quantity"] + "</td></tr>";
+    html += element["packing_quantity"] + "</td><td>";
+    html += element["packing_column"] + "</td><td>";
+    html += element["packing_row"] + "</td></tr>";
   });
   $("#summary__table tbody").empty();
   $("#summary__table tbody").append(html);
@@ -611,6 +614,8 @@ function fillInputFrame(data) {
   $(".input__area select").eq(0).val(data["drawn_department"]);
   $(".input__area select").eq(1).val(data["billet_material_id"]);
   $(".input__area select").eq(2).val(data["aging_type_id"]);
+  $("#packing_column").val(data["packing_column"]);
+  $("#packing_row").val(data["packing_row"]);
 }
 
 function ajaxSelCategory(targetId) {

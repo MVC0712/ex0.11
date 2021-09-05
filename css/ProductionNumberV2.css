@@ -137,7 +137,7 @@ button {
 }
 #summary__table th:nth-child(3),
 #summary__table td:nth-child(3) {
-  width: 90px;
+  width: 80px;
 }
 /* production number */
 #summary__table th:nth-child(4),
@@ -203,7 +203,7 @@ button {
 /* x packing column */
 #summary__table th:nth-child(12),
 #summary__table td:nth-child(12) {
-  width: 21px;
+  width: 26px;
   /* text-align: right; */
 }
 #summary__table td:nth-child(12) {
@@ -212,7 +212,7 @@ button {
 /* y packing column */
 #summary__table th:nth-child(13),
 #summary__table td:nth-child(13) {
-  width: 21px;
+  width: 26px;
   /* text-align: right; */
 }
 #summary__table td:nth-child(13) {

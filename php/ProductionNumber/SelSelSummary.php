@@ -33,7 +33,8 @@ SELECT
   m_production_numbers.drawn_department,
   m_production_numbers.billet_material_id,
   m_production_numbers.aging_type_id,
-
+  m_production_numbers.packing_column,
+  m_production_numbers.packing_row,
   'dummy'
 FROM m_production_numbers
 LEFT JOIN m_billet_material ON m_production_numbers.billet_material_id = m_billet_material.id

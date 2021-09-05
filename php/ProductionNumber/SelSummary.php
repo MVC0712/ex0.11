@@ -32,6 +32,8 @@ SELECT
   m_production_numbers.id,
   m_production_numbers.production_length,
   m_production_numbers.packing_quantity,
+  IFNULL(m_production_numbers.packing_column, '') AS packing_column,
+  IFNULL(m_production_numbers.packing_row, '') AS packing_row,
   'dummy'
 FROM m_production_numbers
 LEFT JOIN m_billet_material ON m_production_numbers.billet_material_id = m_billet_material.id
