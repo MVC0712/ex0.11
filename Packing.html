@@ -36,6 +36,8 @@
             <div class="input__title">D/P</div>
             <div id="DN__display"></div>
             <div id="PN__display"></div>
+            <div id="production_number_id" class="no-display"></div>
+            <div id="ordersheet-quantity" class="no-display"></div>
           </div>
         </div>
         <div class="dot__line"></div>
@@ -231,7 +233,7 @@
             <select id="box-number__select" class="need-clear no-input">
               <option value="0"></option>
             </select>
-            <button id="packing-box-add__button">Add</button>
+            <!-- <button id="packing-box-add__button">Add</button> -->
             <!-- <button id="packing-box-add__button" disabled>Add</button> -->
           </div>
           <div class="input-block__outer">
@@ -288,6 +290,14 @@
       Do you Delete?
       <button id="box_table-dialog-cancel__button">Cancel</button>
       <button id="box_table-dialog-delete__button">Delete</button>
+    </dialog>
+    <dialog class="dialog__wrapper" id="box-window__dialog">
+      Chưa có mã hộp</br>
+      No Box Number</br>
+      Đặt tên cho hộp</br>
+      Set Box Number Name?
+      <button id="box-window-cancel__button">Cancel</button>
+      <button id="box-window-open__button">Open</button>
     </dialog>
     <script src="./lib/jquery.min.js"></script>
     <script src="./scr/Packing.js"></script>

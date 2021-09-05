@@ -46,6 +46,9 @@ tbody tr.selected-record {
 }
 
 /* basic setting */
+.no-display {
+  display: none;
+}
 
 .input-block__outer {
   height: 35px;

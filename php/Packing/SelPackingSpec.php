@@ -1,5 +1,5 @@
 <?php
-  /* 21/09/02作成 */
+  /* 21/09/05 */
   $userid = "webuser";
   $passwd = "";
   
@@ -11,26 +11,20 @@
           array(
           PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
           PDO::ATTR_EMULATE_PREPARES => false
-      )
+          )
       );
 
       $sql = "
         SELECT 
-            m_dies.die_number, 
-            m_production_numbers.production_number,
-            m_production_numbers.id AS production_numbers_id
-        FROM
-            t_press
-                LEFT JOIN
-            m_dies ON t_press.dies_id = m_dies.id
-                LEFT JOIN
-            m_production_numbers ON m_dies.production_number_id = m_production_numbers.id
-        WHERE
-            t_press.id = :t_press_id
+          m_production_numbers.packing_quantity,
+          m_production_numbers.packing_column,
+          m_production_numbers.packing_row
+        FROM m_production_numbers
+        WHERE m_production_numbers.id = :production_number_id
       ";
 
       $prepare = $dbh->prepare($sql);
-      $prepare->bindValue(':t_press_id', (INT)$_POST["t_press_id"], PDO::PARAM_INT);
+      $prepare->bindValue(':production_number_id', (INT)$_POST["production_number_id"], PDO::PARAM_INT);
       $prepare->execute();
       $result = $prepare->fetch(PDO::FETCH_ASSOC);
 

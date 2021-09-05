@@ -5,6 +5,7 @@ let workersTableSelectedId;
 let boxTableSelectedId;
 let originalValue;
 let viewMode = false;
+let afterSave = false;
 
 let ngTableDeleteDialog = document.getElementById("ng_table-delete__dialog");
 let boxTableDeleteDialog = document.getElementById("box_table-delete__dialog");
@@ -12,6 +13,7 @@ let packingHisotryDeleteDialog = document.getElementById(
   "packing-hisotry__dialog"
 );
 let workersDeleteDialog = document.getElementById("workers__dialog");
+
 let press_id;
 
 const myAjax = {
@@ -48,8 +50,7 @@ $(function () {
       .html(value["description"])
       .appendTo("#ng-code__select");
   });
-  // BoxNumberOption list
-  setBoxNumberOption();
+
   // staff list option list
   setStaffList();
 });
@@ -104,21 +105,21 @@ $(document).on("click", "#directive__input", function () {
     "width=830, height=500,toolbar=yes,menubar=yes,scrollbars=no"
   );
 });
-// press date select
+// ordersheet number select
 $(document).on("change", "#directive_input__select", function () {
   let fileName;
   let sendData = new Object();
-  fileName = "./php/Packing/SelOrderSheetList.php";
-  sendData = {
-    m_ordersheet_id: $("#directive_input__select").val(),
-  };
+  let boxWindowDialog = document.getElementById("box-window__dialog");
   // background color changing
   if ($(this).val() != 0) {
     $(this).removeClass("no-input").addClass("complete-input");
   } else {
     $(this).removeClass("complete-input").addClass("no-input");
   }
-
+  fileName = "./php/Packing/SelOrderSheetList.php";
+  sendData = {
+    m_ordersheet_id: $("#directive_input__select").val(),
+  };
   myAjax.myAjax(fileName, sendData);
   $("#press-date__select").empty();
   ajaxReturnData.forEach(function (value) {
@@ -140,7 +141,46 @@ $(document).on("change", "#directive_input__select", function () {
   setDieNumberAndPN();
   // packing work history table
   setPackingHistoryTable();
+  // check box number list exist
+  if (checkBoxNumberList()) {
+    // ====== when there is box name list
+    // BoxNumberOption list
+    setBoxNumberOption();
+  } else {
+    // ====== when there is NO box name list
+    // open box number setting page
+    // #box-number__select reset
+    $("#box-number__select").empty().append($("<option>").val("0").html("no"));
+    // display dialog
+    boxWindowDialog.showModal();
+    $(this).removeClass("complete-input").addClass("no-input");
+  }
 });
+// close boxwindow dialog
+$(document).on("click", "#box-window-cancel__button", function () {
+  document.getElementById("box-window__dialog").close();
+});
+// open box window
+$(document).on("click", "#box-window-open__button", function () {
+  document.getElementById("box-window__dialog").close();
+  window.open(
+    "./PackingMakeingBoxList.html",
+    null,
+    "width=430, height=600, top=100,left=100, toolbar=yes,menubar=yes,scrollbars=no"
+  );
+  // window.open("./PackingMakeingBoxList.html");
+});
+
+function checkBoxNumberList() {
+  let fileName;
+  let sendData = new Object();
+  fileName = "./php/Packing/SelBoxNumberList.php";
+  sendData = {
+    m_ordersheet_id: $("#directive_input__select").val(),
+  };
+  myAjax.myAjax(fileName, sendData);
+  return ajaxReturnData.length;
+}
 
 function setDieNumberAndPN() {
   fileName = "./php/Packing/SelDieNumberAndPN.php";
@@ -148,18 +188,13 @@ function setDieNumberAndPN() {
     t_press_id: $("#press-date__select").val(),
   };
   myAjax.myAjax(fileName, sendData);
-  console.log(ajaxReturnData);
   // $("#DN__display").val(ajaxReturnData[0]["die_number"]);
   document.getElementById("DN__display").innerHTML =
     ajaxReturnData["die_number"];
   document.getElementById("PN__display").innerHTML =
     ajaxReturnData["production_number"];
-
-  return false;
-  $("#packing-check-date__input")
-    .val(ajaxReturnData[0]["packing_check_date"])
-    .removeClass("no-input")
-    .addClass("complete-input");
+  document.getElementById("production_number_id").innerHTML =
+    ajaxReturnData["production_numbers_id"];
 }
 
 $(document).on("change", "#press-date__select", function () {
@@ -441,7 +476,7 @@ $(document).on("update", ".bottom__wrapper", function () {
   }
 });
 
-$(document).on("click", ".bottom__wrapper", function () {
+$(document).on("change", ".bottom__wrapper", function () {
   if (activateAddButton()) {
     $("#packing-work-add__button").prop("disabled", false);
   } else {
@@ -795,7 +830,7 @@ function activateAddButton() {
   temp1 = $("#packing-history__table_selected__tr").length;
   temp2 = $("#box-number__select").hasClass("no-input");
   temp3 = $("#packing-work-qty__input").hasClass("no-input");
-
+  // console.log(temp1 + " : " + temp2 + " : " + temp3);
   if (temp1 && !temp2 && !temp3) {
     flag = true;
   } else {
@@ -806,13 +841,11 @@ function activateAddButton() {
 
 // record new box number
 $(document).on("click", "#packing-box-add__button", function () {
-  $("#box-number__select").removeClass("complete-input").addClass("no-input");
+  // $("#packing-work-add__button").prop;
+  console.log("hello");
   $("#packing-work-add__button").prop("disabled", true);
-  window.open(
-    "./PackingBoxList.html",
-    null,
-    "width=500, height=400,top=100,left=100,toolbar=yes,menubar=yes,scrollbars=no"
-  );
+  // console.log($("#packing-work-add__button"));
+  // $(this).prop("disabled", true);
 });
 
 $(document).on("change", "#box-number__select", function () {
@@ -828,9 +861,10 @@ function setBoxNumberOption() {
   let sendData = new Object();
   fileName = "./php/Packing/SelBoxNumber.php";
   sendData = {
+    m_ordersheet_id: $("#directive_input__select").val(),
     limit: 20,
   };
-  myAjax.myAjax(fileName, sendData);
+  // myAjax.myAjax(fileName, sendData);
   // return false;
   $("#box-number__select").empty().append($("<option>").val("0").html("no"));
   ajaxReturnData.forEach(function (value) {
@@ -865,6 +899,7 @@ $(document).on("click", "#packing-work-add__button", function () {
   $("#packing-work-qty__input").val("");
   // remake aging table
   setAgingRack();
+  $("#packing-work-add__button").prop("disabled", true);
 });
 
 function makeBoxTable() {

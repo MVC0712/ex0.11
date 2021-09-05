@@ -1,5 +1,5 @@
 <?php
-  /* 21/08/29作成 */
+  /* 21/09/05 */
   $userid = "webuser";
   $passwd = "";
   
@@ -11,23 +11,20 @@
           array(
           PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
           PDO::ATTR_EMULATE_PREPARES => false
-      )
+          )
       );
 
       $sql = "
         SELECT 
           t_packing_box_number.id,
-          t_packing_box_number.box_number,
-          'dummy',
-          t_packing_box_number.created_at
+          t_packing_box_number.box_number
         FROM t_packing_box_number
-        ORDER BY created_at DESC, box_number
         WHERE t_packing_box_number.m_ordersheet_id = :m_ordersheet_id
-      ";
+        ";
+        // WHERE t_packing_box_number.m_ordersheet_id = m_ordersheet_id
 
       $prepare = $dbh->prepare($sql);
       $prepare->bindValue(':m_ordersheet_id', (INT)$_POST["m_ordersheet_id"], PDO::PARAM_INT);
-      // $prepare->bindValue(':limit', (INT)$_POST["limit"], PDO::PARAM_INT);
       $prepare->execute();
       $result = $prepare->fetchAll(PDO::FETCH_ASSOC);
 

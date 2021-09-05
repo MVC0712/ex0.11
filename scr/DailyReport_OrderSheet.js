@@ -49,6 +49,7 @@ $(document).on("click", "#summary__table tr", function (e) {
   } else {
     let ordersheetId = $(this).find("td").eq(0).html();
     let ordersheetNumber = $(this).find("td").eq(1).html();
+    let ordersheetQuantity = $(this).find("td").eq(5).html();
     // console.log(ordersheetId);
     // 選択レコードを再度クリックした時
     // Copy data to Master Page
@@ -57,6 +58,11 @@ $(document).on("click", "#summary__table tr", function (e) {
       .empty()
       .append($("<option>").val("0").html("no"))
       .append($("<option>").val(ordersheetId).html(ordersheetNumber));
+    // set ordersheet quantity
+    $(window.opener.document)
+      .find("#ordersheet-quantity")
+      .html(ordersheetQuantity);
+
     open("about:blank", "_self").close(); // ウィンドウを閉じる
   }
 });
