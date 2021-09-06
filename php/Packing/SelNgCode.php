@@ -19,7 +19,6 @@
           m_quality_code.id,
           CONCAT(m_quality_code.quality_code, ':' , LEFT(m_quality_code.description_vn, 14)) AS description
         FROM m_quality_code
-        WHERE m_quality_code.quality_code != 0
         ORDER BY m_quality_code.quality_code
       ";
 
