@@ -4,6 +4,7 @@ let packingHistoryTableSelectedId;
 let workersTableSelectedId;
 let boxTableSelectedId;
 let originalValue;
+let cancelKeyupEvent;
 let viewMode = false;
 let afterSave = false;
 
@@ -410,21 +411,39 @@ $(document).on("click", "#packing-add__button", function () {
     return false;
   }
 
-  fileName = "./php/Packing/InsPacking.php";
-  sendData = {
-    packing_date: $("#packing-date__input").val(),
-    packing_start: $("#packing-start__input").val(),
-    packing_end: $("#packing-end__input").val(),
-    m_ordersheet_id: $("#directive_input__select").val(),
-    created_at: getToday(),
-  };
-  myAjax.myAjax(fileName, sendData);
+  if ($(this).html() == "Add") {
+    // add new mode
+    fileName = "./php/Packing/InsPacking.php";
+    sendData = {
+      packing_date: $("#packing-date__input").val(),
+      packing_start: $("#packing-start__input").val(),
+      packing_end: $("#packing-end__input").val(),
+      m_ordersheet_id: $("#directive_input__select").val(),
+      created_at: getToday(),
+    };
+    myAjax.myAjax(fileName, sendData);
+  } else if ($(this).html() == "Update") {
+    // update mode
+    fileName = "./php/Packing/UpdatePacking.php";
+    sendData = {
+      packing_id: $(
+        "#packing-history__table_selected__tr td:nth-child(1)"
+      ).html(),
+      packing_date: $("#packing-date__input").val(),
+      packing_start: $("#packing-start__input").val(),
+      packing_end: $("#packing-end__input").val(),
+      m_ordersheet_id: $("#directive_input__select").val(),
+      created_at: getToday(),
+    };
+    console.log(sendData);
+  }
   // delete input data
   $("#packing-date__input").val("");
   $("#packing-start__input").val("");
   $("#packing-end__input").val("");
   // packing work history table
   setPackingHistoryTable();
+  $(this).html("Add").prop("disabled", true);
 });
 // worker select
 $(document).on("change", "#worker__select", function () {
@@ -549,9 +568,12 @@ function setPackingData() {
       .html(),
   };
   myAjax.myAjax(fileName, sendData);
+  // data copy
   $("#packing-date__input").val(ajaxReturnData["packing_date"]);
   $("#packing-start__input").val(ajaxReturnData["packing_start"]);
   $("#packing-end__input").val(ajaxReturnData["packing_end"]);
+  // button setting
+  $("#packing-add__button").prop("disabled", false).html("Update");
 }
 
 function setViewModeBoxTable() {
