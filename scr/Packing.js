@@ -56,8 +56,13 @@ $(function () {
 });
 
 function setPackingHistoryTable() {
+  let selectedRecordId;
   let fileName;
   let sendData = new Object();
+  selectedRecordId = $(
+    "#packing-history__table_selected__tr td:nth-child(1)"
+  ).html();
+
   fileName = "./php/Packing/SelPackingHistory.php";
   sendData = {
     m_ordersheet_id: $("#directive_input__select").val(),
@@ -71,6 +76,13 @@ function setPackingHistoryTable() {
       $("<td>").html(trVal[tdVal]).appendTo(newTr);
     });
     $(newTr).appendTo("#packing-history__table tbody");
+  });
+  // re-select selected record
+  $("#packing-history__table tbody tr").each(function () {
+    if ($(this).find("td").eq(0).html() == selectedRecordId) {
+      $(this).addClass("selected-record");
+      $(this).attr("id", "packing-history__table_selected__tr");
+    }
   });
 }
 
@@ -218,11 +230,16 @@ function setPackingDate() {
 }
 
 function setAgingRack() {
+  let selectedRecordId;
   let fileName = "./php/Packing/SelUgingAgingRack.php";
   let sendData = {
     t_press_id: $("#press-date__select").val(),
   };
   myAjax.myAjax(fileName, sendData);
+
+  selectedRecordId = $(
+    "#remain-rack__table_selected__tr td:nth-child(1)"
+  ).html();
   $("#remain-rack__table tbody:nth-child(2)").empty();
   ajaxReturnData.forEach(function (trVal) {
     var newTr = $("<tr>");
@@ -231,7 +248,16 @@ function setAgingRack() {
     });
     $(newTr).appendTo("#remain-rack__table tbody:nth-child(2)");
   });
+  // re-select selected record
+  $("#remain-rack__table tbody tr").each(function () {
+    if ($(this).find("td").eq(0).html() == selectedRecordId) {
+      $(this).addClass("selected-record");
+      $(this).attr("id", "remain-rack__table_selected__tr");
+    }
+  });
+  // calc total qty
   $("#aging-rack-total-qty__html").html(agingRackTotalQty());
+  $("#aging-rack-packed-total-qty__html").html(agingRackPackedTotalQty());
   // clear ng table and box table
   $("#ng__table tbody:nth-child(2)").empty();
   $("#box__table tbody:nth-child(2").empty();
@@ -498,9 +524,11 @@ $(document).on("click", "#packing-history__table tbody tr", function () {
     packingHisotryDeleteDialog.showModal();
   } else {
     // set worker table
+    console.log("hello");
     setWorkerTable();
+    setPackingData();
     if ($(this).find("td").eq(6).html() != "0") {
-      // when number of box is '0' show box talbe
+      // when number of box is '0' show box talbe for making box number
       setViewModeBoxTable();
       viewMode = true;
     } else {
@@ -509,6 +537,22 @@ $(document).on("click", "#packing-history__table tbody tr", function () {
   }
   packingHistoryTableSelectedId = $(this).find("td").eq(0).html();
 });
+
+function setPackingData() {
+  let fileName;
+  let sendData = new Object();
+  fileName = "./php/Packing/SelPackingData.php";
+  sendData = {
+    t_packing_id: $("#packing-history__table_selected__tr")
+      .find("td")
+      .eq(0)
+      .html(),
+  };
+  myAjax.myAjax(fileName, sendData);
+  $("#packing-date__input").val(ajaxReturnData["packing_date"]);
+  $("#packing-start__input").val(ajaxReturnData["packing_start"]);
+  $("#packing-end__input").val(ajaxReturnData["packing_end"]);
+}
 
 function setViewModeBoxTable() {
   let fileName;
@@ -658,6 +702,16 @@ function agingRackTotalQty() {
   );
   return totalQty;
 }
+
+function agingRackPackedTotalQty() {
+  let totalQty = 0;
+  $("#remain-rack__table tbody.table-content tr td:nth-child(5)").each(
+    function () {
+      totalQty += Number($(this).html());
+    }
+  );
+  return totalQty;
+}
 // ======================================================
 // ======== Under Middle (NG CODE) ======================
 // ======================================================
@@ -683,6 +737,8 @@ $(document).on("click", "#ng_table-dialog-delete__button", function (e) {
   makeNgTable();
   // redisplay agingrack table
   setAgingRack();
+  // ReMake Ng table
+  makeNgTable();
   ngTableDeleteDialog.close();
 });
 
@@ -699,7 +755,7 @@ $(document).on("keyup", "#ng-qty__input", function () {
 
 $(document).on("change", "#ng-code__select", function () {
   console.log(ngCheckInputComp());
-  if ($(this) >= 1) {
+  if ($(this).val() >= 1) {
     $(this).removeClass("no-input").addClass("complete-input");
   } else {
     $(this).removeClass("complete-input").addClass("no-input");
@@ -711,10 +767,9 @@ $(document).on("change", "#ng-code__select", function () {
 function ngCheckInputComp() {
   let flag = true;
   let ngQty = $("#ng-qty__input").val();
-  let ngCode = $("#ng-code__select").val();
-  if (ngQty == "" || isNaN(ngQty) || Number(ngQty) <= 0) flag = false;
-  if (ngCode == "" || Number(ngCode) <= 0) flag = false;
-
+  let agingRack = $("#remain-rack__table_selected__tr").length;
+  if (ngQty == "" || isNaN(ngQty) || Number(ngQty) <= 0 || agingRack == 0)
+    flag = false;
   return flag;
 }
 
@@ -735,20 +790,23 @@ $(document).on("click", "#ng-qty__button", function () {
     created_at: getToday(),
   };
   myAjax.myAjax(fileName, sendData);
-  // ReMake Ng table
-  makeNgTable();
   // delete input value
-  console.log("hello");
-  $("#ng-qty__input").val("");
+  $("#ng-qty__input")
+    .val("")
+    .removeClass("complete-input")
+    .addClass("no-input");
   $("#ng-code__select").val("1");
   // display total NG qty
   $("#ng-table-total-ng__html").html(ngTableTotalNgQty());
-  // display total OK qty
-  okQty = Number($("#remain-rack__table_selected__tr td:nth-child(4)"));
-  okQty = okQty - Number(ngTableTotalNgQty());
-  $("#ng-table-total-ok__html").html(okQty);
   // redisplay agingrack table
   setAgingRack();
+  // display total OK qty
+  okQty = Number($("#remain-rack__table_selected__tr td:nth-child(4)").html());
+  $("#ng-table-total-ok__html").html(okQty);
+  // ReMake Ng table
+  makeNgTable();
+  // display total ng qty
+  $("#ng-table-total-ng__html").html(ngTableTotalNgQty());
 });
 
 $(document).on("change", "#ng__table input", function () {
