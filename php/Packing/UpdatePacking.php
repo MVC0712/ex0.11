@@ -20,17 +20,14 @@
       $prepare = $dbh->prepare("
       update t_packing
       set 
-        m_ordersheet_id = :m_ordersheet_id,
         packing_date = :packing_date,
         packing_start = :packing_start,
-        packing_end = :packing_end,
-        packing_id = :packing_id
-      WHERE id = :
+        packing_end = :packing_end
+      WHERE t_packing.id = :packing_id
     ");
-    $prepare->bindValue(':m_ordersheet_id', (INT)$_POST['m_ordersheet_id'], PDO::PARAM_INT);
     $prepare->bindValue(':packing_date', $_POST['packing_date'], PDO::PARAM_STR);
     $prepare->bindValue(':packing_start', $_POST['packing_start'], PDO::PARAM_STR);
-    $prepare->bindValue(':packing_end', $_POST['packing_datepacking_end'], PDO::PARAM_STR);
+    $prepare->bindValue(':packing_end', $_POST['packing_end'], PDO::PARAM_STR);
     $prepare->bindValue(':packing_id', (INT)$_POST['packing_id'], PDO::PARAM_INT);
     
     $prepare->execute();

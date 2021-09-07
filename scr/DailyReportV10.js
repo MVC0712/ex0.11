@@ -602,12 +602,12 @@ $(document).on("click", "#rack__table tbody tr", function() {
         $("#rackqty__input").removeClass("no-input").addClass("complete-input");
 
         $("#add-rack__button").text("Update").prop("disabled", false);
-    } else {
-        $(this).remove();
-        renumberTableColumn();
-        $("#racknumber__input").val("");
-        $("#rackqty__input").val("");
-        $("#add-rack__button").prop("disabled", true).text("Save");
+        // } else {
+        //     $(this).remove();
+        //     renumberTableColumn();
+        //     $("#racknumber__input").val("");
+        //     $("#rackqty__input").val("");
+        //     $("#add-rack__button").prop("disabled", true).text("Save");
     }
 });
 
