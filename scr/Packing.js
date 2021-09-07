@@ -156,6 +156,8 @@ $(document).on("change", "#directive_input__select", function () {
   setDieNumberAndPN();
   // packing work history table
   setPackingHistoryTable();
+  // packed box list table
+  setPackedBoxListTable();
   // check box number list exist
   if (checkBoxNumberList()) {
     // ====== when there is box name list
@@ -189,6 +191,22 @@ $(document).on("click", "#box-window-open__button", function () {
   );
   // window.open("./PackingMakeingBoxList.html");
 });
+
+function setPackedBoxListTable() {
+  fileName = "./php/Packing/SelPackedBoxList.php";
+  sendData = {
+    m_ordersheet_id: $("#directive_input__select").val(),
+  };
+  myAjax.myAjax(fileName, sendData);
+  $("#complete-list__table tbody").empty();
+  ajaxReturnData.forEach(function (trVal) {
+    var newTr = $("<tr>");
+    Object.keys(trVal).forEach(function (tdVal) {
+      $("<td>").html(trVal[tdVal]).appendTo(newTr);
+    });
+    $(newTr).appendTo("#complete-list__table tbody");
+  });
+}
 
 function checkBoxNumberList() {
   let fileName;
