@@ -15,30 +15,37 @@
       );
 
       $sql = "
-        SELECT 
-            id, 
-            box_number
+        SELECT
+          id,
+          box_number
         FROM
-            t_packing_box_number
+          t_packing_box_number
         WHERE
-            m_ordersheet_id = (SELECT 
-                    t2.m_ordersheet_id
-                FROM
-                    (SELECT 
-                        id AS m_ordersheet_id,
-                            production_numbers_id,
-                            (SELECT 
-                                    COUNT(*) + 1
-                                FROM
-                                    m_ordersheet
-                                WHERE
-                                    t1.production_numbers_id = production_numbers_id
-                                        AND t1.delivery_date_at > delivery_date_at) AS rank
+          m_ordersheet_id = (
+            SELECT
+              t2.m_ordersheet_id
+            FROM
+              (
+                SELECT
+                  id AS m_ordersheet_id,
+                  production_numbers_id,
+                  (
+                    SELECT
+                      COUNT(*) + 1
                     FROM
-                        m_ordersheet AS t1) AS t2
-                WHERE
-                    t2.production_numbers_id = :production_numbers_id
-                        AND t2.rank = 1)
+                      m_ordersheet
+                    WHERE
+                      t1.production_numbers_id = production_numbers_id
+                      AND t1.delivery_date_at < delivery_date_at
+                  ) AS rank
+                FROM
+                  m_ordersheet AS t1
+              ) AS t2
+            WHERE
+              t2.production_numbers_id = :production_numbers_id
+              AND 
+              t2.rank = 1
+          )
       ";
 
       $prepare = $dbh->prepare($sql);
