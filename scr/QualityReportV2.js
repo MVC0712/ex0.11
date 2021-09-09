@@ -184,6 +184,35 @@ $(document).on("keydown", "#ng_quantity", function(e) {
         e.preventDefault();
     }
 });
+// ===================== actvation of Add button ====================
+$(document).on("click", ".buttom__wrapper", function() {
+    checkNgData()
+});
+
+$(document).on("change", ".buttom__wrapper", function() {
+    checkNgData()
+});
+
+$(document).on("keyup", ".buttom__wrapper", function() {
+    checkNgData()
+});
+
+function checkNgData() {
+    let condition1, condition2, condition3, condition4;
+
+    condition1 = $("#selected__tr").length;
+    condition2 = Number($("#ng_quantity").val());
+    condition3 = $("#ng_code__select").val();
+    condition4 = $("#ng_quantity").val();
+
+    if (condition1 != 0 && condition2 >= 0 && condition3 != 0 && condition4 != "") {
+        // console.log("ok")
+        $("#add__button").prop("disabled", false);
+    } else {
+        $("#add__button").prop("disabled", true);
+    }
+}
+
 // ===================== Add button ====================
 $(document).on("click", "#add__button", function() {
     let fileName = "./php/QualityReport/InsQalityInformation.php";
@@ -242,7 +271,7 @@ $(document).on("click", "#table__body tr", function(e) {
         };
         myAjax.myAjax(fileName, sendData);
         makeNgTable($("#ng__table tbody:nth-child(2)"));
-        $("#add__button").prop("disabled", false);
+        // $("#add__button").prop("disabled", false);
     } else {
         // 選択レコードを再度クリックした時
         // 削除問い合わせダイアログ
