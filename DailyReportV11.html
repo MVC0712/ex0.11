@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Extrusion Dailyreport</title>
     <link rel="stylesheet" href="./css/main.css" />
-    <link rel="stylesheet" href="./css/DailyReportV10.css" />
+    <link rel="stylesheet" href="./css/DailyReportV11.css" />
   </head>
 
   <body>
@@ -391,9 +391,13 @@
         </table>
         <div class="input-block__outer">
           <div class="input__title">Rack</div>
-          <input id="racknumber__input" class="need-clear" type="text" />
+          <input
+            id="racknumber__input"
+            class="need-clear no-input"
+            type="text"
+          />
           <div class="input__title">Qty</div>
-          <input id="rackqty__input" class="need-clear" type="text" />
+          <input id="rackqty__input" class="need-clear no-input" type="text" />
           <button id="add-rack__button" disabled>Save</button>
         </div>
         <table id="work-length__table">
@@ -452,12 +456,6 @@
         <input id="start-term" class="need-clear" type="date" />-
         <input id="end-term" class="need-clear" type="date" />
       </div>
-      <!-- 削除確認ダイアログ -->
-      <dialog class="dialog__wrapper" id="delete__dialog">
-        Do you Delete?
-        <button id="delete-dialog-cancel__button">Cancel</button>
-        <button id="delete-dialog-delete__button">Delete</button>
-      </dialog>
     </div>
     <div class="summary__wrapper">
       <table id="summary__table">
@@ -489,8 +487,20 @@
         <tbody></tbody>
       </table>
     </div>
+    <!-- 削除確認ダイアログ -->
+    <dialog class="dialog__wrapper" id="delete__dialog">
+      Do you Delete?
+      <button id="delete-dialog-cancel__button">Cancel</button>
+      <button id="delete-dialog-delete__button">Delete</button>
+    </dialog>
+    <!-- rack delete dialog -->
+    <dialog class="dialog__wrapper" id="delete-rack__dialog">
+      Do you Delete?
+      <button id="delete-rack-cancel__button">Cancel</button>
+      <button id="delete-rack-delete__button">Delete</button>
+    </dialog>
 
     <script src="./lib/jquery.min.js"></script>
-    <script src="./scr/DailyReportV10.js"></script>
+    <script src="./scr/DailyReportV11.js"></script>
   </body>
 </html>
