@@ -522,9 +522,10 @@ $("#rackqty__input").on("keydown", function (e) {
   // console.log("hello");
   if (k === 13) {
     $("#add-rack__button").focus();
+    e.preventDefault();
     return false;
   }
-  console.log(checkRackInputComplete());
+  // console.log(checkRackInputComplete());
 });
 
 $("#rackqty__input").on("keyup", function (e) {
@@ -589,16 +590,21 @@ function keyCodeCheck(k) {
 
 $("#add-rack__button").on("keydown", function (e) {
   // e.preventDefault(); // 入力をキャンセル。これをしないと、移動後、ボタンをクリックしてしまう
-  $(this).trigger("click");
+  // $(this).trigger("click");
   cancelKeydownEvent = true;
 });
 
 $("#add-rack__button").on("click", function () {
-  var trNumber;
+  let trNumber;
+  let fileName;
+  let sendData = new Object();
+  let order_number;
+  let rackNumberArr = [];
   switch ($(this).text()) {
     case "Save":
       trNumber = $("#rack__table tbody tr").length;
       $("<tr>")
+        .append("<td></td>")
         .append("<td>" + (trNumber + 1) + "</td>")
         .append("<td>" + $("#racknumber__input").val() + "</td>")
         .append("<td>" + $("#rackqty__input").val() + "</td>")
@@ -614,17 +620,35 @@ $("#add-rack__button").on("click", function () {
         .removeClass("complete-input")
         .addClass("no-input");
       break;
-    case "Update":
-      $("#rack_selected__tr td:nth-child(2)").text(
-        $("#racknumber__input").val()
-      );
-      $("#rack_selected__tr td:nth-child(3)").text($("#rackqty__input").val());
-      $(this).text("Save").prop("disabled", true);
-      $("#rack_selected__tr").removeAttr("id");
-      $("#rack__table tbody").find("tr").removeClass("selected-record");
-      $("#racknumber__input").val("");
-      $("#rack__table tbody").find("tr").removeClass("selected-record");
-      $("#rackqty__input").val("");
+    case "Add":
+      $("#rack__table tbody tr td:nth-child(2)").each(function () {
+        rackNumberArr.push(Number($(this).html()));
+      });
+      if (rackNumberArr.length != 0) {
+        order_number = Math.max(...rackNumberArr) + 1;
+      } else {
+        order_number = 1;
+      }
+      fileName = "./php/DailyReport/InsUsingAgingRack.php";
+      sendData = {
+        t_press_id: $("#selected__tr td:nth-child(1)").text(),
+        order_number: order_number,
+        rack_number: $("#racknumber__input").val(),
+        work_quantity: $("#rackqty__input").val(),
+      };
+      myAjax.myAjax(fileName, sendData);
+      // ============= Fill Rack Data
+      makeRackTable();
+      // ============= reset input frame
+      $("#racknumber__input")
+        .val("")
+        .removeClass("complete-input")
+        .addClass("no-input");
+      $("#rackqty__input")
+        .val("")
+        .removeClass("complete-input")
+        .addClass("no-input");
+      $("#add-rack__button").prop("disabled", true);
       break;
   }
 });
@@ -638,11 +662,6 @@ $(document).on("click", "#rack__table tbody tr", function () {
     // tr に id を付与する
     $("#rack_selected__tr").removeAttr("id");
     $(this).attr("id", "rack_selected__tr");
-    // racknumber__input に値を移動する
-    $("#racknumber__input").val($(this).find("td")[1].innerText);
-    $("#racknumber__input").removeClass("no-input").addClass("complete-input");
-    $("#rackqty__input").val($(this).find("td")[2].innerText);
-    $("#rackqty__input").removeClass("no-input").addClass("complete-input");
   } else {
     // clicked same record
     deleteDialog.showModal();
@@ -661,33 +680,52 @@ $(document).on("click", "#delete-rack-delete__button", function () {
   // delete selected record
   fileName = "./php/DailyReport/DelSelRackData.php";
   sendData = {
-    t_press_id: $("#selected__tr").find("td").eq(0).html(),
-    order_number: $("#rack_selected__tr").find("td").eq(0).html(),
+    t_using_aging_rack_id: $("#rack_selected__tr").find("td").eq(0).html(),
   };
-  console.log(sendData);
   myAjax.myAjax(fileName, sendData);
   deleteDialog.close();
   // refill rack table
-  fileName = "./php/DailyReport/SelRack.php";
+  makeRackTable();
+});
+
+function makeRackTable() {
+  fileName = "./php/DailyReport/SelRack2.php";
   sendData = {
     id: $("#selected__tr").find("td").eq(0).html(),
   };
   myAjax.myAjax(fileName, sendData);
   $("#rack__table tbody").empty();
-  ajaxReturnData.forEach(function (element) {
-    $("<tr>")
-      .append("<td>" + element["order_number"] + "</td>")
-      .append("<td>" + element["rack_number"] + "</td>")
-      .append("<td>" + element["work_quantity"] + "</td>")
-      .appendTo("#rack__table tbody");
+  ajaxReturnData.forEach(function (trVal) {
+    var newTr = $("<tr>");
+    Object.keys(trVal).forEach(function (tdVal) {
+      if (tdVal == "rack_number" || tdVal == "work_quantity") {
+        $("<td>").append($("<input>").val(trVal[tdVal])).appendTo(newTr);
+      } else {
+        $("<td>").html(trVal[tdVal]).appendTo(newTr);
+      }
+    });
+    $(newTr).appendTo("#rack__table tbody");
   });
-});
+}
 
 function renumberTableColumn() {
   $("#rack__table tbody tr td:nth-child(1)").each(function (index, val) {
     $(this).text(index + 1);
   });
 }
+
+$(document).on("change", "#rack__table tbody tr input", function () {
+  let sendData = new Object();
+  let fileName;
+  fileName = "./php/DailyReport/UpdateUsingAgingRack.php";
+  sendData = {
+    id: $("#rack_selected__tr td:nth-child(1)").html(),
+    rack_number: $("#rack_selected__tr td:nth-child(3) input").val(),
+    work_quantity: $("#rack_selected__tr td:nth-child(4) input").val(),
+  };
+  console.log(sendData);
+  myAjax.myAjax(fileName, sendData);
+});
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // ------------------------- add row button ---------------------------------
@@ -755,23 +793,16 @@ $(document).on("click", "#summary__table tbody tr", function (e) {
     myAjax.myAjax(fileName, sendData);
     fillWorkInformation(ajaxReturnData);
     // ============= Fill Rack Data
-    fileName = "./php/DailyReport/SelRack.php";
-    myAjax.myAjax(fileName, sendData);
-    $("#rack__table tbody").empty();
-    ajaxReturnData.forEach(function (element) {
-      $("<tr>")
-        .append("<td>" + element["order_number"] + "</td>")
-        .append("<td>" + element["rack_number"] + "</td>")
-        .append("<td>" + element["work_quantity"] + "</td>")
-        .appendTo("#rack__table tbody");
-    });
+    makeRackTable();
 
     editMode = true;
     // button activation
     $("#update__button").prop("disabled", false);
     $("#preview__button").attr("disabled", false);
-    //
-    $("#add-rack__button").text("Update");
+    // set aging rack table to edit mode
+    $("#add-rack__button").text("Add");
+    $("#racknumber__input").removeClass("complete-input").addClass("no-input");
+    $("#rackqty__input").removeClass("complete-input").addClass("no-input");
   } else {
     // 選択レコードを再度クリックした時
     // 削除問い合わせダイアログ
@@ -971,7 +1002,7 @@ $(document).on("click", "#save__button", function () {
   tableData = getTableData($("#rack__table tbody tr"));
   tableData.push(targetId);
   // 2:Insert into database
-  fileName = "./php/DailyReport/UpdateUsedRack.php";
+  fileName = "./php/DailyReport/InsUsedRack.php";
   sendData = JSON.stringify(tableData);
   myAjax.myAjax(fileName, sendData);
   // return false;

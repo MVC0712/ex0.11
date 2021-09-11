@@ -25,6 +25,14 @@ table input {
   width: 100%;
 }
 
+tbody tr.selected-record {
+  background-color: #dbdbff;
+}
+
+tbody tr.selected-record input {
+  background-color: #dbdbff;
+}
+
 /* basic setting */
 .input__title {
   width: initial;
@@ -199,6 +207,10 @@ select {
 #rack__table tbody td {
   text-align: right;
   padding-right: 3px;
+}
+#rack__table th:nth-child(1),
+#rack__table td:nth-child(1) {
+  display: none;
 }
 
 #work-length__table {

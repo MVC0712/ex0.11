@@ -17,9 +17,8 @@
       )
     );
 
-    $stmt = $dbh->prepare("DELETE FROM t_using_aging_rack WHERE t_press_id = :t_press_id AND order_number = :order_number");
-    $stmt->bindValue(':t_press_id', (INT)$_POST["t_press_id"], PDO::PARAM_INT);
-    $stmt->bindValue(':order_number', (INT)$_POST["order_number"], PDO::PARAM_INT);
+    $stmt = $dbh->prepare("DELETE FROM t_using_aging_rack WHERE id = :t_using_aging_rack_id");
+    $stmt->bindValue(':t_using_aging_rack_id', (INT)$_POST["t_using_aging_rack_id"], PDO::PARAM_INT);
     $stmt->execute();
 
     echo(json_encode("Deleted"));
