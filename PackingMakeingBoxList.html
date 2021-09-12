@@ -197,7 +197,6 @@
         // get table data
         tableData = getTableData($("#summary__table tbody tr"));
         tableData.push($("#m_ordersheet_id").html());
-        console.log(tableData);
         sendData = JSON.stringify(tableData);
         fileName = "./php/Packing/InsNewBoxNumber.php";
         myAjax.myAjax(fileName, sendData);

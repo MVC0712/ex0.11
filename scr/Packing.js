@@ -134,6 +134,16 @@ $(document).on("change", "#directive_input__select", function () {
     m_ordersheet_id: $("#directive_input__select").val(),
   };
   myAjax.myAjax(fileName, sendData);
+  // if there is no press data
+  if (ajaxReturnData.length == 0) {
+    $(this).val("0");
+    $("#press-date__select").empty();
+    $("#DN__display").html("");
+    $("#PN__display").html("");
+    $(this).removeClass("complete-input").addClass("no-input");
+    alert("there is no press record");
+    return false;
+  }
   $("#press-date__select").empty();
   ajaxReturnData.forEach(function (value) {
     $("<option>")
@@ -594,7 +604,6 @@ $(document).on("click", "#packing-history__table tbody tr", function () {
     packingHisotryDeleteDialog.showModal();
   } else {
     // set worker table
-    console.log("hello");
     setWorkerTable();
     setPackingData();
     if ($(this).find("td").eq(6).html() != "0") {
@@ -971,22 +980,13 @@ function activateAddButton() {
 
 // newest box number
 $(document).on("click", "#packing-box-add__button", function () {
-  let fileName;
-  let sendData = new Object();
-  fileName = "./php/Packing/SelBoxNumber_LatestOrdersheet.php";
-  sendData = {
-    production_numbers_id: $("#production_number_id").html(),
-    limit: 20,
-  };
-  myAjax.myAjax(fileName, sendData);
-  ajaxReturnData.forEach(function (value) {
-    $("<option>")
-      .val(value["id"])
-      .html(value["box_number"])
-      .appendTo("#box-number__select");
-  });
   $(this).prop("disabled", true);
-  // console.log(ajaxReturnData);
+  window.open(
+    "./PackingAddBoxNumber.html",
+    null,
+    "width=400, height=400,top=100,left=200, toolbar=yes,menubar=yes,scrollbars=no"
+  );
+  // window.open("./PackingAddBoxNumber.html");
 });
 
 $(document).on("change", "#box-number__select", function () {
@@ -1056,6 +1056,7 @@ $(document).on("click", "#packing-work-add__button", function () {
 function makeBoxTable() {
   let fileName;
   let sendData = new Object();
+  // read ordersheet of same production number
   fileName = "./php/Packing/SelPackingBoxNumberWorkQty.php";
   sendData = {
     using_aging_rack_id: $(
