@@ -174,11 +174,13 @@ $(document).on("change", "#directive_input__select", function () {
   }
   // check ordersheet list, is there new one than $(this).html()
   // when checkNewOrderSheet is 2, 2 means rank 2
-  if (checkNewOrderSheet() == 2) {
-    $("#packing-box-add__button").prop("disabled", false);
-  } else {
-    $("#packing-box-add__button").prop("disabled", true);
-  }
+  // if (checkNewOrderSheet() == 2) {
+  //   $("#packing-box-add__button").prop("disabled", false);
+  // } else {
+  //   $("#packing-box-add__button").prop("disabled", true);
+  // }
+  // enable packing-box-add button
+  $("#packing-box-add__button").prop("disabled", false);
   // reset packing work frame
   $("#packing-date__input").val("");
   $("#packing-start__input").val("");
@@ -984,7 +986,7 @@ $(document).on("click", "#packing-box-add__button", function () {
       .appendTo("#box-number__select");
   });
   $(this).prop("disabled", true);
-  console.log(ajaxReturnData);
+  // console.log(ajaxReturnData);
 });
 
 $(document).on("change", "#box-number__select", function () {
