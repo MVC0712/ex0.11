@@ -1,0 +1,78 @@
+body {
+    width: calc(1200px - 2px);
+}
+
+.main__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 50px;
+    flex-direction: row;
+}
+
+.main__wrapper div:nth-child(2) input {
+    width: 150px;
+}
+
+.input-block__wrapper {
+    height: 25px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: center;
+}
+
+.input__title {
+    width: initial;
+}
+
+input {
+    width: 120px;
+}
+
+button {
+    width: 100px;
+    height: 22px;
+    margin: 0px;
+}
+
+
+/* summary table */
+
+.summary__wrapper {
+    height: calc(598px - 31px - 55px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#summary__table {
+    width: 1198px;
+    table-layout: auto;
+}
+
+#summary__table tbody {
+    height: 390px;
+}
+
+#summary__table th,
+#summary__table td {
+    width: 36.3px;
+}
+
+td {
+    border: 1px solid black;
+    width: 100px;
+    overflow: hidden;
+}
+
+div.calendar table td {
+    border: 1px solid black;
+    text-align: center;
+    margin: 0px;
+}
+
+div.calendar {
+    overflow: auto;
+}
