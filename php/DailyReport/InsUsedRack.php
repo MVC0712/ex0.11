@@ -21,7 +21,6 @@
       )
     );
 
-    
     if(count($data_json) > 0){ // 値があるときだけ実行する
       foreach($data_json as $val){
         $sql_paramater[] = "({$selected_id}, {$val[1]}, {$val[2]}, {$val[3]})";
