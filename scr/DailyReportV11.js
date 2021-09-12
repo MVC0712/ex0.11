@@ -37,13 +37,40 @@ $(function () {
 // ************** input value check
 // *****************************************************
 // *****************************************************
-// press directvie
+// order sheet select
 $(document).on("click", "#directive__input", function () {
   window.open(
     "./DailiReport_OrderSheet.html",
     null,
     "width=830, height=500,toolbar=yes,menubar=yes,scrollbars=no"
   );
+});
+// order sheet select
+$(document).on("change", "#directive_input__select", function () {
+  // after selection, set die list order by production number
+  let fileName;
+  let sendData = new Object();
+
+  fileName = "./php/DailyReport/SelSelDieNumber.php";
+  sendData = {
+    m_ordersheet_id: $("#directive_input__select").val(),
+  };
+  myAjax.myAjax(fileName, sendData);
+  $("#die__select")
+    .empty()
+    .append($("<option>").val(0).html("NO select"))
+    .append(
+      $("<option>")
+        .val(ajaxReturnData["m_dies_id"])
+        .html(ajaxReturnData["die_number"])
+    );
+  $("#number-of-die__display").html("1");
+  $("#die__input").prop("disabled", true);
+
+  $("#pressing-type__select")
+    .val("3")
+    .removeClass("no-input")
+    .addClass("complete-input");
 });
 // press date
 $(document).on("change", "#date__input", function () {
@@ -1020,6 +1047,7 @@ $(document).on("click", "#save__button", function () {
 
   clearInputData(); // データの削除と背景色の設定
   $("#save__button").prop("disabled", true); // save ボタン非活性化
+  $("#die__input").prop("disabled", false); // enable die_input frame
   readNewFile = false;
 });
 
@@ -1053,13 +1081,13 @@ $(document).on("click", "#update__button", function () {
   sendData = inputData;
   myAjax.myAjax(fileName, sendData);
   // ========Table Data:Rack information===========
-  // 1:get table data
-  tableData = getTableData($("#rack__table tbody tr"));
-  tableData.push(Number($("#selected__tr td:nth-child(1)").text()));
-  // 2:Insert into database
-  fileName = "./php/DailyReport/UpdateUsedRack.php";
-  sendData = JSON.stringify(tableData);
-  myAjax.myAjax(fileName, sendData);
+  // // 1:get table data
+  // tableData = getTableData($("#rack__table tbody tr"));
+  // tableData.push(Number($("#selected__tr td:nth-child(1)").text()));
+  // // 2:Insert into database
+  // fileName = "./php/DailyReport/UpdateUsedRack.php";
+  // sendData = JSON.stringify(tableData);
+  // myAjax.myAjax(fileName, sendData);
   // ========Table Data:Work information===========
   // 1:get and adjust table data
   workInfrmationTable = getTableDataInput($("#work-length__table tbody tr"));
