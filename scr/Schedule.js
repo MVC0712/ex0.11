@@ -19,8 +19,7 @@ const myAjax = {
 };
 
 $(function() {
-    $("#add__button").prop("disabled", true);
-    $("#test__button").remove();
+  $("#insert_plan").prop("disabled", true);
     makeSummaryTable();
 });
 
@@ -48,7 +47,6 @@ function makeSummaryTable() {
         });
         $(newTr).appendTo("#summary__table tbody");
     });
-    console.log("Die search");
 }
 
 // ==============  press term  ===================
@@ -115,96 +113,6 @@ function timkiem() {
             }
         }
     }
-}
-
-function datesearch() {
-    var choice, datea, filterdt, tabledt, trdt, td9, td10, td11, td12, idt;
-    var datea = document.getElementById('date').value;
-    filterdt = formatDate(datea);
-    choice = $('#choice').val();
-    tabledt = document.getElementById("summary__table");
-    trdt = tabledt.getElementsByTagName("tr");
-    if (choice == 1) {
-        console.log(9);
-        for (idt = 0; idt < trdt.length; idt++) {
-            td9 = trdt[idt].getElementsByTagName("td")[9];
-            if (td9) {
-                if (td9.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
-                    trdt[idt].style.display = "";
-                } else {
-                    trdt[idt].style.display = "none";
-                }
-            }
-        }
-    } else if (choice == 2) {
-        console.log(10);
-        for (idt = 0; idt < trdt.length; idt++) {
-            td10 = trdt[idt].getElementsByTagName("td")[10];
-            if (td10) {
-                if (td10.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
-                    trdt[idt].style.display = "";
-                } else {
-                    trdt[idt].style.display = "none";
-                }
-            }
-        }
-    } else if (choice == 3) {
-        console.log(11);
-        for (idt = 0; idt < trdt.length; idt++) {
-            td11 = trdt[idt].getElementsByTagName("td")[11];
-            if (td11) {
-                if (td11.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
-                    trdt[idt].style.display = "";
-                } else {
-                    trdt[idt].style.display = "none";
-                }
-            }
-        }
-    } else if (choice == 4) {
-        console.log(12);
-        for (idt = 0; idt < trdt.length; idt++) {
-            td12 = trdt[idt].getElementsByTagName("td")[12];
-            if (td12) {
-                if (td12.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
-                    trdt[idt].style.display = "";
-                } else {
-                    trdt[idt].style.display = "none";
-                }
-            }
-        }
-    } else if (choice == 5) {
-        console.log("all");
-        for (idt = 0; idt < trdt.length; idt++) {
-            td9 = trdt[idt].getElementsByTagName("td")[9];
-            td10 = trdt[idt].getElementsByTagName("td")[10];
-            td11 = trdt[idt].getElementsByTagName("td")[11];
-            td12 = trdt[idt].getElementsByTagName("td")[12];
-            if (td9) {
-                if ((td9.innerHTML.toUpperCase().indexOf(filterdt) > -1) ||
-                    (td10.innerHTML.toUpperCase().indexOf(filterdt) > -1) ||
-                    (td11.innerHTML.toUpperCase().indexOf(filterdt) > -1) ||
-                    (td12.innerHTML.toUpperCase().indexOf(filterdt) > -1)) {
-                    trdt[idt].style.display = "";
-                } else {
-                    trdt[idt].style.display = "none";
-                }
-            }
-        }
-    }
-}
-
-function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-
-    return [month, day].join('-');
 }
 
 function total_row(col, idcol) {
@@ -280,3 +188,79 @@ function renderHead(div, start, end) {
 
     div.html(table);
 }
+
+// Prs date
+$(document).on("change", "#press_date", function() {
+  $(this).removeClass("no-input").addClass("complete-input");
+  check_ins()
+});
+
+// Die input
+$(document).on("keyup", "#die__input", function() {
+  let fileName = "./php/Schedule/SelDieNumber.php";
+  let sendData = {
+      die_number: $(this).val() + "%",
+  };
+  myAjax.myAjax(fileName, sendData);
+  $("#number-of-die__display").html(ajaxReturnData.length);
+  $("#die__select option").remove();
+  $("#die__select").append($("<option>").val(0).html("NO select"));
+  ajaxReturnData.forEach(function(value) {
+      $("#die__select").append(
+          $("<option>").val(value["id"]).html(value["die_number"])
+      );
+  });
+});
+
+// Die select
+$(document).on("change", "#die__select", function() {
+  if ($(this).val() != "0") {
+    $(this).removeClass("no-input").addClass("complete-input");
+} else {
+    $(this).removeClass("complete-input").addClass("no-input");
+}
+check_ins()
+});
+
+// Prs qty
+$(document).on("keyup", "#press__qty", function() {
+  if ($(this).val().length > 0) {
+    $(this).removeClass("no-input").addClass("complete-input");
+} else {
+    $(this).removeClass("complete-input").addClass("no-input");
+}
+check_ins()
+});
+
+function check_ins() {
+  $("#insert_plan").prop("disabled", true);
+  var st1 = $("#die__select").val();
+  var st2 = $("#press_date").val().length;
+  var st3 = $("#press__qty").val();
+  console.log(st1)
+  console.log(st2)
+  console.log(st3)
+  if(st1 !=0 && st2 !=0 &&st3 !=0){
+    $("#insert_plan").prop("disabled", false);
+  }else{
+    $("#insert_plan").prop("disabled", true);
+  }
+};
+
+$(document).on("click", "#insert_plan", function() {
+  var fileName = "./php/Schedule/InsPlan.php";
+  var sendObj = new Object();
+
+  sendObj["dies_id"] = $('#die__select').val();
+  sendObj["prs_date"] = $("#press_date").val();
+  sendObj["prs_qty"] = $("#press__qty").val();
+  console.log(sendObj)
+  myAjax.myAjax(fileName, sendObj);
+
+  $("#insert_plan").prop("disabled", true);
+  $("#die__input").val("");
+  $("#die__select").val("");
+  $("#press_date").val("");
+  $("#press__qty").val("");
+  makeSummaryTable();
+});
