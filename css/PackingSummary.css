@@ -1,0 +1,12 @@
+body {
+  width: calc(900px - 2px);
+}
+/* page layout */
+.upper__wrapper{
+  height: 100px;
+  width: 100%;
+}
+.main__wrapper{
+  height: calc(598px - 31px - 100px);
+  width: 100%;
+}
