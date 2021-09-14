@@ -19,14 +19,16 @@
           t20.m_ordersheet_id,
           t20.ordersheet_number,
           t20.production_number,
-          t20.production_quantity,
-          t20.packed_work_quantitiy,
-          ifnull(t30.packed_box_quantity, 0) as packed_box_quantity
+          DATE_FORMAT(t20.delivery_date_at, '%m-%d') AS devivery_date_at,
+          FORMAT(t20.production_quantity, 0),
+          FORMAT(t20.packed_work_quantitiy, 0),
+          IFNULL(t30.packed_box_quantity, 0) as packed_box_quantity
         FROM
           (
             SELECT
               m_ordersheet.id AS m_ordersheet_id,
               m_ordersheet.ordersheet_number,
+              m_ordersheet.delivery_date_at,
               m_ordersheet.production_quantity,
               IFNULL(SUM(t_packing_box.work_quantity), 0) AS packed_work_quantitiy,
               m_production_numbers.production_number
@@ -59,6 +61,7 @@
             GROUP BY
               t10.m_ordersheet_id
           ) AS t30 ON t20.m_ordersheet_id = t30.m_ordersheet_id
+          ORDER BY t20.delivery_date_at DESC, t20.production_number
       ";
 
       $prepare = $dbh->prepare($sql);
