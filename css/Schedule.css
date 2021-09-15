@@ -48,12 +48,13 @@ button {
 }
 
 #summary__table {
-    width: 1198px;
-    table-layout: auto;
+    width: 1180px;
+    /* table-layout: auto; */
 }
 
 #summary__table tbody {
     height: 415px;
+    width: 1198px;
 }
 
 #summary__table th,
@@ -61,9 +62,13 @@ button {
     width: 36.3px;
 }
 
-#summary__table tr th:nth-child(1),
+
 #summary__table tr td:nth-child(1) {
-    width: 80px;
+    display:none;
+}
+
+#summary__table tr td:nth-child(2) {
+    width: 100px;
 }
 
 td {

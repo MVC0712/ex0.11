@@ -1075,15 +1075,17 @@ function makeBoxTable() {
 		).html(),
 	};
 	myAjax.myAjax(fileName, sendData);
+  console.log(ajaxReturnData);
 	$("#box__table tbody:nth-child(2)").empty();
 	ajaxReturnData.forEach(function (trVal) {
 		var newTr = $("<tr>");
 		Object.keys(trVal).forEach(function (tdVal, index) {
 			$("<td>").html(trVal[tdVal]).appendTo(newTr);
 		});
+    		$(newTr).appendTo("#box__table tbody:nth-child(2)");
+	});
 		// calicurate total work qty
 		$("#box-table-total-qty__html").html(totalBoxWorkQty());
-	});
 }
 
 function totalBoxWorkQty() {

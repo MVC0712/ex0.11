@@ -33,11 +33,13 @@ $(document).on("keyup", "#die_number__input", function() {
 });
 
 function makeSummaryTable() {
-    var fileName = "./php/QualitySummary/SelSummary.php";
-    var sendData = {
-        die_number: $("#die_number__input").val() + "%",
-    };
-    myAjax.myAjax(fileName, sendData);
+    var fileName = "./php/Schedule/SelSummary.php";
+    var sendObj = new Object();
+
+    sendObj["start_s"] = $('#std').val();
+    sendObj["end_s"] = $("#end").val();
+    myAjax.myAjax(fileName, sendObj);
+    console.log(ajaxReturnData);
     $("#summary__table tbody").empty();
 
     ajaxReturnData.forEach(function(trVal) {
@@ -55,29 +57,6 @@ $(document).on("change", "input.date__input", function() {
         makeTableWithTerm();
     }
 });
-
-function makeTableWithTerm() {
-    var fileName = "./php/QualitySummary/SelSummaryTerm.php";
-    var sendData = {
-        die_number: $("#die_number__input").val() + "%",
-        start_term: $("#start_term").val(),
-        end_term: $("#end_term").val(),
-    };
-    myAjax.myAjax(fileName, sendData);
-    console.log(ajaxReturnData);
-    $("#summary__table tbody").empty();
-
-    ajaxReturnData.forEach(function(trVal) {
-        var newTr = $("<tr>");
-        Object.keys(trVal).forEach(function(tdVal) {
-            $("<td>").html(trVal[tdVal]).appendTo(newTr);
-        });
-        $(newTr).appendTo("#summary__table tbody");
-    });
-    console.log("Term search");
-    mau();
-    ulitycall();
-}
 
 function checkInput() {
     let flag = false;
@@ -141,17 +120,20 @@ var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oc
 
 $(document).on("change", "#std", function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
+    makeSummaryTable();
 });
 $(document).on("change", "#end", function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
+    makeSummaryTable();
 });
 $(function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
+    makeSummaryTable();
 });
 
 function renderHead(div, start, end) {
     var c_year = start.getFullYear();
-    var r_year = "<tr> <th rowspan='4'>Die number</th> <th rowspan='4'>Total</th> ";
+    var r_year = "<tr> <th rowspan='4'>Die number</th>";
     var daysInYear = 0;
 
     var c_month = start.getMonth();
@@ -190,7 +172,7 @@ function renderHead(div, start, end) {
 }
 
 // Prs date
-$(document).on("change", "#press_date", function() {
+$(document).on("change", "#press__date", function() {
   $(this).removeClass("no-input").addClass("complete-input");
   check_ins()
 });
@@ -235,7 +217,7 @@ check_ins()
 function check_ins() {
   $("#insert_plan").prop("disabled", true);
   var st1 = $("#die__select").val();
-  var st2 = $("#press_date").val().length;
+  var st2 = $("#press__date").val().length;
   var st3 = $("#press__qty").val();
   console.log(st1)
   console.log(st2)
@@ -252,7 +234,7 @@ $(document).on("click", "#insert_plan", function() {
   var sendObj = new Object();
 
   sendObj["dies_id"] = $('#die__select').val();
-  sendObj["prs_date"] = $("#press_date").val();
+  sendObj["prs_date"] = $("#press__date").val();
   sendObj["prs_qty"] = $("#press__qty").val();
   console.log(sendObj)
   myAjax.myAjax(fileName, sendObj);
@@ -260,7 +242,7 @@ $(document).on("click", "#insert_plan", function() {
   $("#insert_plan").prop("disabled", true);
   $("#die__input").val("");
   $("#die__select").val("");
-  $("#press_date").val("");
+  $("#press__date").val("");
   $("#press__qty").val("");
   makeSummaryTable();
 });
