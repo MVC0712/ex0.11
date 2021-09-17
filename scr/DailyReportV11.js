@@ -590,7 +590,7 @@ function checkRackInputComplete() {
 function checkDuplicateLackNumber() {
   var flag = true;
   var inputValue = $("#racknumber__input").val();
-  $("#rack__table tbody tr td:nth-child(2)").each(function (index, value) {
+  $("#rack__table tbody tr td:nth-child(3)").each(function (index, value) {
     if (Number($(this).text()) == inputValue) {
       flag = false;
     }
