@@ -55,7 +55,51 @@ $(function () {
 
 	// staff list option list
 	setStaffList();
+	// packing work recentry history
+	setRecentryPackingWork();
+	// packing history table
+	setRecentBoxList();
 });
+
+function setRecentBoxList() {
+	let fileName;
+	let sendData = new Object();
+
+	fileName = "./php/Packing/SelRecentBoxList.php";
+	sendData = {
+		limit: 20,
+	};
+
+	myAjax.myAjax(fileName, sendData);
+
+	$("#complete-list__table tbody").empty();
+	ajaxReturnData.forEach(function (trVal) {
+		var newTr = $("<tr>");
+		Object.keys(trVal).forEach(function (tdVal) {
+			$("<td>").html(trVal[tdVal]).appendTo(newTr);
+		});
+		$(newTr).appendTo("#complete-list__table tbody");
+	});
+}
+
+function setRecentryPackingWork() {
+	let fileName;
+	let sendData = new Object();
+
+	fileName = "./php/Packing/SelPackingHistoryAll.php";
+	sendData = {
+		limit: 20,
+	};
+	myAjax.myAjax(fileName, sendData);
+	$("#packing-history__table tbody").empty();
+	ajaxReturnData.forEach(function (trVal) {
+		var newTr = $("<tr>");
+		Object.keys(trVal).forEach(function (tdVal) {
+			$("<td>").html(trVal[tdVal]).appendTo(newTr);
+		});
+		$(newTr).appendTo("#packing-history__table tbody");
+	});
+}
 
 function setPackingHistoryTable() {
 	let selectedRecordId;
@@ -1075,17 +1119,17 @@ function makeBoxTable() {
 		).html(),
 	};
 	myAjax.myAjax(fileName, sendData);
-  console.log(ajaxReturnData);
+	console.log(ajaxReturnData);
 	$("#box__table tbody:nth-child(2)").empty();
 	ajaxReturnData.forEach(function (trVal) {
 		var newTr = $("<tr>");
 		Object.keys(trVal).forEach(function (tdVal, index) {
 			$("<td>").html(trVal[tdVal]).appendTo(newTr);
 		});
-    		$(newTr).appendTo("#box__table tbody:nth-child(2)");
+		$(newTr).appendTo("#box__table tbody:nth-child(2)");
 	});
-		// calicurate total work qty
-		$("#box-table-total-qty__html").html(totalBoxWorkQty());
+	// calicurate total work qty
+	$("#box-table-total-qty__html").html(totalBoxWorkQty());
 }
 
 function totalBoxWorkQty() {
