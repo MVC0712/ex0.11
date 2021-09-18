@@ -86,3 +86,8 @@ div.calendar table td {
 div.calendar {
     overflow: auto;
 }
+
+td.active{
+    background: blue;
+    color: #fff;
+  }

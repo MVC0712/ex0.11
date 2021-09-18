@@ -1,4 +1,6 @@
 let ajaxReturnData;
+let ajaxReturnData1;
+let ajaxReturnData2;
 
 const myAjax = {
     myAjax: function(fileName, sendData) {
@@ -16,6 +18,36 @@ const myAjax = {
                 alert("DB connect error");
             });
     },
+    myAjax1: function(fileName1, sendData1) {
+      $.ajax({
+              type: "POST",
+              url: fileName1,
+              dataType: "json",
+              data: sendData1,
+              async: false,
+          })
+          .done(function(data) {
+              ajaxReturnData1 = data;
+          })
+          .fail(function() {
+              alert("DB connect error");
+          });
+  },
+  myAjax2: function(fileName2, sendData2) {
+    $.ajax({
+            type: "POST",
+            url: fileName2,
+            dataType: "json",
+            data: sendData2,
+            async: false,
+        })
+        .done(function(data) {
+            ajaxReturnData2 = data;
+        })
+        .fail(function() {
+            alert("DB connect error");
+        });
+  }
 };
 
 $(function() {
@@ -23,23 +55,19 @@ $(function() {
     makeSummaryTable();
 });
 
-// ==============  die_number  ===================
-$(document).on("keyup", "#die_number__input", function() {
-    if (checkInput()) {
-        makeTableWithTerm();
-    } else {
-        makeSummaryTable();
-    }
-});
-
 function makeSummaryTable() {
     var fileName = "./php/Schedule/SelSummary.php";
+    var fileName1 = "./php/Schedule/SelSummaryPrs.php";
+    var fileName2 = "./php/Schedule/SelSummarySch.php";
     var sendObj = new Object();
 
     sendObj["start_s"] = $('#std').val();
     sendObj["end_s"] = $("#end").val();
     myAjax.myAjax(fileName, sendObj);
-    console.log(ajaxReturnData);
+    myAjax.myAjax1(fileName1, sendObj);
+    myAjax.myAjax2(fileName2, sendObj);
+    console.log(ajaxReturnData1);
+    console.log(ajaxReturnData2);
     $("#summary__table tbody").empty();
 
     ajaxReturnData.forEach(function(trVal) {
@@ -51,73 +79,29 @@ function makeSummaryTable() {
     });
 }
 
-// ==============  press term  ===================
-$(document).on("change", "input.date__input", function() {
-    if (checkInput()) {
-        makeTableWithTerm();
-    }
-});
-
-function checkInput() {
-    let flag = false;
-    var fr = document.getElementById('start_term').value;
-    var to = document.getElementById('end_term').value;
-    if (fr != "" && to != "") {
-        flag = true;
-    }
-    console.log(flag);
-    return flag;
-}
-
 // ==============  summary table ====================
 $(document).on("click", "#summary__table tbody tr", function(e) {
     $(this).parent().find("tr").removeClass("selected-record");
     $(this).addClass("selected-record");
 });
 
-function timkiem() {
-    var input, table, tr, td, filter, i, txtdata;
-    input = document.getElementById("presstype");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("summary__table");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[3];
-        if (td) {
-            txtdata = td.innerText;
-            if (txtdata.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-}
+$(document).on("click", "#summary__table tbody td", function(e) {
+  $("td").removeClass("active");
+  $(this).addClass("active");
 
-function total_row(col, idcol) {
-    var tablett, trtt, tdtt, itt, tt;
-    var tt = 0;
-    var txttt = 0;
-    tablett = document.getElementById("summary__table");
-    trtt = tablett.getElementsByTagName("tr");
-    for (itt = 0; itt < trtt.length; itt++) {
-        tdtt = trtt[itt].getElementsByTagName("td")[col];
-        if (tdtt) {
-            txttt = Number(tdtt.innerText);
-            if ($(trtt[itt]).css("display") !== "none") {
-                tt += txttt;
-            }
-        }
-    }
-    document.getElementById(idcol).innerHTML = tt;
-
-}
-
+  table = document.getElementById("summary__table");
+    var table = document.getElementById("summary__table");
+    var tr = table.getElementsByTagName("tr");
+    var date_s = tr[2].getElementsByTagName("th")[this.cellIndex];
+  // var date_s = e.delegateTarget.tHead.rows[2].cells[this.cellIndex];
+  var die_id  = this.parentNode.cells[0];
+  console.log([Number($(die_id).text()), Number($(date_s).text())]);
+})
 
 // summary_table
 var weekday = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
+// var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 $(document).on("change", "#std", function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
     makeSummaryTable();
@@ -133,15 +117,15 @@ $(function() {
 
 function renderHead(div, start, end) {
     var c_year = start.getFullYear();
-    var r_year = "<tr> <th rowspan='4'>Die number</th>";
+    var r_year = "<tr> <th rowspan='4'>Die number</th> ";
     var daysInYear = 0;
 
     var c_month = start.getMonth();
     var r_month = "<tr>";
     var daysInMonth = 0;
 
-    var r_days = "<tr>";
-    var r_days2 = "<tr>";
+    var r_days = "<tr><th style='display:none;'></th><th style='display:none;'></th>";
+    var r_days2 = "<tr><th style='display:none;'></th><th style='display:none;'></th>";
     for (start; start <= end; start.setDate(start.getDate() + 1)) {
         if (start.getFullYear() !== c_year) {
             r_year += '<th colspan="' + daysInYear + '">' + c_year + '</th>';
