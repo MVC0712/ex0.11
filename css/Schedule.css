@@ -42,38 +42,24 @@ button {
 
 .summary__wrapper {
     height: calc(598px - 31px - 55px);
-    /* display: flex; */
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 #summary__table {
-    width: 1180px;
-    /* table-layout: auto; */
+    width: 1198px;
+    table-layout: auto;
 }
 
 #summary__table tbody {
-    height: 415px;
-    width: 1198px;
+    height: 390px;
 }
 
 #summary__table th,
 #summary__table td {
     width: 36.3px;
 }
-
-
-#summary__table tr td:nth-child(1) {
-    display:none;
-}
-
-#summary__table tr td:nth-child(2) {
-    width: 100px;
-}
-
-tbody tr.selected-record {
-    background-color: #c2ecff;
-  }
 
 td {
     border: 1px solid black;
@@ -90,8 +76,3 @@ div.calendar table td {
 div.calendar {
     overflow: auto;
 }
-
-td.active{
-    background: blue;
-    color: #fff;
-  }

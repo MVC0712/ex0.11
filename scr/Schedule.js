@@ -1,6 +1,4 @@
 let ajaxReturnData;
-let ajaxReturnData1;
-let ajaxReturnData2;
 
 const myAjax = {
     myAjax: function(fileName, sendData) {
@@ -18,56 +16,29 @@ const myAjax = {
                 alert("DB connect error");
             });
     },
-    myAjax1: function(fileName1, sendData1) {
-      $.ajax({
-              type: "POST",
-              url: fileName1,
-              dataType: "json",
-              data: sendData1,
-              async: false,
-          })
-          .done(function(data) {
-              ajaxReturnData1 = data;
-          })
-          .fail(function() {
-              alert("DB connect error");
-          });
-  },
-  myAjax2: function(fileName2, sendData2) {
-    $.ajax({
-            type: "POST",
-            url: fileName2,
-            dataType: "json",
-            data: sendData2,
-            async: false,
-        })
-        .done(function(data) {
-            ajaxReturnData2 = data;
-        })
-        .fail(function() {
-            alert("DB connect error");
-        });
-  }
 };
 
 $(function() {
-  $("#insert_plan").prop("disabled", true);
+    $("#add__button").prop("disabled", true);
+    $("#test__button").remove();
     makeSummaryTable();
 });
 
-function makeSummaryTable() {
-    var fileName = "./php/Schedule/SelSummary.php";
-    var fileName1 = "./php/Schedule/SelSummaryPrs.php";
-    var fileName2 = "./php/Schedule/SelSummarySch.php";
-    var sendObj = new Object();
+// ==============  die_number  ===================
+$(document).on("keyup", "#die_number__input", function() {
+    if (checkInput()) {
+        makeTableWithTerm();
+    } else {
+        makeSummaryTable();
+    }
+});
 
-    sendObj["start_s"] = $('#std').val();
-    sendObj["end_s"] = $("#end").val();
-    myAjax.myAjax(fileName, sendObj);
-    myAjax.myAjax1(fileName1, sendObj);
-    myAjax.myAjax2(fileName2, sendObj);
-    console.log(ajaxReturnData1);
-    console.log(ajaxReturnData2);
+function makeSummaryTable() {
+    var fileName = "./php/QualitySummary/SelSummary.php";
+    var sendData = {
+        die_number: $("#die_number__input").val() + "%",
+    };
+    myAjax.myAjax(fileName, sendData);
     $("#summary__table tbody").empty();
 
     ajaxReturnData.forEach(function(trVal) {
@@ -77,6 +48,48 @@ function makeSummaryTable() {
         });
         $(newTr).appendTo("#summary__table tbody");
     });
+    console.log("Die search");
+}
+
+// ==============  press term  ===================
+$(document).on("change", "input.date__input", function() {
+    if (checkInput()) {
+        makeTableWithTerm();
+    }
+});
+
+function makeTableWithTerm() {
+    var fileName = "./php/QualitySummary/SelSummaryTerm.php";
+    var sendData = {
+        die_number: $("#die_number__input").val() + "%",
+        start_term: $("#start_term").val(),
+        end_term: $("#end_term").val(),
+    };
+    myAjax.myAjax(fileName, sendData);
+    console.log(ajaxReturnData);
+    $("#summary__table tbody").empty();
+
+    ajaxReturnData.forEach(function(trVal) {
+        var newTr = $("<tr>");
+        Object.keys(trVal).forEach(function(tdVal) {
+            $("<td>").html(trVal[tdVal]).appendTo(newTr);
+        });
+        $(newTr).appendTo("#summary__table tbody");
+    });
+    console.log("Term search");
+    mau();
+    ulitycall();
+}
+
+function checkInput() {
+    let flag = false;
+    var fr = document.getElementById('start_term').value;
+    var to = document.getElementById('end_term').value;
+    if (fr != "" && to != "") {
+        flag = true;
+    }
+    console.log(flag);
+    return flag;
 }
 
 // ==============  summary table ====================
@@ -85,61 +98,160 @@ $(document).on("click", "#summary__table tbody tr", function(e) {
     $(this).addClass("selected-record");
 });
 
-$(document).on("click", "#summary__table tbody td", function(e) {
-  // $("td").removeClass("active");
-  // $(this).addClass("active");
-
-  table = document.getElementById("summary__table");
-    var table = document.getElementById("summary__table");
-    var tr = table.getElementsByTagName("tr");
-    var date_s = tr[2].getElementsByTagName("th")[this.cellIndex];
-  // var date_s = e.delegateTarget.tHead.rows[2].cells[this.cellIndex];
-  var die_id  = this.parentNode.cells[0];
-  console.log([Number($(die_id).text()), Number($(date_s).text())]);
-
-  if (!$(this).hasClass("active")) {
-    // $(this).parent().find("tr").removeClass("selected-record");
-    // $(this).addClass("selected-record");
-
-    $("td").removeClass("active");
-    $(this).addClass("active");
-
-    } else {
-      $("td").removeClass("active");
-      // $(this).addClass("active");
+function timkiem() {
+    var input, table, tr, td, filter, i, txtdata;
+    input = document.getElementById("presstype");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("summary__table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[3];
+        if (td) {
+            txtdata = td.innerText;
+            if (txtdata.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
 }
 
-})
+function datesearch() {
+    var choice, datea, filterdt, tabledt, trdt, td9, td10, td11, td12, idt;
+    var datea = document.getElementById('date').value;
+    filterdt = formatDate(datea);
+    choice = $('#choice').val();
+    tabledt = document.getElementById("summary__table");
+    trdt = tabledt.getElementsByTagName("tr");
+    if (choice == 1) {
+        console.log(9);
+        for (idt = 0; idt < trdt.length; idt++) {
+            td9 = trdt[idt].getElementsByTagName("td")[9];
+            if (td9) {
+                if (td9.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
+                    trdt[idt].style.display = "";
+                } else {
+                    trdt[idt].style.display = "none";
+                }
+            }
+        }
+    } else if (choice == 2) {
+        console.log(10);
+        for (idt = 0; idt < trdt.length; idt++) {
+            td10 = trdt[idt].getElementsByTagName("td")[10];
+            if (td10) {
+                if (td10.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
+                    trdt[idt].style.display = "";
+                } else {
+                    trdt[idt].style.display = "none";
+                }
+            }
+        }
+    } else if (choice == 3) {
+        console.log(11);
+        for (idt = 0; idt < trdt.length; idt++) {
+            td11 = trdt[idt].getElementsByTagName("td")[11];
+            if (td11) {
+                if (td11.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
+                    trdt[idt].style.display = "";
+                } else {
+                    trdt[idt].style.display = "none";
+                }
+            }
+        }
+    } else if (choice == 4) {
+        console.log(12);
+        for (idt = 0; idt < trdt.length; idt++) {
+            td12 = trdt[idt].getElementsByTagName("td")[12];
+            if (td12) {
+                if (td12.innerHTML.toUpperCase().indexOf(filterdt) > -1) {
+                    trdt[idt].style.display = "";
+                } else {
+                    trdt[idt].style.display = "none";
+                }
+            }
+        }
+    } else if (choice == 5) {
+        console.log("all");
+        for (idt = 0; idt < trdt.length; idt++) {
+            td9 = trdt[idt].getElementsByTagName("td")[9];
+            td10 = trdt[idt].getElementsByTagName("td")[10];
+            td11 = trdt[idt].getElementsByTagName("td")[11];
+            td12 = trdt[idt].getElementsByTagName("td")[12];
+            if (td9) {
+                if ((td9.innerHTML.toUpperCase().indexOf(filterdt) > -1) ||
+                    (td10.innerHTML.toUpperCase().indexOf(filterdt) > -1) ||
+                    (td11.innerHTML.toUpperCase().indexOf(filterdt) > -1) ||
+                    (td12.innerHTML.toUpperCase().indexOf(filterdt) > -1)) {
+                    trdt[idt].style.display = "";
+                } else {
+                    trdt[idt].style.display = "none";
+                }
+            }
+        }
+    }
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [month, day].join('-');
+}
+
+function total_row(col, idcol) {
+    var tablett, trtt, tdtt, itt, tt;
+    var tt = 0;
+    var txttt = 0;
+    tablett = document.getElementById("summary__table");
+    trtt = tablett.getElementsByTagName("tr");
+    for (itt = 0; itt < trtt.length; itt++) {
+        tdtt = trtt[itt].getElementsByTagName("td")[col];
+        if (tdtt) {
+            txttt = Number(tdtt.innerText);
+            if ($(trtt[itt]).css("display") !== "none") {
+                tt += txttt;
+            }
+        }
+    }
+    document.getElementById(idcol).innerHTML = tt;
+
+}
+
 
 // summary_table
+var weekday = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 $(document).on("change", "#std", function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
-    makeSummaryTable();
 });
 $(document).on("change", "#end", function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
-    makeSummaryTable();
 });
 $(function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
-    makeSummaryTable();
 });
-
-var weekday = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
 function renderHead(div, start, end) {
     var c_year = start.getFullYear();
-    var r_year = "<tr> <th rowspan='4'>Die number</th> ";
+    var r_year = "<tr> <th rowspan='4'>Die number</th> <th rowspan='4'>Total</th> ";
     var daysInYear = 0;
 
     var c_month = start.getMonth();
     var r_month = "<tr>";
     var daysInMonth = 0;
 
-    var r_days = "<tr><th style='display:none;'></th><th style='display:none;'></th>";
-    var r_days2 = "<tr><th style='display:none;'></th><th style='display:none;'></th>";
+    var r_days = "<tr>";
+    var r_days2 = "<tr>";
     for (start; start <= end; start.setDate(start.getDate() + 1)) {
         if (start.getFullYear() !== c_year) {
             r_year += '<th colspan="' + daysInYear + '">' + c_year + '</th>';
@@ -168,79 +280,3 @@ function renderHead(div, start, end) {
 
     div.html(table);
 }
-
-// Prs date
-$(document).on("change", "#press__date", function() {
-  $(this).removeClass("no-input").addClass("complete-input");
-  check_ins()
-});
-
-// Die input
-$(document).on("keyup", "#die__input", function() {
-  let fileName = "./php/Schedule/SelDieNumber.php";
-  let sendData = {
-      die_number: $(this).val() + "%",
-  };
-  myAjax.myAjax(fileName, sendData);
-  $("#number-of-die__display").html(ajaxReturnData.length);
-  $("#die__select option").remove();
-  $("#die__select").append($("<option>").val(0).html("NO select"));
-  ajaxReturnData.forEach(function(value) {
-      $("#die__select").append(
-          $("<option>").val(value["id"]).html(value["die_number"])
-      );
-  });
-});
-
-// Die select
-$(document).on("change", "#die__select", function() {
-  if ($(this).val() != "0") {
-    $(this).removeClass("no-input").addClass("complete-input");
-} else {
-    $(this).removeClass("complete-input").addClass("no-input");
-}
-check_ins()
-});
-
-// Prs qty
-$(document).on("keyup", "#press__qty", function() {
-  if ($(this).val().length > 0) {
-    $(this).removeClass("no-input").addClass("complete-input");
-} else {
-    $(this).removeClass("complete-input").addClass("no-input");
-}
-check_ins()
-});
-
-function check_ins() {
-  $("#insert_plan").prop("disabled", true);
-  var st1 = $("#die__select").val();
-  var st2 = $("#press__date").val().length;
-  var st3 = $("#press__qty").val();
-  console.log(st1)
-  console.log(st2)
-  console.log(st3)
-  if(st1 !=0 && st2 !=0 &&st3 !=0){
-    $("#insert_plan").prop("disabled", false);
-  }else{
-    $("#insert_plan").prop("disabled", true);
-  }
-};
-
-$(document).on("click", "#insert_plan", function() {
-  var fileName = "./php/Schedule/InsPlan.php";
-  var sendObj = new Object();
-
-  sendObj["dies_id"] = $('#die__select').val();
-  sendObj["prs_date"] = $("#press__date").val();
-  sendObj["prs_qty"] = $("#press__qty").val();
-  console.log(sendObj)
-  myAjax.myAjax(fileName, sendObj);
-
-  $("#insert_plan").prop("disabled", true);
-  $("#die__input").val("");
-  $("#die__select").val("");
-  $("#press__date").val("");
-  $("#press__qty").val("");
-  makeSummaryTable();
-});

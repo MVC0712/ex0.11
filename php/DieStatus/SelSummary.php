@@ -31,6 +31,7 @@
                       m_dies.id = t_press.dies_id
                           AND t_dies_status.die_status_id = 4
                   GROUP BY m_dies.id))
+                  AND (t_press.is_washed_die = 2)
           THEN
               1
           ELSE 0
