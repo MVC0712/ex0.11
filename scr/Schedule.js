@@ -86,8 +86,8 @@ $(document).on("click", "#summary__table tbody tr", function(e) {
 });
 
 $(document).on("click", "#summary__table tbody td", function(e) {
-  $("td").removeClass("active");
-  $(this).addClass("active");
+  // $("td").removeClass("active");
+  // $(this).addClass("active");
 
   table = document.getElementById("summary__table");
     var table = document.getElementById("summary__table");
@@ -96,12 +96,22 @@ $(document).on("click", "#summary__table tbody td", function(e) {
   // var date_s = e.delegateTarget.tHead.rows[2].cells[this.cellIndex];
   var die_id  = this.parentNode.cells[0];
   console.log([Number($(die_id).text()), Number($(date_s).text())]);
+
+  if (!$(this).hasClass("active")) {
+    // $(this).parent().find("tr").removeClass("selected-record");
+    // $(this).addClass("selected-record");
+
+    $("td").removeClass("active");
+    $(this).addClass("active");
+
+    } else {
+      $("td").removeClass("active");
+      // $(this).addClass("active");
+}
+
 })
 
 // summary_table
-var weekday = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-// var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 $(document).on("change", "#std", function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
     makeSummaryTable();
@@ -114,6 +124,10 @@ $(function() {
     renderHead($('div#table'), new Date($("#std").val()), new Date($("#end").val()));
     makeSummaryTable();
 });
+
+var weekday = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
 function renderHead(div, start, end) {
     var c_year = start.getFullYear();

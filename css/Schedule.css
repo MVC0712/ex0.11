@@ -71,6 +71,10 @@ button {
     width: 100px;
 }
 
+tbody tr.selected-record {
+    background-color: #c2ecff;
+  }
+
 td {
     border: 1px solid black;
     width: 100px;
